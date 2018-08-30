@@ -5,7 +5,7 @@ const should = require("chai").should();
 const faker = require('faker');
 const { app, runServer, closeServer } = require("../server");
 const { TEST_DATABASE_URL } = require('../config'); // importing DB
-const User  = require('../models/user')
+const User = require('../models/user')
 const expect = chai.expect;
 chai.use(chaiHttp);
 
@@ -16,7 +16,7 @@ describe('Users test API', function () {
         const seedData = [];
         for (let i = 1; i <= 10; i++) {
             seedData.push({
-                user: {
+                name: {
                     firstName: faker.name.firstName(),
                     lastName: faker.name.lastName(),
 
@@ -25,7 +25,7 @@ describe('Users test API', function () {
                 userName: faker.internet.userName()
             });
         }
-      //  console.log(seedData);
+       //  console.log(seedData);
         return User.insertMany(seedData)
 
 
@@ -113,16 +113,24 @@ describe('Users test API', function () {
                 res.body.should.be.a('array');
                 res.body.should.have.lengthOf.at.least(1);
 
-                // res.body.forEach(function (user) {
-                //     user.should.be.a('object');
-                //     user.should.include.keys('name', 'userName', 'email');
-                //     // console.log(res.body[0]);
-
-
-                // });
+                res.body.forEach(function (user) {
+                    user.should.be.a('object');
+                    user.should.include.keys('name', 'userName', 'email');
+                });
+                
+                resUser = res.body[0];
+                console.log("ID OF RETERNED OBJECT", resUser.id);
+                return User.findById(resUser.id);
             })
+            .then(user => {
+               console.log(user);
+               // resUser.name.should.equal(user.name);
+               // resUser.userName.should.equal(user.userName);
+                //resUser.email.should.equal(user.email);
+                //console.log(user.name);
+              });
 
-    });
+    });  // End test check for right keys.
 
 
 })  // Closig user testing 
