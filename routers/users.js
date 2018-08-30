@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-
+const userModel = require('../models/userModel.js');
 router.get('/', (req, res) => {
 
     //console.log("user list");
