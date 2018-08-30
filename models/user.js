@@ -8,6 +8,7 @@ mongoose.Promise = global.Promise;
 
 // User schema
 const userSchema = mongoose.Schema({
+  _id: String,
     user: {
         firstName: String,
         lastName: String,
@@ -48,4 +49,4 @@ userSchema.pre('find', function(next) {
   
 
 const User = mongoose.model('User', userSchema);
-module.exports = { User };
+module.exports = User

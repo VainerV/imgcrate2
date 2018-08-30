@@ -14,10 +14,10 @@ app.use('/users', userRouter); // call for the router users
 let server;
 
 
-function runServer(databaseUrl = DATABASE_URL, port = PORT) {
+function runServer(databaseUrl, port = PORT) {
     //const port = process.env.PORT || 8080;
     return new Promise((resolve, reject) => {
-
+    
         mongoose.connect(databaseUrl, err => {
             if (err) {
               return reject(err);

@@ -5,7 +5,7 @@ const should = require("chai").should();
 const faker = require('faker');
 const { app, runServer, closeServer } = require("../server");
 const { TEST_DATABASE_URL } = require('../config'); // importing DB
-const { User } = require('../models/user')
+const User  = require('../models/user')
 const expect = chai.expect;
 chai.use(chaiHttp);
 
@@ -25,7 +25,7 @@ describe('Users test API', function () {
                 userName: faker.internet.userName()
             });
         }
-        console.log(seedData);
+      //  console.log(seedData);
         return User.insertMany(seedData)
 
 
@@ -110,8 +110,8 @@ describe('Users test API', function () {
             .then(res => {
                 res.status.should.equal(200)
                 res.should.be.json;
-              //   res.body.should.be.a('array');
-               //  res.body.should.have.lengthOf.at.least(1);
+                res.body.should.be.a('array');
+                res.body.should.have.lengthOf.at.least(1);
 
                 // res.body.forEach(function (user) {
                 //     user.should.be.a('object');
