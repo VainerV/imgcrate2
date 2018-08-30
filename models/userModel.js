@@ -14,7 +14,7 @@ const userSchema = mongoose.Schema({
         
     },
     email: String,
-    uniqueUserName: String,
+    userName: String,
    
 });
 
@@ -31,7 +31,7 @@ userSchema.pre('find', function(next) {
   
   userSchema.virtual('name').get(function() {
     if(this.author) {
-      return `${this.user.firstName} ${this.user.lastName}`.trim();
+      return `${this.author.firstName} ${this.author.lastName}`.trim();
    } 
     
   });
@@ -41,7 +41,7 @@ userSchema.pre('find', function(next) {
     return {
       id: this._id,
       user: this.author,
-      userName: this.uniqueUserName,
+      userName: this.userName,
     };
   };
   

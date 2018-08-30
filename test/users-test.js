@@ -115,7 +115,8 @@ describe('Users test API', function () {
 
                 res.body.forEach(function (user) {
                     user.should.be.a('object');
-                    // user.should.include.keys('id', 'name', 'email', 'userName');
+                    user.should.include.keys('name', 'userName', 'email');
+                   
 
                 });
             })
