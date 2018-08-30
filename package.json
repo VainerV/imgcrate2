@@ -1,0 +1,18 @@
+{
+  "name": "imgcrate2",
+  "version": "1.0.0",
+  "description": "Imgcrate ver 2",
+  "main": "server.js",
+  "scripts": {
+    "test": "mocha --exit",
+    "start": "node server.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "chai": "^4.1.2",
+    "chai-http": "^4.2.0",
+    "express": "^4.16.3",
+    "mocha": "^5.2.0"
+  }
+}
