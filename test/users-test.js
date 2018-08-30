@@ -1,22 +1,43 @@
 const chai = require("chai");
 const chaiHttp = require("chai-http");
 const should = require("chai").should();
-
+const faker = require('faker');
 const { app, runServer, closeServer } = require("../server");
 const { TEST_DATABASE_URL } = require('../config'); // importing DB
-const userModel = require('../models/userModel');
+const { User } = require('../models/userModel')
 const expect = chai.expect;
 chai.use(chaiHttp);
 
 
 describe('Users test API', function () {
+    // sead db with the uses info 
+    function seedUsersData() {
+        const seedData = [];
+        for (let i = 1; i <= 10; i++) {
+            seedData.push({
+                author: {
+                    firstName: faker.name.firstName(),
+                    lastName: faker.name.lastName(),
 
-    
+                },
+                email: faker.internet.email(),
+                uniqueUserName: faker.internet.userName()
+            });
+        }
+        console.log(seedData);
+        return User.insertMany(seedData);
+
+    }
+
 
     before(function () {
-        return runServer();
+        return runServer(TEST_DATABASE_URL);
     });
 
+
+    beforeEach(function(){
+        return seedUsersData();
+    })
 
     after(function () {
         return closeServer();
@@ -47,7 +68,7 @@ describe('Users test API', function () {
             .request(app)
             .get("/users")
             .then(function (res) {
-               
+
 
             })
             .catch(function (err) {
