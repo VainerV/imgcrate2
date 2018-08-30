@@ -11,12 +11,11 @@ const userSchema = mongoose.Schema({
     author: {
         firstName: String,
         lastName: String,
-        email: String,
-    },
-    uniqueUserName: {
-        type: 'string',
         
-    }
+    },
+    email: String,
+    uniqueUserName: String,
+   
 });
 
 

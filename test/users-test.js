@@ -1,5 +1,6 @@
 const chai = require("chai");
 const chaiHttp = require("chai-http");
+const mongoose = require('mongoose');
 const should = require("chai").should();
 const faker = require('faker');
 const { app, runServer, closeServer } = require("../server");
@@ -25,7 +26,8 @@ describe('Users test API', function () {
             });
         }
         console.log(seedData);
-        return User.insertMany(seedData);
+        return User.insertMany(seedData)
+
 
     }
 
@@ -35,13 +37,29 @@ describe('Users test API', function () {
     });
 
 
-    beforeEach(function(){
+    beforeEach(function () {
         return seedUsersData();
     })
+
+    afterEach(function () {
+        return tearDownDb();
+    });
 
     after(function () {
         return closeServer();
     });
+
+
+    /// tear down DB working 
+    function tearDownDb() {
+        return new Promise((resolve, reject) => {
+            console.warn('Deleting database');
+            mongoose.connection.dropDatabase()
+                .then(result => resolve(result))
+                .catch(err => reject(err));
+        });
+    }
+
 
 
     describe('Get test', function () {
@@ -62,13 +80,19 @@ describe('Users test API', function () {
         })
     })  // Closing IT Get test describe 
 
-    it('User model schema test', function () {
+    it('Should return the number of users', function () {
 
         return chai
             .request(app)
             .get("/users")
-            .then(function (res) {
+            .then(_res => {
+                res = _res;
+                res.status.should.equal(200);
+                res.body.should.have.lengthOf.at.least(1);
+                return User.count();
 
+            }).then(count => {
+                expect(res.body).have.lengthOf(count);
 
             })
             .catch(function (err) {
@@ -76,6 +100,27 @@ describe('Users test API', function () {
             })
 
 
-    })  // Closing User model Schema test
+    })  // Closing Number of users test;
+
+    it("Should check users with right fields", function () {
+
+        let resUser;
+        return chai.request(app)
+            .get('/users')
+            .then(res => {
+                res.status.should.equal(200)
+                res.should.be.json;
+                res.body.should.be.a('array');
+                res.body.should.have.lengthOf.at.least(1);
+
+                res.body.forEach(function (user) {
+                    user.should.be.a('object');
+                    // user.should.include.keys('id', 'name', 'email', 'userName');
+
+                });
+            })
+
+    });
+
 
 })  // Closig user testing 
