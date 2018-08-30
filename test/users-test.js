@@ -30,7 +30,7 @@ describe('Users test API', function () {
                     expect(res.body).to.be.an('array');
                     //res.body.should.be.a('array');
                     expect(res.body[0]).to.be.an('object');
-                    //res.body.should.have.lengthOf.at.least(1);
+                   
                 })
                 .catch(function (err) {
                    console.log(err)
