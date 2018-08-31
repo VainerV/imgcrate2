@@ -24,10 +24,9 @@ router.get('/', (req, res) => {
 
 router.post('/', (req, res) => {
 
-    res.end(console.log("testing post"));
     const requiredFields = ['name', 'userName', 'email'];
 
-    res.json(req.body);
+   
     //console.log("Checking the content of the body", res.json(req.body));
     for (let i = 0; i < requiredFields.length; i++) {
         const field = requiredFields[i];
