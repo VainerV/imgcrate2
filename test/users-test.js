@@ -125,7 +125,7 @@ describe('Users test API', function () {
 
             })
             .then(user => {  /// user is null/ empty object 
-                console.log(user);
+                //console.log(user);
                 resUser.name.should.equal(user.name);
                 resUser.userName.should.equal(user.userName);
                 resUser.email.should.equal(user.email);
@@ -148,7 +148,7 @@ describe('Users test API', function () {
                 userName: faker.internet.userName(),
                 email: faker.internet.email()
             };
-
+            // console.log(newUser);
             return chai.request(app)
                 .post('/users')
                 .send(newUser)
@@ -164,7 +164,7 @@ describe('Users test API', function () {
                     res.body.userName.should.equal(newUser.userName);
                     res.body.email.should.equal(newUser.email);
                     return User.findById(res.body.id);
-                 })
+                })
                 .then(function (user) {
                     resUser.name.should.equal(user.name);
                     resUser.userName.should.equal(user.userName);
