@@ -9,9 +9,9 @@ const bodyParser = require('body-parser');
 const { DATABASE_URL, PORT } = require('./config');
 
 const userRouter = require("./routers/users");
-
-app.use('/users', userRouter); // call for the router users
 app.use(bodyParser.json());
+app.use('/users', userRouter); // call for the router users
+
 
 let server;
 

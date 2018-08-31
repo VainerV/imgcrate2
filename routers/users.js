@@ -1,10 +1,8 @@
 const express = require('express');
 const router = express.Router();
-const app = express();
-const bodyParser = require('body-parser');
-const User = require('../models/user');
 
-app.use(bodyParser.json());
+
+const User = require('../models/user');
 
 router.get('/', (req, res) => {
 
@@ -27,7 +25,10 @@ router.post('/', (req, res) => {
     const requiredFields = ['name', 'userName', 'email'];
 
    
-    //console.log("Checking the content of the body", res.json(req.body));
+    
+
+    console.log(req);
+
     for (let i = 0; i < requiredFields.length; i++) {
         const field = requiredFields[i];
         if (!(field in req.body)) {
@@ -36,7 +37,7 @@ router.post('/', (req, res) => {
             return res.status(400).send(message);
         }
     }
-
+    console.log(req.body);
     User
         .create({
             user: {
