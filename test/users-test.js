@@ -122,17 +122,59 @@ describe('Users test API', function () {
                 console.log("ID OF RETERNED OBJECT", resUser.id);
                 //  console.log(resUser)   /// name: undefined undefined... not geting assigned
                 return User.findById(resUser.id);
-                
+
             })
             .then(user => {  /// user is null/ empty object 
                 console.log(user);
-                 resUser.name.should.equal(user.name);
-                 resUser.userName.should.equal(user.userName);
+                resUser.name.should.equal(user.name);
+                resUser.userName.should.equal(user.userName);
                 resUser.email.should.equal(user.email);
-                //console.log(user.name);
+
             });
 
     });  // End test check for right keys.
+
+
+    describe('POST endpoint', function () {
+
+        it('should add a new user', function () {
+
+            const newUser = {
+
+                user: {
+                    firstName: faker.name.firstName(),
+                    lastName: faker.name.lastName(),
+                },
+                userName: faker.internet.userName(),
+                email: faker.internet.email()
+            };
+
+            return chai.request(app)
+                .post('/users')
+                .send(newUser)
+                .then(function (res) {
+                    res.should.have.status(201);
+                    res.should.be.json;
+                    res.body.should.be.a('object');
+                    res.body.should.include.keys('name', 'userName', 'email');
+                    res.body.name.should.equal(newUser.name);
+                    res.body.id.should.not.be.null;
+                    res.body.user.should.equal(
+                        `${newUser.user.firstName} ${newUser.user.lastName}`);
+                    res.body.userName.should.equal(newUser.userName);
+                    res.body.email.should.equal(newUser.email);
+                    return User.findById(res.body.id);
+                 })
+                .then(function (user) {
+                    resUser.name.should.equal(user.name);
+                    resUser.userName.should.equal(user.userName);
+                    resUser.email.should.equal(user.email);
+                });
+        });
+    });
+
+
+
 
 
 })  // Closig user testing 
