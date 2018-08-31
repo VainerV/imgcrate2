@@ -3,8 +3,7 @@ const router = express.Router();
 
 const User = require('../models/user');
 router.get('/', (req, res) => {
-   //console.log(User);
-  
+   
    User
     .find()
     .then(users => {

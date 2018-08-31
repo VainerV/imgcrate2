@@ -8,7 +8,7 @@ mongoose.Promise = global.Promise;
 
 // User schema
 const userSchema = mongoose.Schema({
-  _id: String,
+  
     user: {
         firstName: String,
         lastName: String,
@@ -20,18 +20,19 @@ const userSchema = mongoose.Schema({
 });
 
 
-userSchema.pre('find', function(next) {
-    this.populate('user');
-    next();
-  });
+// userSchema.pre('find', function(next) {
+//     this.populate('user');
+//     next();
+//   });
   
-  userSchema.pre('findOne', function(next) {
-    this.populate('user');
-    next();
-  });
+//   userSchema.pre('findOne', function(next) {
+//     this.populate('user');
+//     next();
+//   });
   
   userSchema.virtual('name').get(function() {
     if(this.user) {
+      //console.log(this)
       return `${this.user.firstName} ${this.user.lastName}`.trim();
    } 
     

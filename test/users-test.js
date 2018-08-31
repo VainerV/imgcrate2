@@ -16,7 +16,7 @@ describe('Users test API', function () {
         const seedData = [];
         for (let i = 1; i <= 10; i++) {
             seedData.push({
-                name: {
+                user: {
                     firstName: faker.name.firstName(),
                     lastName: faker.name.lastName(),
 
@@ -25,7 +25,7 @@ describe('Users test API', function () {
                 userName: faker.internet.userName()
             });
         }
-       //  console.log(seedData);
+        //  console.log(seedData);
         return User.insertMany(seedData)
 
 
@@ -117,18 +117,20 @@ describe('Users test API', function () {
                     user.should.be.a('object');
                     user.should.include.keys('name', 'userName', 'email');
                 });
-                
+
                 resUser = res.body[0];
                 console.log("ID OF RETERNED OBJECT", resUser.id);
+                //  console.log(resUser)   /// name: undefined undefined... not geting assigned
                 return User.findById(resUser.id);
+                
             })
-            .then(user => {
-               console.log(user);
-               // resUser.name.should.equal(user.name);
-               // resUser.userName.should.equal(user.userName);
-                //resUser.email.should.equal(user.email);
+            .then(user => {  /// user is null/ empty object 
+                console.log(user);
+                 resUser.name.should.equal(user.name);
+                 resUser.userName.should.equal(user.userName);
+                resUser.email.should.equal(user.email);
                 //console.log(user.name);
-              });
+            });
 
     });  // End test check for right keys.
 
