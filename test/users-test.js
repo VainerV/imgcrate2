@@ -159,24 +159,44 @@ describe('Users test API', function () {
                     res.body.should.include.keys('id', 'name', 'userName', 'email');
                     res.body.name.should.equal(`${newUser.user.firstName} ${newUser.user.lastName}`);
                     res.body.id.should.not.be.null;
-                //     res.body.user.should.equal(
-                //         `${newUser.user.firstName} ${newUser.user.lastName}`);
-                     res.body.userName.should.equal(newUser.userName);
-                     res.body.email.should.equal(newUser.email);
-                     return User.findById(res.body.id);
-                 })
+                    //     res.body.user.should.equal(
+                    //         `${newUser.user.firstName} ${newUser.user.lastName}`);
+                    res.body.userName.should.equal(newUser.userName);
+                    res.body.email.should.equal(newUser.email);
+                    return User.findById(res.body.id);
+                })
                 .then(function (user) {
-                    console.log (user)
+                    console.log(user)
                     newUser.user.firstName.should.equal(user.user.firstName);
                     newUser.user.lastName.should.equal(user.user.lastName);
                     newUser.userName.should.equal(user.userName);
                     newUser.email.should.equal(user.email);
-                 });
+                });
+        });
+    }); // End post user test
+
+
+    describe('DELETE  endpoint', function () {
+
+        it('Delete end point by ID', function () {
+            let user;
+            return User
+                .findOne()
+                .then(function (_user) {
+                    user = _user;
+                    return chai.request(app).delete(`/users/${user.id}`);
+                })
+                .then(function(res) {
+                    expect(res).to.have.status(204);
+                    return User.findById(user.id);
+                  })
+                  .then(function(_user) {
+                    expect(_user).to.be.null;   //// should not exist
+                   
+                  });
+
         });
     });
-
-
-
 
 
 })  // Closig user testing 
