@@ -7,7 +7,6 @@ const morgan = require('morgan');
 const app = express();
 const bodyParser = require('body-parser');
 const { DATABASE_URL, PORT } = require('./config');
-
 const userRouter = require("./routers/users");
 app.use(bodyParser.json());
 app.use('/users', userRouter); // call for the router users

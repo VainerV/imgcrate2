@@ -22,13 +22,8 @@ router.get('/', (req, res) => {
 
 router.post('/', (req, res) => {
 
-    const requiredFields = ['name', 'userName', 'email'];
-
-   
-    
-
-    console.log(req);
-
+    const requiredFields = ['user', 'userName', 'email'];
+  // console.log(req.body);
     for (let i = 0; i < requiredFields.length; i++) {
         const field = requiredFields[i];
         if (!(field in req.body)) {
@@ -37,14 +32,11 @@ router.post('/', (req, res) => {
             return res.status(400).send(message);
         }
     }
-    console.log(req.body);
+   // console.log("REQ>BODYt", req.body);
+   
     User
         .create({
-            user: {
-                firstName: req.body.firstName,
-                lasteName: req.body.lasteName,
-            },
-            // name: req.body.name,
+            user: req.body.user,
             userName: req.body.userName,
             email: req.body.email,
         })

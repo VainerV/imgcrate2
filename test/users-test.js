@@ -156,20 +156,22 @@ describe('Users test API', function () {
                     res.should.have.status(201);
                     res.should.be.json;
                     res.body.should.be.a('object');
-                    res.body.should.include.keys('name', 'userName', 'email');
-                    res.body.name.should.equal(newUser.name);
+                    res.body.should.include.keys('id', 'name', 'userName', 'email');
+                    res.body.name.should.equal(`${newUser.user.firstName} ${newUser.user.lastName}`);
                     res.body.id.should.not.be.null;
-                    res.body.user.should.equal(
-                        `${newUser.user.firstName} ${newUser.user.lastName}`);
-                    res.body.userName.should.equal(newUser.userName);
-                    res.body.email.should.equal(newUser.email);
-                    return User.findById(res.body.id);
-                })
+                //     res.body.user.should.equal(
+                //         `${newUser.user.firstName} ${newUser.user.lastName}`);
+                     res.body.userName.should.equal(newUser.userName);
+                     res.body.email.should.equal(newUser.email);
+                     return User.findById(res.body.id);
+                 })
                 .then(function (user) {
-                    resUser.name.should.equal(user.name);
-                    resUser.userName.should.equal(user.userName);
-                    resUser.email.should.equal(user.email);
-                });
+                    console.log (user)
+                    newUser.user.firstName.should.equal(user.user.firstName);
+                    newUser.user.lastName.should.equal(user.user.lastName);
+                    newUser.userName.should.equal(user.userName);
+                    newUser.email.should.equal(user.email);
+                 });
         });
     });
 
