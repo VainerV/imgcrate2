@@ -186,17 +186,60 @@ describe('Users test API', function () {
                     user = _user;
                     return chai.request(app).delete(`/users/${user.id}`);
                 })
-                .then(function(res) {
+                .then(function (res) {
                     expect(res).to.have.status(204);
                     return User.findById(user.id);
-                  })
-                  .then(function(_user) {
+                })
+                .then(function (_user) {
                     expect(_user).to.be.null;   //// should not exist
-                   
-                  });
+
+                });
 
         });
     });
+
+
+    describe('PUT user end point', function () {
+        it('Updating user info by ID', function () {
+
+
+
+            const updateUserData = {
+
+                user: {
+                    firstName: faker.name.firstName(),
+                    lastName: faker.name.lastName(),
+                },
+                userName: faker.internet.userName(),
+                email: faker.internet.email()
+            };
+
+            return User
+                .findOne()
+                .then(user => {
+                    updateUserData.id = user.id;
+
+                    return chai.request(app)
+                        .put(`/users/${user.id}`)
+                        .send(updateUserData);
+                })
+                .then(res => {
+                    res.should.have.status(204);
+                    return User.findById(updateUserData.id);
+                })
+                .then(user => {
+                    updateUserData.user.firstName.should.equal(user.user.firstName);
+                    updateUserData.user.lastName.should.equal(user.user.lastName);
+                    updateUserData.userName.should.equal(user.userName);
+                    updateUserData.email.should.equal(user.email);
+                });
+
+
+        });
+
+
+    });
+
 
 
 })  // Closig user testing 
