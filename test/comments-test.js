@@ -159,8 +159,30 @@ describe('Comments test API', function () {
                     newComment.comment.should.equal(comment.comment);
                 });
         });
-    }); // End post user test
+    }); // End post comment test
 
+
+    describe('DELETE  endpoint', function () {
+
+        it('Delete end point by ID', function () {
+            let comment;
+            return CommentPost
+                .findOne()
+                .then(function (_comments) {
+                    comment = _comments;
+                    return chai.request(app).delete(`/comments/${comment.id}`);
+                })
+                .then(function (res) {
+                    expect(res).to.have.status(204);
+                    return CommentPost.findById(comment.id);
+                })
+                .then(function (_comments) {
+                    expect(_comments).to.be.null;   //// should not exist
+
+                });
+
+        });
+    });
 
 
 }) // Comments API test

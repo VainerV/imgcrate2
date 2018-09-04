@@ -47,6 +47,21 @@ router.post('/', (req, res) => {
 
 });   //Router post
 
+router.delete('/:id',(req,res) =>{
+
+
+    CommentPost
+    .findByIdAndRemove(req.params.id)
+    .then(() => {
+      res.status(204).json({ message: 'success' });
+    })
+    .catch(err => {
+      console.error(err);
+      res.status(500).json({ error: 'something went terribly wrong' });
+    });
+
+});  // router delete user
+
 
 module.exports = router;
 
