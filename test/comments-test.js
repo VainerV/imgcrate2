@@ -132,7 +132,34 @@ describe('Comments test API', function () {
 
 
 
+    describe('POST endpoint', function () {
 
+        it('should add a new comment', function () {
+
+            const newComment = {
+                comment: faker.lorem.paragraph(),
+                
+            };
+            // console.log(newUser);
+            return chai.request(app)
+                .post('/comments')
+                .send(newComment)
+                .then(function (res) {
+                    res.should.have.status(201);
+                    res.should.be.json;
+                    res.body.should.be.a('object');
+                    res.body.should.include.keys('id', 'comment');
+                    res.body.comment.should.equal(newComment.comment);
+                   
+                    return CommentPost.findById(res.body.id);
+                })
+                .then(function (comment) {
+                   // console.log(user)
+                   
+                    newComment.comment.should.equal(comment.comment);
+                });
+        });
+    }); // End post user test
 
 
 

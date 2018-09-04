@@ -20,5 +20,33 @@ router.get('/', (req, res) => {
 
 }); // Router Get
 
+router.post('/', (req, res) => {
+
+    const requiredFields = ['comment'];
+  // console.log(req.body);
+    for (let i = 0; i < requiredFields.length; i++) {
+        const field = requiredFields[i];
+        if (!(field in req.body)) {
+            const message = `Missing \`${field}\` in request body`;
+            console.error(message);
+            return res.status(400).send(message);
+        }
+    }
+   // console.log("REQ>BODYt", req.body);
+   
+    CommentPost
+        .create({
+            comment: req.body.comment,
+        })
+        .then(comment => res.status(201).json(comment.serialize()))
+        .catch(err => {
+            console.error(err);
+            res.status(500).json({ error: 'Something went wrong' });
+        });
+
+
+});   //Router post
+
+
 module.exports = router;
 
