@@ -166,7 +166,7 @@ describe('Users test API', function () {
                     return User.findById(res.body.id);
                 })
                 .then(function (user) {
-                    console.log(user)
+                   // console.log(user)
                     newUser.user.firstName.should.equal(user.user.firstName);
                     newUser.user.lastName.should.equal(user.user.lastName);
                     newUser.userName.should.equal(user.userName);
