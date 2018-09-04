@@ -67,11 +67,11 @@ router.delete('/:id',(req,res) =>{
 
 router.put('/:id', (req, res) => {
     console.log(req.params.id, req.body.id); ///????
-    if (!(req.params.id && req.body.id )) {
-      res.status(400).json({
-        error: 'Request path id and request body id values must match'
-      });
-    }
+    // if (!(req.params.id && req.body.id && req.params.id === req.body.id)) {
+    //   res.status(400).json({
+    //     error: 'Request path id and request body id values must match'
+    //   });
+    // }
 
     const updated = {};
     const updateableFields = ['id','user', 'userName', 'email'];
@@ -83,7 +83,7 @@ router.put('/:id', (req, res) => {
   
     User
       .findByIdAndUpdate(req.params.id, { $set: updated }, { new: true })
-      .then(updatedPost => res.status(204).end())
+      .then(user=> res.status(204).end())
       .catch(err => res.status(500).json({ message: 'Something went wrong' }));
   
     }); // router put
