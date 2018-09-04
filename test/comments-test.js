@@ -182,6 +182,38 @@ describe('Comments test API', function () {
                 });
 
         });
+    }); // delete test
+
+    describe('PUT user end point', function () {
+        it('Updating comment  by ID', function () {
+
+            const updateCommentData = {
+
+                comment: faker.lorem.paragraph(),
+            };
+
+            return CommentPost
+                .findOne()
+                .then(comment => {
+                    updateCommentData.id = comment.id;
+ ;
+                    return chai.request(app)
+                        .put(`/comments/${comment.id}`)
+                        .send(updateCommentData);
+                })
+                .then(res => {
+                    res.should.have.status(204);
+                    return CommentPost.findById(updateCommentData.id);
+                })
+                .then(comment => {
+                  
+                    updateCommentData.comment.should.equal(comment.comment);
+                });
+
+
+        });
+
+
     });
 
 
