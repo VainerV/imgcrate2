@@ -14,7 +14,7 @@ const commentSchema = mongoose.Schema(
 
 commentSchema.methods.serialize = function() {
     return {
-      
+        id: this._id,
        comment: this.comment
     };
   };
