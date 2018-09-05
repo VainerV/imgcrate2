@@ -109,7 +109,7 @@ describe('Comments test API', function () {
                 res.should.be.json;
                 res.body.should.be.a('array');
                 res.body.should.have.lengthOf.at.least(1);
-                console.log("Vadim checking status", res.body); 
+               // console.log("Vadim checking status", res.body); 
                 res.body.forEach(function (comment) {
                     comment.should.be.a('object');
                     comment.should.include.keys("id", 'comment');

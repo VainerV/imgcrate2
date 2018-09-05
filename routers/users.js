@@ -92,48 +92,48 @@ router.put('/:id', (req, res) => {
 ////////////////////////////////////
 
 
-// router.post('/signup', (req, res) => {
+router.post('/signup', (req, res) => {
 
-//     const requiredFields = ['user', 'userName', 'email', 'password'];
-//     for (let i = 0; i < requiredFields.length; i++) {
-//         const field = requiredFields[i];
-//         if (!(field in req.body)) {
-//             const message = `Missing \`${field}\` in request body`;
-//             console.error(message);
-//             return res.status(400).send(message);
-//         }
-//     }
+    const requiredFields = ['user', 'userName', 'email', 'password'];
+    for (let i = 0; i < requiredFields.length; i++) {
+        const field = requiredFields[i];
+        if (!(field in req.body)) {
+            const message = `Missing \`${field}\` in request body`;
+            console.error(message);
+            return res.status(400).send(message);
+        }
+    }
 
-//     bcrypt.hash(req.body.password, 10, (err, hash) => {
-//         if (err) {
+    bcrypt.hash(req.body.password, 10, (err, hash) => {
+        if (err) {
 
-//             return res.status(500).json({
-//                 error: err
-//             })
-//         }
+            return res.status(500).json({
+                error: err
+            })
+        }
 
-//         else {
+        else {
 
-//             User
-//                 .create({
-//                     user: req.body.user,
-//                     userName: req.body.userName,
-//                     email: req.body.email,
-//                     password: hash
-//                 })
-//                 .then(user => res.status(201).json(user.serialize()))
-//                 .catch(err => {
-//                     console.error(err);
-//                     res.status(500).json({ error: 'Something went wrong' });
-//                 });
+            User
+                .create({
+                    user: req.body.user,
+                    userName: req.body.userName,
+                    email: req.body.email,
+                    password: hash
+                })
+                .then(user => res.status(201).json(user.serialize()))
+                .catch(err => {
+                    console.error(err);
+                    res.status(500).json({ error: 'Something went wrong' });
+                });
 
-//         }
+        }
 
-//     })
+    })
 
 
 
-// });   //Router  post sign up
+});   //Router  post sign up
 
 
 
