@@ -3,7 +3,7 @@ const { JWT_SECRET } = require('../config');
 
 module.exports = (req, res, next) => {
     const token = req.headers.authorization;
-    console.log(token);
+    console.log("trying to get token", token);
     try{
     const decoded = jwt.verify(req.body.token, JWT_SECRET) 
     req.userData = decoded;
