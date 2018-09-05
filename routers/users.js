@@ -3,7 +3,7 @@ const router = express.Router();
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const User = require('../models/user');
-const {JWT_SECRET } = require('../config');
+const { JWT_SECRET } = require('../config');
 router.get('/', (req, res) => {
 
     User
@@ -161,7 +161,6 @@ router.post('/login', (req, res) => {
                 })
             }
 
-
             bcrypt.compare(req.body.password, user[0].password, (err, result) => {
                 if (err) {
                     return res.status(401).json({ // 401- not authorized
@@ -169,7 +168,7 @@ router.post('/login', (req, res) => {
                     })
                 }
                 if (result) {
-                   const token = jwt.sign({
+                    const token = jwt.sign({
                         email: user[0].email,
                         id: user[0]._id
                     },
@@ -187,8 +186,6 @@ router.post('/login', (req, res) => {
                     message: 'Auth failed'
                 })
             })
-
-
 
         })
         .catch(err => {
