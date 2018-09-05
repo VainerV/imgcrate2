@@ -105,35 +105,54 @@ router.post('/signup', (req, res) => {
     }
 
     bcrypt.hash(req.body.password, 10, (err, hash) => {
-        if (err) {
-
-            return res.status(500).json({
-                error: err
-            })
-        }
-
-        else {
-
-            User
-                .create({
-                    user: req.body.user,
-                    userName: req.body.userName,
-                    email: req.body.email,
-                    password: hash
+        User.find({email: req.body.email})
+        .exec()
+        .then(user =>{
+            if(user.length >= 1){
+                return res.status(409).json({
+                    message: 'Email aleady exists'
                 })
-                .then(user => res.status(201).json(user.serialize()))
-                .catch(err => {
-                    console.error(err);
-                    res.status(500).json({ error: 'Something went wrong' });
-                });
+            }
+            else{
 
-        }
+
+                if (err) {
+
+                    return res.status(500).json({
+                        error: err
+                    })
+                }
+        
+                else {
+        
+                    User
+                        .create({
+                            user: req.body.user,
+                            userName: req.body.userName,
+                            email: req.body.email,
+                            password: hash
+                        })
+                        .then(user => res.status(201).json(user.serialize()))
+                        .catch(err => {
+                            console.error(err);
+                            res.status(500).json({ error: 'Something went wrong' });
+                        });
+        
+                }
+
+            }
+        }) 
+       
 
     })
 
 
 
 });   //Router  post sign up
+
+
+
+
 
 
 
