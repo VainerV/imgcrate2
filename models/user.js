@@ -16,7 +16,7 @@ const userSchema = mongoose.Schema({
     },
     email: String,
     userName: {type: String, require: true},
-    password: {type: String,require: true}
+    password: {type: String, require: true},
    
 });
 
@@ -45,7 +45,7 @@ const userSchema = mongoose.Schema({
       id: this._id,
       name: this.name,
       userName: this.userName,
-      email:this.email
+      email: this.email
     };
   };
   
