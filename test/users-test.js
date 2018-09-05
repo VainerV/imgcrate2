@@ -284,6 +284,8 @@ describe('Users test API', function () {
         });
     }); // End post user sign up test
 
+    
+    // NOT WORKING SOMETHING WITH AUTHONTICATION
     describe('POST login endpoint', function () {
 
         it('Should login user', function () {
@@ -297,12 +299,12 @@ describe('Users test API', function () {
             .send(loginUser)
             .then(function(res){
                 res.should.have.status(200);
-                // res.should.be.json;
-                // res.should.be.a('Object');
-                // res.body.should.include.keys('email', 'password');
-                // res.body.id.should.not.be.null;
-                // res.body.email.should.equal(loginUser.email);
-                //res.body.password.should.equal(loginUser.password);
+                res.should.be.json;
+                res.should.be.a('Object');
+                res.body.should.include.keys('email', 'password');
+                res.body.id.should.not.be.null;
+                res.body.email.should.equal(loginUser.email);
+                res.body.password.should.equal(loginUser.password);
                 return User.findById(res.body.id);
             })
             .then(function (user) {

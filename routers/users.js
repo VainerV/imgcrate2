@@ -4,7 +4,9 @@ const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const User = require('../models/user');
 const { JWT_SECRET } = require('../config');
-router.get('/', (req, res) => {
+const checkAuth = require('../middleware/check-auth')
+
+router.get('/', checkAuth, (req, res) => {
 
     User
         .find()
