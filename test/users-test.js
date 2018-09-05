@@ -242,4 +242,47 @@ describe('Users test API', function () {
 
 
 
+    // describe('POST endpoint', function () {
+
+    //     it('should add a new user', function () {
+
+    //         const newUser = {
+
+    //             user: {
+    //                 firstName: faker.name.firstName(),
+    //                 lastName: faker.name.lastName(),
+    //             },
+    //             userName: faker.internet.userName(),
+    //             email: faker.internet.email(),
+    //             password: faker.internet.password()
+    //         };
+    //         // console.log(newUser);
+    //         return chai.request(app)
+    //             .post('/users/signup')
+    //             .send(newUser)
+    //             .then(function (res) {
+    //                 res.should.have.status(201);
+    //                 res.should.be.json;
+    //                 res.body.should.be.a('object');
+    //                 res.body.should.include.keys('id', 'name', 'userName', 'email', 'password');
+    //                 res.body.name.should.equal(`${newUser.user.firstName} ${newUser.user.lastName}`);
+    //                 res.body.id.should.not.be.null;
+        
+    //                 res.body.userName.should.equal(newUser.userName);
+    //                 res.body.email.should.equal(newUser.email);
+    //                 return User.findById(res.body.id);
+    //             })
+    //             .then(function (user) {
+    //                // console.log(user)
+    //                 newUser.user.firstName.should.equal(user.user.firstName);
+    //                 newUser.user.lastName.should.equal(user.user.lastName);
+    //                 newUser.userName.should.equal(user.userName);
+    //                 newUser.email.should.equal(user.email);
+    //                 newUser.password.should.equal(user.password);
+    //             });
+    //     });
+    // }); // End post user sign up test
+
+
+
 })  // Closig user testing 

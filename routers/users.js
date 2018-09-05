@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-
+const bcrypt = require('bcrypt');
 
 const User = require('../models/user');
 
@@ -23,7 +23,7 @@ router.get('/', (req, res) => {
 router.post('/', (req, res) => {
 
     const requiredFields = ['user', 'userName', 'email'];
-  // console.log(req.body);
+    // console.log(req.body);
     for (let i = 0; i < requiredFields.length; i++) {
         const field = requiredFields[i];
         if (!(field in req.body)) {
@@ -32,8 +32,8 @@ router.post('/', (req, res) => {
             return res.status(400).send(message);
         }
     }
-   // console.log("REQ>BODYt", req.body);
-   
+    // console.log("REQ>BODYt", req.body);
+
     User
         .create({
             user: req.body.user,
@@ -49,24 +49,24 @@ router.post('/', (req, res) => {
 
 });   //Router post
 
-router.delete('/:id',(req,res) =>{
+router.delete('/:id', (req, res) => {
 
 
     User
-    .findByIdAndRemove(req.params.id)
-    .then(() => {
-      res.status(204).json({ message: 'success' });
-    })
-    .catch(err => {
-      console.error(err);
-      res.status(500).json({ error: 'something went terribly wrong' });
-    });
+        .findByIdAndRemove(req.params.id)
+        .then(() => {
+            res.status(204).json({ message: 'success' });
+        })
+        .catch(err => {
+            console.error(err);
+            res.status(500).json({ error: 'something went terribly wrong' });
+        });
 
 });  // router delete user
 
 
 router.put('/:id', (req, res) => {
-  //  console.log(req.params.id, req.body.id); ///????
+    //  console.log(req.params.id, req.body.id); ///????
     // if (!(req.params.id && req.body.id && req.params.id === req.body.id)) {
     //   res.status(400).json({
     //     error: 'Request path id and request body id values must match'
@@ -74,23 +74,66 @@ router.put('/:id', (req, res) => {
     // }
 
     const updated = {};
-    const updateableFields = ['id','user', 'userName', 'email'];
+    const updateableFields = ['id', 'user', 'userName', 'email'];
     updateableFields.forEach(field => {
-      if (field in req.body) {
-        updated[field] = req.body[field];
-      }
+        if (field in req.body) {
+            updated[field] = req.body[field];
+        }
     });
-  
+
     User
-      .findByIdAndUpdate(req.params.id, { $set: updated }, { new: true })
-      .then(user=> res.status(204).end())
-      .catch(err => res.status(500).json({ message: 'Something went wrong' }));
-  
-    }); // router put
+        .findByIdAndUpdate(req.params.id, { $set: updated }, { new: true })
+        .then(user => res.status(204).end())
+        .catch(err => res.status(500).json({ message: 'Something went wrong' }));
+
+}); // router put
+
+
+////////////////////////////////////
+
+
+// router.post('/signup', (req, res) => {
+
+//     const requiredFields = ['user', 'userName', 'email', 'password'];
+//     for (let i = 0; i < requiredFields.length; i++) {
+//         const field = requiredFields[i];
+//         if (!(field in req.body)) {
+//             const message = `Missing \`${field}\` in request body`;
+//             console.error(message);
+//             return res.status(400).send(message);
+//         }
+//     }
+
+//     bcrypt.hash(req.body.password, 10, (err, hash) => {
+//         if (err) {
+
+//             return res.status(500).json({
+//                 error: err
+//             })
+//         }
+
+//         else {
+
+//             User
+//                 .create({
+//                     user: req.body.user,
+//                     userName: req.body.userName,
+//                     email: req.body.email,
+//                     password: hash
+//                 })
+//                 .then(user => res.status(201).json(user.serialize()))
+//                 .catch(err => {
+//                     console.error(err);
+//                     res.status(500).json({ error: 'Something went wrong' });
+//                 });
+
+//         }
+
+//     })
 
 
 
-
+// });   //Router  post sign up
 
 
 
