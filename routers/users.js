@@ -6,7 +6,7 @@ const User = require('../models/user');
 const { JWT_SECRET } = require('../config');
 const checkAuth = require('../middleware/check-auth')
 
-router.get('/', checkAuth, (req, res) => {
+router.get('/', checkAuth, (req, res) => {  /// <=== checkAuth not working 
 
     User
         .find()
