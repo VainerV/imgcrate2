@@ -22,7 +22,7 @@ router.get('/', checkAuth, (req, res) => {  /// <=== checkAuth not working
 
 }); // Router Get
 
-router.post('/', (req, res) => {
+router.post('/', checkAuth, (req, res) => {
 
     const requiredFields = ['user', 'userName', 'email'];
     // console.log(req.body);
@@ -51,7 +51,7 @@ router.post('/', (req, res) => {
 
 });   //Router post
 
-router.delete('/:id', (req, res) => {
+router.delete('/:id', checkAuth, (req, res) => {
 
 
     User
@@ -67,7 +67,7 @@ router.delete('/:id', (req, res) => {
 });  // router delete user
 
 
-router.put('/:id', (req, res) => {
+router.put('/:id', checkAuth, (req, res) => {
     //  console.log(req.params.id, req.body.id); ///????
     // if (!(req.params.id && req.body.id && req.params.id === req.body.id)) {
     //   res.status(400).json({
