@@ -1,9 +1,9 @@
 const express = require('express');
 const router = express.Router();
 const bcrypt = require('bcrypt');
-
+const jwt = require('jsonwebtoken');
 const User = require('../models/user');
-
+const {JWT_SECRET } = require('../config');
 router.get('/', (req, res) => {
 
     User
@@ -105,44 +105,44 @@ router.post('/signup', (req, res) => {
     }
 
     bcrypt.hash(req.body.password, 10, (err, hash) => {
-        User.find({email: req.body.email})
-        .exec()
-        .then(user =>{
-            if(user.length >= 1){
-                return res.status(409).json({
-                    message: 'Email aleady exists'
-                })
-            }
-            else{
-
-
-                if (err) {
-
-                    return res.status(500).json({
-                        error: err
+        User.find({ email: req.body.email })
+            .exec()
+            .then(user => {
+                if (user.length >= 1) {
+                    return res.status(409).json({
+                        message: 'Email aleady exists'
                     })
                 }
-        
                 else {
-        
-                    User
-                        .create({
-                            user: req.body.user,
-                            userName: req.body.userName,
-                            email: req.body.email,
-                            password: hash
-                        })
-                        .then(user => res.status(201).json(user.serialize()))
-                        .catch(err => {
-                            console.error(err);
-                            res.status(500).json({ error: 'Something went wrong' });
-                        });
-        
-                }
 
-            }
-        }) 
-       
+
+                    if (err) {
+
+                        return res.status(500).json({
+                            error: err
+                        })
+                    }
+
+                    else {
+
+                        User
+                            .create({
+                                user: req.body.user,
+                                userName: req.body.userName,
+                                email: req.body.email,
+                                password: hash
+                            })
+                            .then(user => res.status(201).json(user.serialize()))
+                            .catch(err => {
+                                console.error(err);
+                                res.status(500).json({ error: 'Something went wrong' });
+                            });
+
+                    }
+
+                }
+            })
+
 
     })
 
@@ -151,9 +151,52 @@ router.post('/signup', (req, res) => {
 });   //Router  post sign up
 
 
+router.post('/login', (req, res) => {
+    User.find({ email: req.body.email })
+        .exec()
+        .then(user => {
+            if (user.length < 1) {
+                return res.status(401).json({ // 401- not authorized
+                    message: "Auth failed"
+                })
+            }
+
+
+            bcrypt.compare(req.body.password, user[0].password, (err, result) => {
+                if (err) {
+                    return res.status(401).json({ // 401- not authorized
+                        message: "Auth failed"
+                    })
+                }
+                if (result) {
+                   const token = jwt.sign({
+                        email: user[0].email,
+                        id: user[0]._id
+                    },
+                        JWT_SECRET,
+                        {
+                            expiresIn: "1h"
+                        });
+
+                    return res.status(200).json({
+                        message: "Auth Succesful",
+                        token: token
+                    })
+                }
+                res.status(401).json({
+                    message: 'Auth failed'
+                })
+            })
 
 
 
+        })
+        .catch(err => {
+            console.error(err);
+            res.status(500).json({ error: 'Something went wrong' });
+        }) // router for users loging 
+
+})
 
 
 module.exports = router;

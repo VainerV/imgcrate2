@@ -6,13 +6,14 @@ const mongoose = require('mongoose');
 const morgan = require('morgan');
 const app = express();
 const bodyParser = require('body-parser');
-const { DATABASE_URL, PORT } = require('./config');
+const { DATABASE_URL, PORT, JWT_SECRET } = require('./config');
 const userRouter = require("./routers/users");
 const commentRouter = require("./routers/comments");
 app.use(bodyParser.json());
 app.use('/users', userRouter); // call for the router users
 app.use('/comments', commentRouter); // call comments router
 app.use('/users/signup', userRouter); // call siign up user router 
+app.use('/users/login', userRouter); // call login user router
 
 let server;
 
