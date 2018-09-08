@@ -22,9 +22,10 @@ describe('Users test API', function () {
 
                 },
                 email: faker.internet.email(),
-                userName: faker.internet.userName()
+                userName: faker.internet.userName(),
             });
         }
+        
         //  console.log(seedData);
         return User.insertMany(seedData)
 
@@ -264,7 +265,7 @@ describe('Users test API', function () {
                     res.should.have.status(201);
                     res.should.be.json;
                     res.body.should.be.a('object');
-                    console.log(res.body);
+                   // console.log(res.body);
                     res.body.should.include.keys('id', 'name', 'userName', 'email');
                      res.body.name.should.equal(`${newUser.user.firstName} ${newUser.user.lastName}`);
                      res.body.id.should.not.be.null;
@@ -292,7 +293,7 @@ describe('Users test API', function () {
 
             const loginUser = {
                 email: faker.internet.email(),
-                password: faker.internet.password() /// wont match to bcrypt hash
+                password: 'abcd' /// wont match to bcrypt hash
             };
             return chai.request(app)
             .post('/users/login')

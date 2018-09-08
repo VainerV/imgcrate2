@@ -1,7 +1,7 @@
 // Configurating global variables
 
 'use strict';
-
+//const env = require('./env')
 // DB
 exports.DATABASE_URL = process.env.DATABASE_URL || 'mongodb://localhost/v_img_crate';
 exports.TEST_DATABASE_URL = process.env.TEST_DATABASE_URL || 'mongodb://localhost/v_img_crate_test';
