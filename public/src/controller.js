@@ -27,9 +27,10 @@ function enableListeners() {
 //console.log(newUser)
       $.ajax({
         type: 'POST',
-        url: "http://localhost:8080/users/signup",
-        data: newUser, //JSON.stringify(newUser),
-        dataType: "json",
+        url: "/users/signup",
+        data: JSON.stringify(newUser),
+        beforeSend: function(request) { request.setRequestHeader("Content-Type", "application/json"); },
+       // dataType: "json",
         success: function(data) { alert("Save Complete"),  console.log(data)},
         error: function(error) {
             console.log("New user wasnt created");

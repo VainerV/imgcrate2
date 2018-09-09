@@ -95,7 +95,6 @@ router.put('/:id', checkAuth, (req, res) => {
 
 
 router.post('/signup', (req, res) => {
-    console.log("should be a user", req.body.user);
     const requiredFields = ['user', 'userName', 'email', 'password'];
     for (let i = 0; i < requiredFields.length; i++) {
         const field = requiredFields[i];
