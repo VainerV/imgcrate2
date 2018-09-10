@@ -49,17 +49,14 @@ function logIn() {
     $(".loginbtn").on('click', event => {
         event.preventDefault();
         let login = {
-            userName: $('#loginUserName').val(),
+            email: $('#loginEmail').val(),
             password: $('#loginPassword').val(),
         }
 
-        //console.log(login);
+        console.log(login);
         $.ajax({
             type: 'POST',
             url: "/users/login",
-            headers: {
-                'Authorization': ""},
-               
             data: JSON.stringify(login),
             beforeSend: function (request) { request.setRequestHeader("Content-Type", "application/json"); },
             // dataType: "json",
