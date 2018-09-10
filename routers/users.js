@@ -165,7 +165,7 @@ router.post('/login', (req, res) => {
             bcrypt.compare(req.body.password, user[0].password, (err, result) => {
                 if (err) {
                     return res.status(401).json({ // 401- not authorized
-                        message: "Auth failed"
+                        message: "Auth failed email or password incorrect"
                     })
                 }
                 if (result) {

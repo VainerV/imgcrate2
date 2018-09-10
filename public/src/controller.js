@@ -1,61 +1,80 @@
+
+
 function enableListeners() {
     signUp();
-    //logIn();
-    
-  }
+    logIn();
 
-  function signUp() {
-      
+}
+
+function signUp() {
+
     // submit new user Sign up information
     $(".signupbtn").on("click", event => {
         event.preventDefault();
 
-     
+
         let name = {
             userName: $("#firstName").val(),
             lastName: $("#lastName").val(),
         }
-      
-   let  newUser = {
-        user: name,
-        userName: $('#userName').val(),
-        password: $('#password').val(),
-        email: $('#email').val(),
 
-     }
-     
-//console.log(newUser)
-      $.ajax({
-        type: 'POST',
-        url: "/users/signup",
-        data: JSON.stringify(newUser),
-        beforeSend: function(request) { request.setRequestHeader("Content-Type", "application/json"); },
-       // dataType: "json",
-        success: function(data) { alert("Save Complete"),  console.log(data)},
-        error: function(error) {
-            console.log("New user wasnt created");
-          }
-  });
-  
+        let newUser = {
+            user: name,
+            userName: $('#userName').val(),
+            password: $('#password').val(),
+            email: $('#email').val(),
+
+        }
 
 
-    //  //console.log(JSON.stringify(newUser));
-    //  $.post( "/users/signup", JSON.stringify(newUser))
-    //  .done(function( data ) {
-    //    alert( "Data Loaded: " + data );
-    //  });
-      //console.log(newUser);
-   });
+        $.ajax({
+            type: 'POST',
+            url: "/users/signup",
+            data: JSON.stringify(newUser),
+            beforeSend: function (request) { request.setRequestHeader("Content-Type", "application/json"); },
+            // dataType: "json",
+            success: function (data) { alert("Save Complete"), console.log(data) },
+            error: function (error) {
+                console.log("New user wasnt created");
+            }
+        });
 
-     
-
-   // return console.log("new users creatwed")
-  }
-
-  
- 
+    });
 
 
+}
 
 
-  enableListeners();
+function logIn() {
+    $(".loginbtn").on('click', event => {
+        event.preventDefault();
+        let login = {
+            userName: $('#loginUserName').val(),
+            password: $('#loginPassword').val(),
+        }
+
+        //console.log(login);
+        $.ajax({
+            type: 'POST',
+            url: "/users/login",
+            headers: {
+                'Authorization': ""},
+               
+            data: JSON.stringify(login),
+            beforeSend: function (request) { request.setRequestHeader("Content-Type", "application/json"); },
+            // dataType: "json",
+            success: function (data) { alert("You are now loged in") },
+            error: function (error) {
+                console.log("Login fail.");
+            }
+
+        });
+
+    })
+
+}
+
+
+
+
+enableListeners();
