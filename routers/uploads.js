@@ -12,19 +12,7 @@ router.post('/', function (req, res) {
     // The file upload has completed
     busboy.on('finish', function () {
         console.log('Upload finished');
-        // Your files are stored in req.files. In this case,
-        // you only have one and it's req.files.element2:
-        // This returns:
-        // {
-        //    element2: {
-        //      data: ...contents of the file...,
-        //      name: 'Example.jpg',
-        //      encoding: '7bit',
-        //      mimetype: 'image/png',
-        //      truncated: false,
-        //      size: 959480
-        //    }
-        // }
+    
         // Grabs your file object from the request.
         const file = req.files.element2.data;
         //console.log(req.files, "VAdim");
