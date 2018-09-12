@@ -5,18 +5,31 @@ const express = require('express');
 const mongoose = require('mongoose');
 const morgan = require('morgan');
 const app = express();
+const dotenv = require('dotenv');
+dotenv.config();
 const ejs = require('ejs');
 const path = require('path');
 const bodyParser = require('body-parser');
 const { DATABASE_URL, PORT, JWT_SECRET } = require('./config');
 const userRouter = require("./routers/users");
 const commentRouter = require("./routers/comments");
+const fileRouter = require('./routers/uploads');
+const busboy = require('connect-busboy');
+const busboyBodyParser = require('busboy-body-parser');
+
+
 //app.set('view engine', 'ejs');
+app.use(busboy());
 app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(busboyBodyParser());
+
 app.use('/users', userRouter); // call for the router users
 app.use('/comments', commentRouter); // call comments router
 app.use('/users/signup', userRouter); // call siign up user router 
 app.use('/users/login', userRouter); // call login user router
+app.use('/uploads', fileRouter); // call for the router users
+
 app.use(express.static('./public'));
 
 
