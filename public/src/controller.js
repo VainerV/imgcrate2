@@ -3,7 +3,7 @@
 function enableListeners() {
     signUp();
     logIn();
-
+    uploadImage();
 }
 
 function signUp() {
@@ -72,6 +72,37 @@ function logIn() {
 }
 
 
+function uploadImage() {
+    $('.submitbtn').on('click', event => {      
+    event.preventDefault();
+    // let formdata = new FormData($(this)[0]);  
+        console.log("Button is working ")
+    //    // let formdata = $('#image').val();
+    //     console.log(formdata);
 
+    let form = $('#fileUploadForm')[0];
+
+		// Create an FormData object 
+        let formdata = new FormData(form);
+console.log(formdata);
+
+        $.ajax({
+            url: "/uploads",
+            type: "POST",
+            data: formdata,
+            mimeTypes: "multipart/form-data",
+            contentType: false,
+            cache: false,
+            processData: false,
+            success: function () {
+                alert("file successfully submitted");
+            }, error: function () {
+                alert("error");
+            }
+        });
+    });
+
+
+}
 
 enableListeners();

@@ -286,8 +286,8 @@ describe('Users test API', function () {
     }); // End post user sign up test
 
     
-    // NOT WORKING SOMETHING WITH AUTHONTICATION
-    // describe('POST login endpoint', function () {
+    // // NOT WORKING SOMETHING WITH AUTHONTICATION
+    //  describe('POST login endpoint', function () {
 
     //     it('Should login user', function () {
 
@@ -314,6 +314,6 @@ describe('Users test API', function () {
                       
     //                });
     //     })
-    // })
+    //  })
 
 })  // Closig user testing 

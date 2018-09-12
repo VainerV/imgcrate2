@@ -10,7 +10,7 @@
     <title>Image Crate</title>
     <script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
         crossorigin="anonymous"></script>
-    <link href="styles/style.css" rel="stylesheet" type="text/css" />
+   
     <link href="styles/responsive.css" rel="stylesheet" type="text/css" media="screen and (max-widgh: 900px)"/>
 
 </head>
@@ -27,7 +27,16 @@
         </header>
 
 
-       
+        <form action="/uploads" method="POST" id="fileUploadForm">
+            <div class="file-field input-field">
+              <div class="btn gray">
+                <span>File</span>
+                <input name="element2" type="file" id="image">
+              </div>
+             
+            </div>
+            <button type="submit" class="submitbtn">Submit</button>
+          </form>
 
 
 
