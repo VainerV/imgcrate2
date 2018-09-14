@@ -13,7 +13,7 @@ const bodyParser = require('body-parser');
 const { DATABASE_URL, PORT, JWT_SECRET } = require('./config');
 const userRouter = require("./routers/users");
 const commentRouter = require("./routers/comments");
-const fileRouter = require('./routers/uploads');
+const fileRouter = require('./routers/pictures');
 const busboy = require('connect-busboy');
 const busboyBodyParser = require('busboy-body-parser');
 

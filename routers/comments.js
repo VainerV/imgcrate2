@@ -1,10 +1,10 @@
 const express = require('express');
 const router = express.Router();
 
-const CommentPost = require('../models/commentpost');
+const CommentPost = require('../models/comment');
 const checkAuth = require('../middleware/check-auth')
 
-router.get('/', checkAuth, (req, res) => {
+router.get('/', (req, res) => {
 
    CommentPost
         .find()
@@ -20,7 +20,7 @@ router.get('/', checkAuth, (req, res) => {
 
 }); // Router Get
 
-router.post('/', checkAuth,(req, res) => {
+router.post('/', (req, res) => {
 
     const requiredFields = ['comment'];
   // console.log(req.body);
@@ -47,7 +47,7 @@ router.post('/', checkAuth,(req, res) => {
 
 });   //Router post
 
-router.delete('/:id', checkAuth,(req,res) =>{
+router.delete('/:id', (req,res) =>{
 
 
     CommentPost
@@ -64,7 +64,7 @@ router.delete('/:id', checkAuth,(req,res) =>{
 
 
 
-router.put('/:id', checkAuth,(req, res) => {
+router.put('/:id', (req, res) => {
     //  console.log(req.params.id, req.body.id); ///????
       // if (!(req.params.id && req.body.id && req.params.id === req.body.id)) {
       //   res.status(400).json({

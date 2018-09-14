@@ -81,10 +81,10 @@ function uploadImage() {
     //     console.log(formdata);
 
     let form = $('#fileUploadForm')[0];
-
+console.log(form);
 		// Create an FormData object 
         let formdata = new FormData(form);
-console.log(formdata);
+//console.log(formdata);
 
         $.ajax({
             url: "/uploads",

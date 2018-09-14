@@ -4,9 +4,9 @@ const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const User = require('../models/user');
 const { JWT_SECRET } = require('../config');
-const checkAuth = require('../middleware/check-auth')
+//const checkAuth = require('../middleware/check-auth')
 
-router.get('/', checkAuth, (req, res) => {  
+router.get('/', (req, res) => {  
    // router.get('/', (req, res) => {  
     User
         .find()
@@ -22,7 +22,7 @@ router.get('/', checkAuth, (req, res) => {
 
 }); // Router Get
 
-router.post('/', checkAuth, (req, res) => {
+router.post('/', (req, res) => {
 
     const requiredFields = ['user', 'userName', 'email'];
     // console.log(req.body);
@@ -51,7 +51,7 @@ router.post('/', checkAuth, (req, res) => {
 
 });   //Router post
 
-router.delete('/:id', checkAuth, (req, res) => {
+router.delete('/:id',  (req, res) => {
 
 
     User
@@ -67,7 +67,7 @@ router.delete('/:id', checkAuth, (req, res) => {
 });  // router delete user
 
 
-router.put('/:id', checkAuth, (req, res) => {
+router.put('/:id', (req, res) => {
     //  console.log(req.params.id, req.body.id); ///????
     // if (!(req.params.id && req.body.id && req.params.id === req.body.id)) {
     //   res.status(400).json({

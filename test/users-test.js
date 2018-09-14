@@ -3,6 +3,8 @@ const chaiHttp = require("chai-http");
 const mongoose = require('mongoose');
 const should = require("chai").should();
 const faker = require('faker');
+const bcrypt = require('bcrypt');
+const jwt = require('jsonwebtoken');
 const { app, runServer, closeServer } = require("../server");
 const { TEST_DATABASE_URL } = require('../config'); // importing DB
 const User = require('../models/user')
@@ -25,8 +27,18 @@ describe('Users test API', function () {
                 userName: faker.internet.userName(),
             });
         }
-        
-        //  console.log(seedData);
+
+        let authUser = {
+            user: {
+                firstName: faker.name.firstName(),
+                lastName: faker.name.lastName(),
+
+            },
+            userName: faker.internet.userName(),
+            email: "alex@yahoo.com",
+            password: bcrypt.hashSync("password", 10),
+        }
+        seedData.push(authUser);
         return User.insertMany(seedData)
 
 
@@ -64,7 +76,7 @@ describe('Users test API', function () {
 
 
     describe('Get test', function () {
-        it.only('Return status code 200 and and array of users', function () {
+        it('Return status code 200 and and array of users', function () {
             return chai
                 .request(app)
                 .get("/users")
@@ -167,7 +179,7 @@ describe('Users test API', function () {
                     return User.findById(res.body.id);
                 })
                 .then(function (user) {
-                   // console.log(user)
+                    // console.log(user)
                     newUser.user.firstName.should.equal(user.user.firstName);
                     newUser.user.lastName.should.equal(user.user.lastName);
                     newUser.userName.should.equal(user.userName);
@@ -257,7 +269,7 @@ describe('Users test API', function () {
                 email: faker.internet.email(),
                 password: faker.internet.password()
             };
-         //   console.log("NewUse result",newUser);
+            //   console.log("NewUse result",newUser);
             return chai.request(app)
                 .post('/users/signup')
                 .send(newUser)
@@ -265,55 +277,55 @@ describe('Users test API', function () {
                     res.should.have.status(201);
                     res.should.be.json;
                     res.body.should.be.a('object');
-                   // console.log(res.body);
+                    // console.log(res.body);
                     res.body.should.include.keys('id', 'name', 'userName', 'email');
-                     res.body.name.should.equal(`${newUser.user.firstName} ${newUser.user.lastName}`);
-                     res.body.id.should.not.be.null;
-                     //res.body.password.should.equal(newUser.password);
-                     res.body.userName.should.equal(newUser.userName);
-                     res.body.email.should.equal(newUser.email);
+                    res.body.name.should.equal(`${newUser.user.firstName} ${newUser.user.lastName}`);
+                    res.body.id.should.not.be.null;
+                    //res.body.password.should.equal(newUser.password);
+                    res.body.userName.should.equal(newUser.userName);
+                    res.body.email.should.equal(newUser.email);
                     return User.findById(res.body.id);
                 })
-               .then(function (user) {
-            //   //     console.log("user result",user)
+                .then(function (user) {
+                    //   //     console.log("user result",user)
                     newUser.user.firstName.should.equal(user.user.firstName);
                     newUser.user.lastName.should.equal(user.user.lastName);
                     newUser.userName.should.equal(user.userName);
                     newUser.email.should.equal(user.email);
-                   // newUser.password.should.equal(user.password);  ??? problem to use faker and hash for pass word
-               });
+                    // newUser.password.should.equal(user.password);  ??? problem to use faker and hash for pass word
+                });
         });
     }); // End post user sign up test
 
-    
+
     // // NOT WORKING SOMETHING WITH AUTHONTICATION
-    //  describe('POST login endpoint', function () {
+    // describe('POST login endpoint', function () {
 
     //     it('Should login user', function () {
-
+    //         let hash = bcrypt.hashSync('password', 10);
     //         const loginUser = {
-    //             email: faker.internet.email(),
-    //             password: 'abcd' /// wont match to bcrypt hash
+    //             email: "alex@yahoo.com",
+    //             password: bcrypt.compareSync('password' , hash),/// wont match to bcrypt hash
     //         };
     //         return chai.request(app)
-    //         .post('/users/login')
-    //         .send(loginUser)
-    //         .then(function(res){
-    //             res.should.have.status(200);
-    //             res.should.be.json;
-    //             res.should.be.a('Object');
-    //             res.body.should.include.keys('email', 'password');
-    //             res.body.id.should.not.be.null;
-    //             res.body.email.should.equal(loginUser.email);
-    //             res.body.password.should.equal(loginUser.password);
-    //             return User.findById(res.body.id);
-    //         })
-    //         .then(function (user) {
-    
-    //                  loginUser.email.should.equal(user.email);
-                      
-    //                });
+    //             .post('/users/login')
+    //             .send(loginUser)
+    //             .then(function (res) {
+    //                 res.should.have.status(200);
+    //                 res.should.be.json;
+    //                 res.should.be.a('Object');
+    //                 res.body.should.include.keys('email', 'password');
+    //                 // res.body.id.should.not.be.null;
+    //                 // res.body.email.should.equal(loginUser.email);
+    //                 // res.body.password.should.equal(loginUser.password);
+    //                 return User.findById(res.body.id);
+    //             })
+    //             .then(function (user) {
+
+    //                 loginUser.email.should.equal(user.email);
+    //                 loginUser.password.should.equal(user.password);
+    //             });
     //     })
-    //  })
+    // })
 
 })  // Closig user testing 
