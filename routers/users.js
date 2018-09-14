@@ -34,8 +34,7 @@ router.post('/', (req, res) => {
             return res.status(400).send(message);
         }
     }
-    // console.log("REQ>BODYt", req.body);
-
+   
     User
         .create({
             user: req.body.user,

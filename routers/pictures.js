@@ -42,10 +42,10 @@ router.post('/', function (req, res) {
 
     Picture
         .create({
-           url: urlData,
+           url: data.Location,
            comment: req.body.comment,
         })
-        .then(user => res.status(201).json(user.serialize()))
+        .then(picture => res.status(201).json(picture.serialize()))
         .catch(err => {
             console.error(err);
             res.status(500).json({ error: 'Something went wrong' });
@@ -53,5 +53,38 @@ router.post('/', function (req, res) {
 
 
 });
+
+
+router.delete('/:id',  (req, res) => {
+
+
+    Picture
+        .findByIdAndRemove(req.params.id)
+        .then(() => {
+            res.status(204).json({ message: 'success' });
+        })
+        .catch(err => {
+            console.error(err);
+            res.status(500).json({ error: 'something went terribly wrong' });
+        });
+
+});  // router delete pic ctom DB
+
+
+
+router.get('/', (req, res) => {  
+     Picture
+         .find()
+         .then(pictures => {
+             res.json(pictures.map(picture => picture.serialize()));
+         })
+         .catch(err => {
+             console.error(err);
+             res.status(500).json({ error: 'something went terribly wrong' });
+         });
+     
+     res.status(200);   
+ 
+ }); // Router Get
 
 module.exports = router;
