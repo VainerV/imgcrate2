@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const Busboy = require('busboy');
-
+const Picture = require('../models/picture')
 const s3 = require('../public/src/file-uploader');
 //const singleUpload = upload.single('image');
 
@@ -37,8 +37,21 @@ router.post('/', function (req, res) {
      req.pipe(busboy);
 
     res.json("Function is done, file uploaded");
-    console.log(urlData);
+   
     //res.json.send(urlData);
+
+    Picture
+        .create({
+           url: urlData,
+           comment: req.body.comment,
+        })
+        .then(user => res.status(201).json(user.serialize()))
+        .catch(err => {
+            console.error(err);
+            res.status(500).json({ error: 'Something went wrong' });
+        });
+
+
 });
 
 module.exports = router;

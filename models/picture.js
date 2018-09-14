@@ -21,5 +21,5 @@ pictureSchema.methods.serialize = function() {
     };
   };
 
-const Picture = mongoose.model('Picture', Picture);
-module.exports = CommentPost;
+const Picture = mongoose.model('Picture', pictureSchema);
+module.exports = Picture;
