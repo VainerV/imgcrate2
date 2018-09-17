@@ -13,15 +13,15 @@ router.post('/', function (req, res) {
     // The file upload has completed
     busboy.on('finish', function () {
         console.log('Upload finished');
-    
+
         // Grabs your file object from the request.
         //console.log(req.files, "VAdim");
         const file = req.files.image.data;
-       
+
         s3.upload({
             Bucket: 'imgcrate',
             Key: Date.now() + (req.files.image.name),  /// <=== must find real file name.
-           // Key: 'form_submit_image.png',
+            // Key: 'form_submit_image.png',
             Body: file,
             ACL: 'public-read'
         }, function (err, data) {
@@ -30,37 +30,38 @@ router.post('/', function (req, res) {
             }
             urlData = data;
             console.log('Successfully uploaded package.', data.Location);
+            Picture
+                .create({
+                    url: data.Location,
+                    comment: req.body.comment,
+                })
+                .then(picture => res.status(201).json(picture.serialize()))
+                .catch(err => {
+                    console.error(err);
+                    res.status(500).json({ error: 'Something went wrong' });
+                });
         });
 
         console.log(file);
     });
 
-   
 
-     req.pipe(busboy);
 
-     Picture
-     .create({
-        url: data.Location,
-        comment: req.body.comment,
-     })
-     .then(picture => res.status(201).json(picture.serialize()))
-     .catch(err => {
-         console.error(err);
-         res.status(500).json({ error: 'Something went wrong' });
-     });
+    req.pipe(busboy);
+
+
 
     res.json("Function is done, file uploaded");
-   
+
     //res.json.send(urlData);
 
-   
+
 
 
 });
 
 
-router.delete('/:id',  (req, res) => {
+router.delete('/:id', (req, res) => {
 
 
     Picture
@@ -77,19 +78,19 @@ router.delete('/:id',  (req, res) => {
 
 
 
-router.get('/', (req, res) => {  
-     Picture
-         .find()
-         .then(pictures => {
-             res.json(pictures.map(picture => picture.serialize()));
-         })
-         .catch(err => {
-             console.error(err);
-             res.status(500).json({ error: 'something went terribly wrong' });
-         });
-     
-     res.status(200);   
- 
- }); // Router Get
+router.get('/', (req, res) => {
+    Picture
+        .find()
+        .then(pictures => {
+            res.json(pictures.map(picture => picture.serialize()));
+        })
+        .catch(err => {
+            console.error(err);
+            res.status(500).json({ error: 'something went terribly wrong' });
+        });
+
+    res.status(200);
+
+}); // Router Get
 
 module.exports = router;
