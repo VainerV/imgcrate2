@@ -53,14 +53,19 @@ function logIn() {
             password: $('#loginPassword').val(),
         }
 
-        console.log(login);
+       // console.log(login);
         $.ajax({
             type: 'POST',
             url: "/users/login",
             data: JSON.stringify(login),
             beforeSend: function (request) { request.setRequestHeader("Content-Type", "application/json"); },
             // dataType: "json",
-            success: function (data) { alert("You are now loged in") },
+            success: function (data) {
+            //Window.location = "../view.html";
+               self.location = "../view.html";
+                //alert("You are now loged in") 
+           
+        },
             error: function (error) {
                 console.log("Login fail.");
             }
@@ -68,7 +73,7 @@ function logIn() {
         });
 
     })
-
+ 
 }
 
 
@@ -76,18 +81,18 @@ function uploadImage() {
     $('.submitbtn').on('click', event => {      
     event.preventDefault();
     // let formdata = new FormData($(this)[0]);  
-        console.log("Button is working ")
+       // console.log("Button is working ")
     //    // let formdata = $('#image').val();
     //     console.log(formdata);
 
     let form = $('#fileUploadForm')[0];
-console.log(form);
+//console.log(form);
 		// Create an FormData object 
         let formdata = new FormData(form);
 //console.log(formdata);
 
         $.ajax({
-            url: "/uploads",
+            url: "/pictures",
             type: "POST",
             data: formdata,
             mimeTypes: "multipart/form-data",
@@ -101,7 +106,7 @@ console.log(form);
             }
         });
     });
-
+  
 
 }
 

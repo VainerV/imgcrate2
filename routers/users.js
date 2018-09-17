@@ -180,7 +180,9 @@ router.post('/login', (req, res) => {
                     return res.status(200).json({
                         message: "Auth Succesful",
                         token: token
+                        
                     })
+                    
                 }
                 res.status(401).json({
                     message: 'Auth failed'

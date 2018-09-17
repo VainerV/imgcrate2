@@ -34,22 +34,27 @@ router.post('/', function (req, res) {
 
         console.log(file);
     });
+
+   
+
      req.pipe(busboy);
+
+     Picture
+     .create({
+        url: data.Location,
+        comment: req.body.comment,
+     })
+     .then(picture => res.status(201).json(picture.serialize()))
+     .catch(err => {
+         console.error(err);
+         res.status(500).json({ error: 'Something went wrong' });
+     });
 
     res.json("Function is done, file uploaded");
    
     //res.json.send(urlData);
 
-    Picture
-        .create({
-           url: data.Location,
-           comment: req.body.comment,
-        })
-        .then(picture => res.status(201).json(picture.serialize()))
-        .catch(err => {
-            console.error(err);
-            res.status(500).json({ error: 'Something went wrong' });
-        });
+   
 
 
 });
