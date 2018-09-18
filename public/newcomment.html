@@ -10,8 +10,8 @@
     <title>Image Crate</title>
     <script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
         crossorigin="anonymous"></script>
-
-    <link href="./styles/responsive.css" rel="stylesheet" type="text/css" />
+   
+    <link href="styles/responsive.css" rel="stylesheet" type="text/css" media="screen and (max-widgh: 900px)"/>
 
 </head>
 
@@ -20,38 +20,29 @@
     <main role="main" aria-live="assertive">
         <header class="row" id="">
 
-           
+            <div class="">
+                <h1 id="logo">Image Crate</h1>
+            </div>
 
         </header>
 
 
+        <form action="/comments" method="POST" id="fileUploadForm">
+           
+            <div>
+                <input type="text" name="comment" id="respondcomment">
+            </div>
+            <button type="submit" class="submitbtn">Submit</button>
+          </form>
+
+
+
+
     </main>
-
-
-    <div class='page container'>
-        <div class='section menu'>IMG CRATE</div>
-       
-        <div class='section content'>
-          IMAGE
-        </div>
-        <div class='section feature-2'>
-            NEW POST 
-         <a href="newimage.html"> NEW POST </a>
-        </div>
-        <div class='section sign-up'>
-          <img src='images/sign-up.svg'/>
-        </div>
-       
-        <div class='section feature-3 smimagesize'>
-          <img class="smimagesize" src='images/fb.png'/>
-          <img class="smimagesize" src='images/insta.png'/>
-          <img class="smimagesize" src='images/twitter.png'>
-        </div>
-      </div>
-      
-
-
-
+   
+    <script src="src/view.js"></script>
+    <script src="src/controller.js"></script>
+  
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
         crossorigin="anonymous"></script>
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js" integrity="sha256-VazP97ZCwtekAsvgPBSUwPFKdrwD3unUfSGVYrahUqU="
