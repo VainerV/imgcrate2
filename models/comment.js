@@ -19,5 +19,5 @@ commentSchema.methods.serialize = function() {
     };
   };
 
-const CommentPost = mongoose.model('CommentPost', commentSchema);
-module.exports = CommentPost;
+const Comment = mongoose.model('Comment', commentSchema);
+module.exports = Comment;

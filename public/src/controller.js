@@ -4,6 +4,7 @@ function enableListeners() {
     signUp();
     logIn();
     uploadImage();
+    addComment();
 }
 
 function signUp() {
@@ -53,7 +54,7 @@ function logIn() {
             password: $('#loginPassword').val(),
         }
 
-       // console.log(login);
+        // console.log(login);
         $.ajax({
             type: 'POST',
             url: "/users/login",
@@ -61,11 +62,11 @@ function logIn() {
             beforeSend: function (request) { request.setRequestHeader("Content-Type", "application/json"); },
             // dataType: "json",
             success: function (data) {
-            //Window.location = "../view.html";
-               self.location = "../view.html";
+                //Window.location = "../view.html";
+                self.location = "../view.html";
                 //alert("You are now loged in") 
-           
-        },
+
+            },
             error: function (error) {
                 console.log("Login fail.");
             }
@@ -73,23 +74,23 @@ function logIn() {
         });
 
     })
- 
+
 }
 
 
 function uploadImage() {
-    $('.submitbtn').on('click', event => {      
-    event.preventDefault();
-    // let formdata = new FormData($(this)[0]);  
-       // console.log("Button is working ")
-    //    // let formdata = $('#image').val();
-    //     console.log(formdata);
+    $('.submitbtn').on('click', event => {
+        event.preventDefault();
+        // let formdata = new FormData($(this)[0]);  
+        // console.log("Button is working ")
+        //    // let formdata = $('#image').val();
+        //     console.log(formdata);
 
-    let form = $('#fileUploadForm')[0];
-//console.log(form);
-		// Create an FormData object 
+        let form = $('#fileUploadForm')[0];
+        //console.log(form);
+        // Create an FormData object 
         let formdata = new FormData(form);
-//console.log(formdata);
+        //console.log(formdata);
 
         $.ajax({
             url: "/pictures",
@@ -106,7 +107,36 @@ function uploadImage() {
             }
         });
     });
-  
+
+
+}
+
+
+function addComment() {
+
+    $('.combtn').on('click', event => {
+        event.preventDefault();
+
+        let comment = {
+            comment: $('#respondcomment').val()
+        }
+      //  console.log(JSON.stringify(comment));
+
+        $.ajax({
+            url: "/comments",
+            type: "POST",
+            data: JSON.stringify(comment),
+            beforeSend: function (request) { request.setRequestHeader("Content-Type", "application/json"); },
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function () {
+                alert("comment submited submitted");
+            }, error: function () {
+                alert("error");
+            }
+        });
+    });
+
 
 }
 

@@ -1,12 +1,12 @@
 const express = require('express');
 const router = express.Router();
 
-const CommentPost = require('../models/comment');
+const Comments = require('../models/comment');
 const checkAuth = require('../middleware/check-auth')
 
 router.get('/', (req, res) => {
 
-   CommentPost
+   Comments
         .find()
         .then(comments => {
             res.json(comments.map(comment => comment.serialize()));
@@ -21,9 +21,9 @@ router.get('/', (req, res) => {
 }); // Router Get
 
 router.post('/', (req, res) => {
-
+   // console.log(req.body.comment, "My new comment");
     const requiredFields = ['comment'];
-  // console.log(req.body);
+   // console.log(req.body.data);
     for (let i = 0; i < requiredFields.length; i++) {
         const field = requiredFields[i];
         if (!(field in req.body)) {
@@ -32,9 +32,9 @@ router.post('/', (req, res) => {
             return res.status(400).send(message);
         }
     }
-   // console.log("REQ>BODYt", req.body);
    
-    CommentPost
+   
+    Comments
         .create({
             comment: req.body.comment,
         })
@@ -50,7 +50,7 @@ router.post('/', (req, res) => {
 router.delete('/:id', (req,res) =>{
 
 
-    CommentPost
+    Comments
     .findByIdAndRemove(req.params.id)
     .then(() => {
       res.status(204).json({ message: 'success' });
@@ -80,7 +80,7 @@ router.put('/:id', (req, res) => {
         }
       });
     
-      CommentPost
+      Comments
         .findByIdAndUpdate(req.params.id, { $set: updated }, { new: true })
         .then(user=> res.status(204).end())
         .catch(err => res.status(500).json({ message: 'Something went wrong' }));

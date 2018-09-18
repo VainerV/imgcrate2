@@ -41,7 +41,7 @@ let server;
 
 function runServer(databaseUrl, port = PORT) {
     //const port = process.env.PORT || 8080;
-    console.log(databaseUrl, "URL AND AUTH TO MONGODB");
+    //console.log(databaseUrl, "URL AND AUTH TO MONGODB");
     return new Promise((resolve, reject) => {
     
         mongoose.connect(databaseUrl, { useNewUrlParser: true }, err => {
