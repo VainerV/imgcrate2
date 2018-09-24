@@ -35,7 +35,7 @@
   
   .content {
     background-color: #EAEDF0;
-    height: 400px;
+    height: auto;
   }
   
   .sign-up {

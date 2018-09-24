@@ -1,10 +1,14 @@
 
 
+
+
+
 function enableListeners() {
     signUp();
     logIn();
     uploadImage();
     addComment();
+    showAllPictures();
 }
 
 function signUp() {
@@ -118,7 +122,8 @@ function addComment() {
         event.preventDefault();
 
         let comment = {
-            comment: $('#respondcomment').val()
+            comment: $('#respondcomment').val(),
+            //imageId: $('#imageId').val()
         }
       //  console.log(JSON.stringify(comment));
 
@@ -135,6 +140,45 @@ function addComment() {
                 alert("error");
             }
         });
+    });
+
+
+}
+
+
+
+function showAllPictures() {
+
+    $(document).ready(function(){
+
+      
+
+        $.ajax({
+            url: "/pictures",
+            type: "GET",
+            beforeSend: function (request) { request.setRequestHeader("Content-Type", "application/json"); },
+            //contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function (data) {
+               // console.log(data);
+               let pictureUrls = data.map(picture => {
+                    return picture.url;
+               })
+              // console.log(pictureUrls);
+               // alert("pictures retreved");
+               let displyPictures = pictureUrls.map(urls => {
+                    //console.log(urls);
+                   return `<div> <img src="${urls}"> </div>`;
+                })
+                
+                $("#dispyPictures").html(displyPictures);
+
+            }, error: function () {
+                alert("error");
+            }
+           
+        });
+        
     });
 
 

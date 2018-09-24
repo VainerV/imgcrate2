@@ -90,6 +90,10 @@ router.get('/', (req, res) => {
         });
 
     res.status(200);
+    
+    console.log(res.body);
+    // Need to retreve urls of th pics 
+    // and add them to HTML
 
 }); // Router Get
 

@@ -1,5 +1,6 @@
 //Model for pictures
 'use strict';
+//let comments = require('./comment');
 
 const mongoose = require('mongoose');
 mongoose.Promise = global.Promise;
@@ -9,6 +10,7 @@ const pictureSchema = mongoose.Schema(
     { 
         url: String,
         comment: String,
+        user: { type: mongoose.Schema.Types.ObjectId, ref: 'User'},
 });
 
 
@@ -16,8 +18,10 @@ const pictureSchema = mongoose.Schema(
 pictureSchema.methods.serialize = function() {
     return {
         id: this._id,
-        url: this.comment,
-        comment: this.comment
+        url: this.url,
+        description: this.comment,
+       // user: this.user,
+      
     };
   };
 

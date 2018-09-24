@@ -33,10 +33,12 @@ router.post('/', (req, res) => {
         }
     }
    
-   
+  
+   //console.log(req.body.comment, "Checking image comment");
     Comments
         .create({
             comment: req.body.comment,
+            picureId: req.body.imageId,
         })
         .then(comment => res.status(201).json(comment.serialize()))
         .catch(err => {
