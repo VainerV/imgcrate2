@@ -103,8 +103,15 @@ router.get('/:id', (req, res) => {
         Picture
             .findById(req.params.id)
             .then((picture) => {
-                
                 res.status(200).json(picture.serialize());
+                //console.log(picture);
+            //     let selectedImageDisplay = `<div class="singlePicture" id="${picture.id}" > <a href="pictures/${picture.id}">
+            //     <img src="${picture.url}" target="new"> </a></div> 
+             
+             
+            //  <div> <a href="comments.html">Add comment</a></div>`;
+
+            //    res.html(selectedImageDisplay);
             })
             .catch(err => {
                 console.error(err);

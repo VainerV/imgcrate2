@@ -171,7 +171,7 @@ function showAllPictures() {
             let displyPictures = pictureData.map(data => {
                 //console.log(urls);
                 //return `<div class="singlePicture" id="${data.id}" > <a href="pictures/${data.id}"><img src="${data.url}" target="new"> </a></div>`;
-                 return `<div class="singlePicture" id="${data.id}" data-picture-id="${data.id}" > <a href="pictures/${data.id}"><img src="${data.url}" target="new"> </a></div>`;
+                return `<div class="singlePicture" id="${data.id}" data-picture-id="${data.id}" > <a href="pictures/${data.id}"><img src="${data.url}" target="new"> </a></div>`;
             })
 
             $("#dispyPictures").html(displyPictures);
@@ -190,16 +190,18 @@ function showAllPictures() {
 }
 
 function showOnePicture() {
+    
     $('.singlePicture').on('click', event => {
         event.preventDefault();
-        console.log(event);
+        
+        //console.log(event);
 
-       // let pictureId = $('.singlePicture').data('picture-id'); //?????
+        // let pictureId = $('.singlePicture').data('picture-id');
         let pictureId = event.currentTarget.id;
 
         let jqueryImageUrl = { id: pictureId };
         let singleImageUrl = "?" + jQuery.param(jqueryImageUrl);
-        console.log(singleImageUrl);
+      //  console.log(singleImageUrl);
 
 
         $.ajax({
@@ -208,7 +210,20 @@ function showOnePicture() {
             beforeSend: function (request) { request.setRequestHeader("Content-Type", "application/json"); },
             dataType: "json",
             success: function (data) {
-             console.log(data);
+                let selectedImageDisplay = `<div class="singlePicture" id="${data.id}" > <a href="pictures/${data.id}">
+             <img src="${data.url}" target="new"> </a></div> 
+             
+             
+             <div> <a href="comments.html">Add comment</a></div>`;
+
+
+                $('.singlePicture').hide();
+                $('.picture').html(selectedImageDisplay);
+               
+                
+               // $(".singlePicture").off('click'); //disables click event
+              // $(".singlePicture").unbind("click");
+
 
 
             }, error: function () {
@@ -216,7 +231,7 @@ function showOnePicture() {
             }
 
         });
-
+    
     });
 
 }
