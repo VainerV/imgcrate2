@@ -153,10 +153,6 @@ function addComment() {
 
 function showAllPictures() {
 
-
-
-
-
     $.ajax({
         url: "/pictures",
         type: "GET",
@@ -174,11 +170,14 @@ function showAllPictures() {
 
             let displyPictures = pictureData.map(data => {
                 //console.log(urls);
-                return `<div class="singlePicture" data-picture-id="${data.id}" > <a href="pictures/${data.id}"><img src="${data.url}" target="new"> </a></div>`;
+                //return `<div class="singlePicture" id="${data.id}" > <a href="pictures/${data.id}"><img src="${data.url}" target="new"> </a></div>`;
+                 return `<div class="singlePicture" id="${data.id}" data-picture-id="${data.id}" > <a href="pictures/${data.id}"><img src="${data.url}" target="new"> </a></div>`;
             })
 
             $("#dispyPictures").html(displyPictures);
+
             showOnePicture();
+
         }, error: function () {
             alert("error");
         }
@@ -193,8 +192,11 @@ function showAllPictures() {
 function showOnePicture() {
     $('.singlePicture').on('click', event => {
         event.preventDefault();
-       // console.log($(event.target));
-        let pictureId = $('.singlePicture').data('picture-id');
+        console.log(event);
+
+       // let pictureId = $('.singlePicture').data('picture-id'); //?????
+        let pictureId = event.currentTarget.id;
+
         let jqueryImageUrl = { id: pictureId };
         let singleImageUrl = "?" + jQuery.param(jqueryImageUrl);
         console.log(singleImageUrl);
