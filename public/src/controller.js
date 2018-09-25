@@ -1,5 +1,7 @@
+$(document).ready(function () {
+    enableListeners();
 
-
+})
 
 
 
@@ -9,6 +11,7 @@ function enableListeners() {
     uploadImage();
     addComment();
     showAllPictures();
+    showOnePicture();
 }
 
 function signUp() {
@@ -118,6 +121,7 @@ function uploadImage() {
 
 function addComment() {
 
+
     $('.combtn').on('click', event => {
         event.preventDefault();
 
@@ -125,7 +129,7 @@ function addComment() {
             comment: $('#respondcomment').val(),
             //imageId: $('#imageId').val()
         }
-      //  console.log(JSON.stringify(comment));
+        //  console.log(JSON.stringify(comment));
 
         $.ajax({
             url: "/comments",
@@ -149,39 +153,69 @@ function addComment() {
 
 function showAllPictures() {
 
-    $(document).ready(function(){
 
-      
 
-        $.ajax({
-            url: "/pictures",
-            type: "GET",
-            beforeSend: function (request) { request.setRequestHeader("Content-Type", "application/json"); },
-            //contentType: "application/json; charset=utf-8",
-            dataType: "json",
-            success: function (data) {
-               // console.log(data);
-               let pictureUrls = data.map(picture => {
-                    return picture.url;
-               })
-              // console.log(pictureUrls);
-               // alert("pictures retreved");
-               let displyPictures = pictureUrls.map(urls => {
-                    //console.log(urls);
-                   return `<div> <img src="${urls}"> </div>`;
-                })
-                
-                $("#dispyPictures").html(displyPictures);
 
-            }, error: function () {
-                alert("error");
-            }
-           
-        });
-        
+
+    $.ajax({
+        url: "/pictures",
+        type: "GET",
+        beforeSend: function (request) { request.setRequestHeader("Content-Type", "application/json"); },
+        //contentType: "application/json; charset=utf-8",
+        dataType: "json",
+        success: function (data) {
+            // console.log(data);
+            let pictureData = data.map(picture => {
+                return {
+                    url: picture.url,
+                    id: picture.id
+                }
+            })
+
+            let displyPictures = pictureData.map(data => {
+                //console.log(urls);
+                return `<div class="singlePicture" data-picture-id="${data.id}" > <a href="pictures/${data.id}"><img src="${data.url}" target="new"> </a></div>`;
+            })
+
+            $("#dispyPictures").html(displyPictures);
+            showOnePicture();
+        }, error: function () {
+            alert("error");
+        }
+
+
+
     });
 
 
 }
 
-enableListeners();
+function showOnePicture() {
+    $('.singlePicture').on('click', event => {
+        event.preventDefault();
+       // console.log($(event.target));
+        let pictureId = $('.singlePicture').data('picture-id');
+        let jqueryImageUrl = { id: pictureId };
+        let singleImageUrl = "?" + jQuery.param(jqueryImageUrl);
+        console.log(singleImageUrl);
+
+
+        $.ajax({
+            url: `/pictures/${pictureId}`,
+            type: "GET",
+            beforeSend: function (request) { request.setRequestHeader("Content-Type", "application/json"); },
+            dataType: "json",
+            success: function (data) {
+             console.log(data);
+
+
+            }, error: function () {
+                alert("error");
+            }
+
+        });
+
+    });
+
+}
+

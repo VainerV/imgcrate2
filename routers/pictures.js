@@ -97,4 +97,24 @@ router.get('/', (req, res) => {
 
 }); // Router Get
 
+
+router.get('/:id', (req, res) => {
+        
+        Picture
+            .findById(req.params.id)
+            .then((picture) => {
+                
+                res.status(200).json(picture.serialize());
+            })
+            .catch(err => {
+                console.error(err);
+                res.status(500).json({ error: 'something went terribly wrong' });
+            });
+    
+   
+
+}); // Router Get by ID
+
+
+
 module.exports = router;
