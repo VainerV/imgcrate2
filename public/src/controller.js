@@ -157,10 +157,10 @@ function showAllPictures() {
         url: "/pictures",
         type: "GET",
         beforeSend: function (request) { request.setRequestHeader("Content-Type", "application/json"); },
-        //contentType: "application/json; charset=utf-8",
+
         dataType: "json",
         success: function (data) {
-            // console.log(data);
+
             let pictureData = data.map(picture => {
                 return {
                     url: picture.url,
@@ -169,15 +169,14 @@ function showAllPictures() {
             })
 
             let displyPictures = pictureData.map(data => {
-                //console.log(urls);
-                //return `<div class="singlePicture" id="${data.id}" > <a href="pictures/${data.id}"><img src="${data.url}" target="new"> </a></div>`;
+
                 return `<div class="singlePicture" id="${data.id}" data-picture-id="${data.id}" > <a href="pictures/${data.id}"><img src="${data.url}" target="new"> </a></div>`;
             })
 
             $("#dispyPictures").html(displyPictures);
-
+            
             showOnePicture();
-
+            
         }, error: function () {
             alert("error");
         }
@@ -190,18 +189,16 @@ function showAllPictures() {
 }
 
 function showOnePicture() {
-    
+  
     $('.singlePicture').on('click', event => {
         event.preventDefault();
-        
-        //console.log(event);
 
-        // let pictureId = $('.singlePicture').data('picture-id');
+
         let pictureId = event.currentTarget.id;
 
         let jqueryImageUrl = { id: pictureId };
         let singleImageUrl = "?" + jQuery.param(jqueryImageUrl);
-      //  console.log(singleImageUrl);
+
 
 
         $.ajax({
@@ -210,19 +207,30 @@ function showOnePicture() {
             beforeSend: function (request) { request.setRequestHeader("Content-Type", "application/json"); },
             dataType: "json",
             success: function (data) {
-                let selectedImageDisplay = `<div class="singlePicture" id="${data.id}" > <a href="pictures/${data.id}">
-             <img src="${data.url}" target="new"> </a></div> 
+                
+                let selectedImageDisplay = `<div class="singlePicture" id="${data.id}" >
+               <img src="${data.url}" target="new"> </a></div> 
              
              
+             <div>
+             <div id="singlePictureComment"></div>
+             Add comment:
+             <div>
+                 <input type="text" name="comment" id="respondcomment">
+                
+             </div>
+            <button type="submit" class="combtn" id="commentbtn">Submit</button>
+         
+           </div>
+
+
              <div> <a href="comments.html">Add comment</a></div>`;
 
-
+                
                 $('.singlePicture').hide();
                 $('.picture').html(selectedImageDisplay);
-               
-                
-               // $(".singlePicture").off('click'); //disables click event
-              // $(".singlePicture").unbind("click");
+                addComment();
+
 
 
 
@@ -231,7 +239,7 @@ function showOnePicture() {
             }
 
         });
-    
+
     });
 
 }
