@@ -22,8 +22,10 @@ router.get('/', (req, res) => {
 
 router.post('/', (req, res) => {
    // console.log(req.body.comment, "My new comment");
+   
     const requiredFields = ['comment'];
-   // console.log(req.body.data);
+   //console.log(req.body.data);
+  // console.log(req, "Checking picture id");
     for (let i = 0; i < requiredFields.length; i++) {
         const field = requiredFields[i];
         if (!(field in req.body)) {
@@ -32,13 +34,11 @@ router.post('/', (req, res) => {
             return res.status(400).send(message);
         }
     }
-   
-  
-   //console.log(req.body.comment, "Checking image comment");
+  // console.log(req.body.pictureId, "Checking picture id");
     Comments
         .create({
             comment: req.body.comment,
-            picureId: req.body.imageId,
+            picureId: req.body.pictureId,
         })
         .then(comment => res.status(201).json(comment.serialize()))
         .catch(err => {

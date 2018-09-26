@@ -10,7 +10,7 @@ const pictureSchema = mongoose.Schema(
     { 
         url: String,
         comment: String,
-        user: { type: mongoose.Schema.Types.ObjectId, ref: 'User'},
+       // user: { type: mongoose.Schema.Types.ObjectId, ref: 'User'},
 });
 
 
@@ -19,7 +19,6 @@ pictureSchema.methods.serialize = function() {
     return {
         id: this._id,
         url: this.url,
-        description: this.comment,
        // user: this.user,
       
     };

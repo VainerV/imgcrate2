@@ -32,7 +32,21 @@
         <div class='section menu'>IMG CRATE</div>
 
         <div class='section sign-up'>
-            <a href="newimage.html">Add new Image</a>
+                <form action="/uploads" method="POST" id="fileUploadForm">
+                    <div class="file-field input-field">
+                      <div class="btn gray">
+                        <span>Add picture</span>
+                        <input name="image" type="file" id="image">
+                        
+                      </div>
+                     
+                    </div>
+                    <div>
+                        <input type="text" name="comment" id="initialcomment">
+                        <button type="submit" class="submitbtn">Submit</button>
+                    </div>
+                    
+                  </form>
         </div>
 
        

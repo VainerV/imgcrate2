@@ -119,7 +119,7 @@ function uploadImage() {
 }
 
 
-function addComment() {
+function addComment(pictureid) {
 
 
     $('.combtn').on('click', event => {
@@ -127,9 +127,9 @@ function addComment() {
 
         let comment = {
             comment: $('#respondcomment').val(),
-            //imageId: $('#imageId').val()
+            pictureId: pictureid,
         }
-        //  console.log(JSON.stringify(comment));
+      //   console.log(JSON.stringify(comment));
 
         $.ajax({
             url: "/comments",
@@ -139,7 +139,8 @@ function addComment() {
             contentType: "application/json; charset=utf-8",
             dataType: "json",
             success: function () {
-                alert("comment submited submitted");
+               console.log(JSON.stringify(comment) + "Ajax request controller 142")
+               
             }, error: function () {
                 alert("error");
             }
@@ -174,9 +175,9 @@ function showAllPictures() {
             })
 
             $("#dispyPictures").html(displyPictures);
-            
+
             showOnePicture();
-            
+
         }, error: function () {
             alert("error");
         }
@@ -189,7 +190,7 @@ function showAllPictures() {
 }
 
 function showOnePicture() {
-  
+
     $('.singlePicture').on('click', event => {
         event.preventDefault();
 
@@ -207,29 +208,24 @@ function showOnePicture() {
             beforeSend: function (request) { request.setRequestHeader("Content-Type", "application/json"); },
             dataType: "json",
             success: function (data) {
-                
+
                 let selectedImageDisplay = `<div class="singlePicture" id="${data.id}" >
-               <img src="${data.url}" target="new"> </a></div> 
-             
-             
-             <div>
-             <div id="singlePictureComment"></div>
-             Add comment:
-             <div>
-                 <input type="text" name="comment" id="respondcomment">
-                
-             </div>
-            <button type="submit" class="combtn" id="commentbtn">Submit</button>
+                                    <img src="${data.url}" target="new"> </a></div> 
+                   <div>
+                    <div id="singlePictureComment"></div>
+                       Add comment:
+                   <div>
+                      <input type="text" name="comment" id="respondcomment">   
+                      <button type="submit" class="combtn" id="commentbtn">Submit</button>
+                    </div>
+                         
          
-           </div>
+                     </div>`;
 
 
-             <div> <a href="comments.html">Add comment</a></div>`;
-
-                
                 $('.singlePicture').hide();
                 $('.picture').html(selectedImageDisplay);
-                addComment();
+                addComment(pictureId);
 
 
 

@@ -8,7 +8,7 @@ mongoose.Promise = global.Promise;
 const commentSchema = mongoose.Schema(
     { 
         comment: String,
-        picture: { type: mongoose.Schema.Types.ObjectId, ref: 'Picture' },
+        pictureId: String,   //{ type: mongoose.Schema.Types.ObjectId, ref: 'Picture' },
 });
 
 
@@ -17,7 +17,7 @@ commentSchema.methods.serialize = function() {
     return {
         id: this._id,
         comment: this.comment,
-        picture: this._id
+        pictureId: this.pictureId,
     };
   };
 
