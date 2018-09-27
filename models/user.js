@@ -14,6 +14,12 @@ const userSchema = mongoose.Schema({
         lastName: String,
         
     },
+
+    picture: {
+      type: String,
+      ref: 'Picture'
+    },
+
     email: {
       type: String, 
       require: true, 

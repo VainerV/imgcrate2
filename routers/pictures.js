@@ -7,7 +7,7 @@ const s3 = require('../public/src/file-uploader');
 
 router.post('/', function (req, res) {
     const imageData = req.body.imageData;
-    console.log(req.files);
+    console.log("Picture router,  line 10", req.files);
     let busboy = new Busboy({ headers: req.headers });
     let urlData = {};
     // The file upload has completed
@@ -29,11 +29,13 @@ router.post('/', function (req, res) {
                 console.log(err, "Upload failed");
             }
             urlData = data;
-            console.log('Successfully uploaded package.', data.Location);
+         //   console.log('Successfully uploaded package.', data.Location);
+            console.log('Successfully uploaded package.', req.body);
             Picture
                 .create({
                     url: data.Location,
-                    comment: req.body.comment,
+                    description: req.body.comment,
+                    //comment: req.Body,
                 })
                 .then(picture => res.status(201).json(picture.serialize()))
                 .catch(err => {
