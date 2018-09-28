@@ -29,8 +29,8 @@ router.post('/', function (req, res) {
                 console.log(err, "Upload failed");
             }
             urlData = data;
-         //   console.log('Successfully uploaded package.', data.Location);
-            console.log('Successfully uploaded package.', req.body);
+           console.log('Successfully uploaded package.', data.Location);
+          //  console.log('Successfully uploaded package.', req.body);
             Picture
                 .create({
                     url: data.Location,

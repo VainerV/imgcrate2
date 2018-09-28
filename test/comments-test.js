@@ -5,7 +5,7 @@ const should = require("chai").should();
 const faker = require('faker');
 const { app, runServer, closeServer } = require("../server");
 const { TEST_DATABASE_URL } = require('../config'); // importing DB
-const CommentPost = require('../models/commentpost')
+const CommentPost = require('../models/comment')
 const expect = chai.expect;
 chai.use(chaiHttp);
 

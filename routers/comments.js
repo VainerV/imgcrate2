@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 
+const Pictures= require('../models/picture');
 const Comments = require('../models/comment');
 const checkAuth = require('../middleware/check-auth')
 
@@ -38,9 +39,17 @@ router.post('/', (req, res) => {
     Comments
         .create({
             comment: req.body.comment,
-            picureId: req.body.pictureId,
+             picureId: req.body.pictureId,
         })
-        .then(comment => res.status(201).json(comment.serialize()))
+        
+        .then(comment => {
+            console.log(req.body.pictureId);
+            Pictures.findOne({_id: req.body.pictureId},function(err,picture){
+              picture.comment.push(comment._id);
+              picture.save();
+              res.status(201).json(comment.serialize());
+            });
+          })
         .catch(err => {
             console.error(err);
             res.status(500).json({ error: 'Something went wrong' });

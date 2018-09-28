@@ -8,7 +8,8 @@ mongoose.Promise = global.Promise;
 const commentSchema = mongoose.Schema(
     { 
         comment: String,
-        pictureId: String,   //{ type: mongoose.Schema.Types.ObjectId, ref: 'Picture' },
+        pictureId: String,
+        // user ID   //{ type: mongoose.Schema.Types.ObjectId, ref: 'Picture' },
 });
 
 
