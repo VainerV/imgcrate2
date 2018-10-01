@@ -11,7 +11,7 @@ function enableListeners() {
     uploadImage();
     addComment();
     showAllPictures();
-    
+
     showOnePicture();
     showComments();
 }
@@ -117,7 +117,7 @@ function uploadImage() {
         });
     });
 
- 
+
 }
 
 
@@ -131,7 +131,7 @@ function addComment(pictureid) {
             comment: $('#respondcomment').val(),
             pictureId: pictureid,
         }
-      //   console.log(JSON.stringify(comment));
+        //   console.log(JSON.stringify(comment));
 
         $.ajax({
             url: "/comments",
@@ -141,8 +141,8 @@ function addComment(pictureid) {
             contentType: "application/json; charset=utf-8",
             dataType: "json",
             success: function () {
-               console.log(JSON.stringify(comment) + "Ajax request controller 142")
-               
+                console.log(JSON.stringify(comment) + "Ajax request controller 142")
+
             }, error: function () {
                 alert("error");
             }
@@ -198,23 +198,23 @@ function showComments() {  //// retreaving comments but not visible on the page,
 
         dataType: "json",
         success: function (data) {
-        
+
             let commentData = data.map(comment => {
-                
+
                 return {
                     comment: comment.comment,
                 }
             })
-            
+
             let displyComments = commentData.map(data => {
-                
+
                 return `Comments:${data.comment}`
 
             })
 
             console.log(displyComments);
 
-            $("#dispyPictures").html(displyComments);
+            $("#displayComments").html(displyComments);
 
 
         }, error: function () {
