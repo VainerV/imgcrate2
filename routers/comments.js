@@ -35,7 +35,7 @@ router.post('/', (req, res) => {
             return res.status(400).send(message);
         }
     }
-  // console.log(req.body.pictureId, "Checking picture id");
+
     Comments
         .create({
             comment: req.body.comment,
@@ -43,12 +43,15 @@ router.post('/', (req, res) => {
         })
         
         .then(comment => {
-            console.log(req.body.pictureId);
+          
             Pictures.findOne({_id: req.body.pictureId},function(err,picture){
               picture.comment.push(comment._id);
               picture.save();
               res.status(201).json(comment.serialize());
             });
+          })
+          .then(comment => {
+            //  User.findOne(_id: req.body.)   /// ??????
           })
         .catch(err => {
             console.error(err);

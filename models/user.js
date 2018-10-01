@@ -8,7 +8,7 @@ mongoose.Promise = global.Promise;
 
 // User schema
 const userSchema = mongoose.Schema({
-  
+    
     user: {
         firstName: String,
         lastName: String,

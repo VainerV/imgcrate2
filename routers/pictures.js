@@ -31,6 +31,8 @@ router.post('/', function (req, res) {
             urlData = data;
            console.log('Successfully uploaded package.', data.Location);
           //  console.log('Successfully uploaded package.', req.body);
+// find user by id and pass it to Picture
+
             Picture
                 .create({
                     url: data.Location,

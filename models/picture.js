@@ -9,19 +9,20 @@ const pictureSchema = mongoose.Schema(
     { 
         url: String,
         description: String,
-         comment: [{type: mongoose.Schema.Types.ObjectId, ref: 'Comment'}],
-            //ref: './comment/Comment'
-        
-        // user: { type: mongoose.Schema.Types.ObjectId, ref: 'User'},
-       // comment: { type: mongoose.Schema.Types.ObjectId, ref: './commnet/Comment' }
+        comment: [{type: mongoose.Schema.Types.ObjectId, ref: 'Comment'}],
+         user: { type: mongoose.Schema.Types.ObjectId, ref: 'User'},
+       
 });
 
 pictureSchema.pre('find', function(){
     this.populate('comment');
+    this.populate('user');
 })
 
 pictureSchema.pre('findOne', function(){
     this.populate('comment');
+    this.populate('user');
+
 })
 
 pictureSchema.methods.serialize = function() {
@@ -29,8 +30,8 @@ pictureSchema.methods.serialize = function() {
         id: this._id,
         url: this.url,
         description: this.description,
-        comments: this.comment
-       // user: this.user,
+        comments: this.comment,
+        user: this.user,
       
     };
   };

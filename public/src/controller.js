@@ -11,7 +11,9 @@ function enableListeners() {
     uploadImage();
     addComment();
     showAllPictures();
+    
     showOnePicture();
+    showComments();
 }
 
 function signUp() {
@@ -115,7 +117,7 @@ function uploadImage() {
         });
     });
 
-
+ 
 }
 
 
@@ -171,12 +173,49 @@ function showAllPictures() {
 
             let displyPictures = pictureData.map(data => {
 
-                return `<div class="singlePicture" id="${data.id}" data-picture-id="${data.id}" > <a href="pictures/${data.id}"><img src="${data.url}" target="new"> </a></div>`;
+                return `<div class="singlePicture" id="${data.id}" data-picture-id="${data.id}" > 
+                <a href="pictures/${data.id}"><img src="${data.url}" target="new"> </a></div>`;
             })
+
 
             $("#dispyPictures").html(displyPictures);
 
             showOnePicture();
+
+        }, error: function () {
+            alert("error");
+        }
+    });
+
+}
+
+function showComments() {  //// retreaving comments but not visible on the page, probably headen some were.
+
+    $.ajax({
+        url: "/comments",
+        type: "GET",
+        beforeSend: function (request) { request.setRequestHeader("Content-Type", "application/json"); },
+
+        dataType: "json",
+        success: function (data) {
+        
+            let commentData = data.map(comment => {
+                
+                return {
+                    comment: comment.comment,
+                }
+            })
+            
+            let displyComments = commentData.map(data => {
+                
+                return `Comments:${data.comment}`
+
+            })
+
+            console.log(displyComments);
+
+            $("#dispyPictures").html(displyComments);
+
 
         }, error: function () {
             alert("error");
@@ -188,6 +227,8 @@ function showAllPictures() {
 
 
 }
+
+
 
 function showOnePicture() {
 
