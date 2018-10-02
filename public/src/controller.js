@@ -12,9 +12,8 @@ function enableListeners() {
     uploadImage();
     addComment();
     showAllPictures();
-
     showOnePicture();
-    
+    homebutton();    
 }
 
 function signUp() {
@@ -74,10 +73,8 @@ function logIn() {
             success: function (data) {
                 Cookies.set('email', data.userEmail);
                 Cookies.set('token', data.token);
-                //console.log(data.userEmail);
-                
                 self.location = "../view.html";
-                $('.user').html(data.userEmail); //????
+               
                 //alert("You are now loged in") 
 
             },
@@ -168,10 +165,11 @@ function showAllPictures() {
         type: "GET",
         headers: {"Authorization": Cookies.get('token')},
         beforeSend: function (request) { request.setRequestHeader("Content-Type", "application/json"); },
-
+        
         dataType: "json",
         success: function (data) {
-
+            let userName = Cookies.get('email');
+            
             let pictureData = data.map(picture => {
                 return {
                     url: picture.url,
@@ -188,8 +186,9 @@ function showAllPictures() {
                 })}</p>`;
             })
 
-           
+            console.log(userName);
             $("#dispyPictures").html(displyPictures);
+            $('.user').html(`User: ${userName} &nbsp&nbsp`);
           //  showComments();
             showOnePicture();
 
@@ -300,6 +299,13 @@ function logout(){
         console.log("Logout btn clicked");
         Cookies.remove('token');
         self.location = "../index.html";
+})
+}
+
+function homebutton(){
+    $('.homeBtn').on('click', event => {
+        event.preventDefault();
+        self.location = "../view.html";
 })
 }
 

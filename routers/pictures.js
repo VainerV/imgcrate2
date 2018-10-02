@@ -9,7 +9,13 @@ const User = require('../models/user');
 
 router.post('/', checkAuth, function (req, res) {
     const imageData = req.body.imageData;
-    console.log("Picture router,  line 10", req.files);
+    
+// Image extansion check
+
+
+//
+
+   // console.log("Picture router,  line 10", req.files);
     let busboy = new Busboy({ headers: req.headers });
     let urlData = {};
     // The file upload has completed
