@@ -10,7 +10,7 @@ const pictureSchema = mongoose.Schema(
         url: String,
         description: String,
         comment: [{type: mongoose.Schema.Types.ObjectId, ref: 'Comment'}],
-         user: { type: mongoose.Schema.Types.ObjectId, ref: 'User'},
+        user: { type: mongoose.Schema.Types.ObjectId, ref: 'User'},
        
 });
 

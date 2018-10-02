@@ -3,9 +3,11 @@ const router = express.Router();
 const Busboy = require('busboy');
 const Picture = require('../models/picture')
 const s3 = require('../public/src/file-uploader');
-//const singleUpload = upload.single('image');
+const checkAuth = require('../middleware/check-auth');
+const User = require('../models/user');
 
-router.post('/', function (req, res) {
+
+router.post('/', checkAuth, function (req, res) {
     const imageData = req.body.imageData;
     console.log("Picture router,  line 10", req.files);
     let busboy = new Busboy({ headers: req.headers });
@@ -32,12 +34,14 @@ router.post('/', function (req, res) {
            console.log('Successfully uploaded package.', data.Location);
           //  console.log('Successfully uploaded package.', req.body);
 // find user by id and pass it to Picture
-
+           console.log(req.body);
+           
+           
             Picture
                 .create({
                     url: data.Location,
                     description: req.body.comment,
-                    //comment: req.Body,
+                    user: req.userData.id,
                 })
                 .then(picture => res.status(201).json(picture.serialize()))
                 .catch(err => {
@@ -65,7 +69,7 @@ router.post('/', function (req, res) {
 });
 
 
-router.delete('/:id', (req, res) => {
+router.delete('/:id',checkAuth, (req, res) => {
 
 
     Picture
@@ -82,7 +86,7 @@ router.delete('/:id', (req, res) => {
 
 
 
-router.get('/', (req, res) => {
+router.get('/', checkAuth, (req, res) => {
     Picture
         .find()
         .then(pictures => {
@@ -102,7 +106,7 @@ router.get('/', (req, res) => {
 }); // Router Get
 
 
-router.get('/:id', (req, res) => {
+router.get('/:id', checkAuth, (req, res) => {
         
         Picture
             .findById(req.params.id)

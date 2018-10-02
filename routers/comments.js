@@ -5,7 +5,7 @@ const Pictures= require('../models/picture');
 const Comments = require('../models/comment');
 const checkAuth = require('../middleware/check-auth')
 
-router.get('/', (req, res) => {
+router.get('/', checkAuth, (req, res) => {
 
    Comments
         .find()
@@ -21,7 +21,7 @@ router.get('/', (req, res) => {
 
 }); // Router Get
 
-router.post('/', (req, res) => {
+router.post('/', checkAuth, (req, res) => {
    // console.log(req.body.comment, "My new comment");
    
     const requiredFields = ['comment'];
@@ -61,7 +61,7 @@ router.post('/', (req, res) => {
 
 });   //Router post
 
-router.delete('/:id', (req,res) =>{
+router.delete('/:id', checkAuth, (req,res) =>{
 
 
     Comments
@@ -78,7 +78,7 @@ router.delete('/:id', (req,res) =>{
 
 
 
-router.put('/:id', (req, res) => {
+router.put('/:id', checkAuth, (req, res) => {
     //  console.log(req.params.id, req.body.id); ///????
       // if (!(req.params.id && req.body.id && req.params.id === req.body.id)) {
       //   res.status(400).json({

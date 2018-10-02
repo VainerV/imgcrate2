@@ -71,7 +71,10 @@ function logIn() {
             beforeSend: function (request) { request.setRequestHeader("Content-Type", "application/json"); },
             // dataType: "json",
             success: function (data) {
+                Cookies.set('email', data.userEmail);
+                Cookies.set('token', data.token);
                 //Window.location = "../view.html";
+                //console.log(Cookies.get());
                 self.location = "../view.html";
                 //alert("You are now loged in") 
 
@@ -104,6 +107,7 @@ function uploadImage() {
         $.ajax({
             url: "/pictures",
             type: "POST",
+            headers: {"Authorization": Cookies.get('token')},
             data: formdata,
             mimeTypes: "multipart/form-data",
             contentType: false,
@@ -136,6 +140,7 @@ function addComment(pictureid) {
         $.ajax({
             url: "/comments",
             type: "POST",
+            headers: {"Authorization": Cookies.get('token')},
             data: JSON.stringify(comment),
             beforeSend: function (request) { request.setRequestHeader("Content-Type", "application/json"); },
             contentType: "application/json; charset=utf-8",
@@ -159,6 +164,7 @@ function showAllPictures() {
     $.ajax({
         url: "/pictures",
         type: "GET",
+        headers: {"Authorization": Cookies.get('token')},
         beforeSend: function (request) { request.setRequestHeader("Content-Type", "application/json"); },
 
         dataType: "json",
@@ -179,7 +185,6 @@ function showAllPictures() {
 
 
             $("#dispyPictures").html(displyPictures);
-
             showOnePicture();
 
         }, error: function () {
@@ -194,6 +199,7 @@ function showComments() {  //// retreaving comments but not visible on the page,
     $.ajax({
         url: "/comments",
         type: "GET",
+        headers: {"Authorization": Cookies.get('token')},
         beforeSend: function (request) { request.setRequestHeader("Content-Type", "application/json"); },
 
         dataType: "json",
@@ -208,11 +214,11 @@ function showComments() {  //// retreaving comments but not visible on the page,
 
             let displyComments = commentData.map(data => {
 
-                return `Comments:${data.comment}`
+                return `${data.comment}<p></p>`
 
             })
 
-            console.log(displyComments);
+            //console.log(displyComments);
 
             $("#displayComments").html(displyComments);
 
@@ -246,6 +252,7 @@ function showOnePicture() {
         $.ajax({
             url: `/pictures/${pictureId}`,
             type: "GET",
+            headers: {"Authorization": Cookies.get('token')},
             beforeSend: function (request) { request.setRequestHeader("Content-Type", "application/json"); },
             dataType: "json",
             success: function (data) {
