@@ -8,7 +8,7 @@ module.exports = (req, res, next) => {
     try{
     const decoded = jwt.verify(token, JWT_SECRET) 
     req.userData = decoded;
-    console.log(req.userData)
+   // console.log(req.userData)
     //req.userId = User
     next();
 

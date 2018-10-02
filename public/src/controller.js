@@ -13,7 +13,7 @@ function enableListeners() {
     showAllPictures();
 
     showOnePicture();
-    showComments();
+    
 }
 
 function signUp() {
@@ -146,7 +146,7 @@ function addComment(pictureid) {
             contentType: "application/json; charset=utf-8",
             dataType: "json",
             success: function () {
-                console.log(JSON.stringify(comment) + "Ajax request controller 142")
+                JSON.stringify(comment)
 
             }, error: function () {
                 alert("error");
@@ -173,18 +173,21 @@ function showAllPictures() {
             let pictureData = data.map(picture => {
                 return {
                     url: picture.url,
-                    id: picture.id
+                    id: picture.id,
+                    comments: picture.comments
                 }
             })
 
             let displyPictures = pictureData.map(data => {
-
                 return `<div class="singlePicture" id="${data.id}" data-picture-id="${data.id}" > 
-                <a href="pictures/${data.id}"><img src="${data.url}" target="new"> </a></div>`;
+                <a href="pictures/${data.id}"><img src="${data.url}" target="new"> </a></div><p>Comments:${data.comments.map(comment => {
+                    return `<p>${comment.comment}</p>`;
+                })}</p>`;
             })
 
 
             $("#dispyPictures").html(displyPictures);
+          //  showComments();
             showOnePicture();
 
         }, error: function () {
@@ -214,13 +217,13 @@ function showComments() {  //// retreaving comments but not visible on the page,
 
             let displyComments = commentData.map(data => {
 
-                return `${data.comment}<p></p>`
+                return `${data.comment}`
 
             })
 
             //console.log(displyComments);
 
-            $("#displayComments").html(displyComments);
+         //   $("#displayComments").html(displyComments);
 
 
         }, error: function () {

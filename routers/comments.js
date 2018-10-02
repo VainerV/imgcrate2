@@ -1,13 +1,13 @@
 const express = require('express');
 const router = express.Router();
 
-const Pictures= require('../models/picture');
+const Pictures = require('../models/picture');
 const Comments = require('../models/comment');
 const checkAuth = require('../middleware/check-auth')
 
 router.get('/', checkAuth, (req, res) => {
 
-   Comments
+    Comments
         .find()
         .then(comments => {
             res.json(comments.map(comment => comment.serialize()));
@@ -22,11 +22,9 @@ router.get('/', checkAuth, (req, res) => {
 }); // Router Get
 
 router.post('/', checkAuth, (req, res) => {
-   // console.log(req.body.comment, "My new comment");
-   
+
     const requiredFields = ['comment'];
-   //console.log(req.body.data);
-  // console.log(req, "Checking picture id");
+
     for (let i = 0; i < requiredFields.length; i++) {
         const field = requiredFields[i];
         if (!(field in req.body)) {
@@ -39,20 +37,20 @@ router.post('/', checkAuth, (req, res) => {
     Comments
         .create({
             comment: req.body.comment,
-             picureId: req.body.pictureId,
+            picureId: req.body.pictureId,
         })
-        
+
         .then(comment => {
-          
-            Pictures.findOne({_id: req.body.pictureId},function(err,picture){
-              picture.comment.push(comment._id);
-              picture.save();
-              res.status(201).json(comment.serialize());
+
+            Pictures.findOne({ _id: req.body.pictureId }, function (err, picture) {
+                picture.comment.push(comment._id);
+                picture.save();
+                res.status(201).json(comment.serialize());
             });
-          })
-          .then(comment => {
+        })
+        .then(comment => {
             //  User.findOne(_id: req.body.)   /// ??????
-          })
+        })
         .catch(err => {
             console.error(err);
             res.status(500).json({ error: 'Something went wrong' });
@@ -61,45 +59,39 @@ router.post('/', checkAuth, (req, res) => {
 
 });   //Router post
 
-router.delete('/:id', checkAuth, (req,res) =>{
+router.delete('/:id', checkAuth, (req, res) => {
 
 
     Comments
-    .findByIdAndRemove(req.params.id)
-    .then(() => {
-      res.status(204).json({ message: 'success' });
-    })
-    .catch(err => {
-      console.error(err);
-      res.status(500).json({ error: 'something went terribly wrong' });
-    });
+        .findByIdAndRemove(req.params.id)
+        .then(() => {
+            res.status(204).json({ message: 'success' });
+        })
+        .catch(err => {
+            console.error(err);
+            res.status(500).json({ error: 'something went terribly wrong' });
+        });
 
 });  // router delete user
 
 
 
 router.put('/:id', checkAuth, (req, res) => {
-    //  console.log(req.params.id, req.body.id); ///????
-      // if (!(req.params.id && req.body.id && req.params.id === req.body.id)) {
-      //   res.status(400).json({
-      //     error: 'Request path id and request body id values must match'
-      //   });
-      // }
-  
-      const updated = {};
-      const updateableFields = ['id','comment'];
-      updateableFields.forEach(field => {
+
+    const updated = {};
+    const updateableFields = ['id', 'comment'];
+    updateableFields.forEach(field => {
         if (field in req.body) {
-          updated[field] = req.body[field];
+            updated[field] = req.body[field];
         }
-      });
-    
-      Comments
+    });
+
+    Comments
         .findByIdAndUpdate(req.params.id, { $set: updated }, { new: true })
-        .then(user=> res.status(204).end())
+        .then(user => res.status(204).end())
         .catch(err => res.status(500).json({ message: 'Something went wrong' }));
-    
-      }); // router put
+
+}); // router put
 
 
 module.exports = router;

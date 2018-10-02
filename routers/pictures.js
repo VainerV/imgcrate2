@@ -34,7 +34,7 @@ router.post('/', checkAuth, function (req, res) {
            console.log('Successfully uploaded package.', data.Location);
           //  console.log('Successfully uploaded package.', req.body);
 // find user by id and pass it to Picture
-           console.log(req.body);
+       //    console.log(req.body);
            
            
             Picture
@@ -50,7 +50,7 @@ router.post('/', checkAuth, function (req, res) {
                 });
         });
 
-        console.log(file);
+      //  console.log(file);
     });
 
 
