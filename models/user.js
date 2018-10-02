@@ -30,16 +30,6 @@ const userSchema = mongoose.Schema({
    
 });
 
-
-// userSchema.pre('find', function(next) {
-//     this.populate('user');
-//     next();
-//   });
-  
-//   userSchema.pre('findOne', function(next) {
-//     this.populate('user');
-//     next();
-//   });
   
   userSchema.virtual('name').get(function() {
     if(this.user) {

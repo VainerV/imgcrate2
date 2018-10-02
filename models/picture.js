@@ -1,6 +1,6 @@
 //Model for pictures
+
 'use strict';
-//let commentSchema = require('./comment');
 const mongoose = require('mongoose');
 mongoose.Promise = global.Promise;
 

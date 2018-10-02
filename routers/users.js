@@ -4,10 +4,9 @@ const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const User = require('../models/user');
 const { JWT_SECRET } = require('../config');
-//const checkAuth = require('../middleware/check-auth')
+const checkAuth = require('../middleware/check-auth')
 
-router.get('/', (req, res) => {  
-   // router.get('/', (req, res) => {  
+router.get('/', checkAuth, (req, res) => {
     User
         .find()
         .then(users => {
@@ -17,15 +16,13 @@ router.get('/', (req, res) => {
             console.error(err);
             res.status(500).json({ error: 'something went terribly wrong' });
         });
-    //console.log("user list");
-    res.status(200);   /// just pepeair status not sending. Have to send something afrer to eliminate Timeout 2000 error 
+    res.status(200);
 
 }); // Router Get
 
-router.post('/', (req, res) => {
+router.post('/', checkAuth, (req, res) => {
 
     const requiredFields = ['user', 'userName', 'email'];
-    // console.log(req.body);
     for (let i = 0; i < requiredFields.length; i++) {
         const field = requiredFields[i];
         if (!(field in req.body)) {
@@ -34,7 +31,7 @@ router.post('/', (req, res) => {
             return res.status(400).send(message);
         }
     }
-   
+
     User
         .create({
             user: req.body.user,
@@ -50,7 +47,7 @@ router.post('/', (req, res) => {
 
 });   //Router post
 
-router.delete('/:id',  (req, res) => {
+router.delete('/:id', checkAuth, (req, res) => {
 
 
     User
@@ -66,14 +63,7 @@ router.delete('/:id',  (req, res) => {
 });  // router delete user
 
 
-router.put('/:id', (req, res) => {
-    //  console.log(req.params.id, req.body.id); ///????
-    // if (!(req.params.id && req.body.id && req.params.id === req.body.id)) {
-    //   res.status(400).json({
-    //     error: 'Request path id and request body id values must match'
-    //   });
-    // }
-
+router.put('/:id', checkAuth, (req, res) => {
     const updated = {};
     const updateableFields = ['id', 'user', 'userName', 'email'];
     updateableFields.forEach(field => {
@@ -176,14 +166,14 @@ router.post('/login', (req, res) => {
                         {
                             expiresIn: "1h"
                         });
-                    
+
                     return res.status(200).json({
                         userEmail: user[0].email,
                         message: "Auth Succesful",
                         token: token
-                        
+
                     })
-                    
+
                 }
                 res.status(401).json({
                     message: 'Auth failed'

@@ -4,7 +4,7 @@ $(document).ready(function () {
 })
 
 
-
+// Listeners
 function enableListeners() {
     signUp();
     logIn();
@@ -13,9 +13,11 @@ function enableListeners() {
     addComment();
     showAllPictures();
     showOnePicture();
-    homebutton();    
+    homebutton();
 }
 
+
+// Aplication sign up call
 function signUp() {
 
     // submit new user Sign up information
@@ -55,6 +57,8 @@ function signUp() {
 }
 
 
+// Login
+
 function logIn() {
     $(".loginbtn").on('click', event => {
         event.preventDefault();
@@ -63,18 +67,16 @@ function logIn() {
             password: $('#loginPassword').val(),
         }
 
-        // console.log(login);
         $.ajax({
             type: 'POST',
             url: "/users/login",
             data: JSON.stringify(login),
             beforeSend: function (request) { request.setRequestHeader("Content-Type", "application/json"); },
-            // dataType: "json",
             success: function (data) {
                 Cookies.set('email', data.userEmail);
                 Cookies.set('token', data.token);
                 self.location = "../view.html";
-               
+
                 //alert("You are now loged in") 
 
             },
@@ -89,24 +91,22 @@ function logIn() {
 }
 
 
+// New Image upload
+
 function uploadImage() {
     $('.submitbtn').on('click', event => {
         event.preventDefault();
-        // let formdata = new FormData($(this)[0]);  
-        // console.log("Button is working ")
-        //    // let formdata = $('#image').val();
-        //     console.log(formdata);
-
+      
         let form = $('#fileUploadForm')[0];
-        //console.log(form);
+       
         // Create an FormData object 
         let formdata = new FormData(form);
-        //console.log(formdata);
+       
 
         $.ajax({
             url: "/pictures",
             type: "POST",
-            headers: {"Authorization": Cookies.get('token')},
+            headers: { "Authorization": Cookies.get('token') },
             data: formdata,
             mimeTypes: "multipart/form-data",
             contentType: false,
@@ -124,9 +124,8 @@ function uploadImage() {
 }
 
 
+// New comment add
 function addComment(pictureid) {
-
-
     $('.combtn').on('click', event => {
         event.preventDefault();
 
@@ -134,12 +133,11 @@ function addComment(pictureid) {
             comment: $('#respondcomment').val(),
             pictureId: pictureid,
         }
-        //   console.log(JSON.stringify(comment));
-
+       
         $.ajax({
             url: "/comments",
             type: "POST",
-            headers: {"Authorization": Cookies.get('token')},
+            headers: { "Authorization": Cookies.get('token') },
             data: JSON.stringify(comment),
             beforeSend: function (request) { request.setRequestHeader("Content-Type", "application/json"); },
             contentType: "application/json; charset=utf-8",
@@ -157,39 +155,39 @@ function addComment(pictureid) {
 }
 
 
+// Displaying all images with related comments
 
 function showAllPictures() {
 
     $.ajax({
         url: "/pictures",
         type: "GET",
-        headers: {"Authorization": Cookies.get('token')},
+        headers: { "Authorization": Cookies.get('token') },
         beforeSend: function (request) { request.setRequestHeader("Content-Type", "application/json"); },
-        
+
         dataType: "json",
         success: function (data) {
             let userName = Cookies.get('email');
-            
+
             let pictureData = data.map(picture => {
                 return {
                     url: picture.url,
                     id: picture.id,
                     comments: picture.comments,
-                   
+
                 }
             })
 
             let displyPictures = pictureData.map(data => {
                 return `<div class="singlePicture" id="${data.id}" data-picture-id="${data.id}" > 
                 <a href="pictures/${data.id}"><img src="${data.url}" target="new"> </a></div><p>Comments:${data.comments.map(comment => {
-                    return `<p>${comment.comment}</p>`;
-                })}</p>`;
+                        return `<p>${comment.comment}</p>`;
+                    })}</p>`;
             })
 
             console.log(userName);
             $("#dispyPictures").html(displyPictures);
             $('.user').html(`User: ${userName} &nbsp&nbsp`);
-          //  showComments();
             showOnePicture();
 
         }, error: function () {
@@ -199,12 +197,13 @@ function showAllPictures() {
 
 }
 
-function showComments() {  //// retreaving comments but not visible on the page, probably headen some were.
+// Showing individual comments
 
+function showComments() { 
     $.ajax({
         url: "/comments",
         type: "GET",
-        headers: {"Authorization": Cookies.get('token')},
+        headers: { "Authorization": Cookies.get('token') },
         beforeSend: function (request) { request.setRequestHeader("Content-Type", "application/json"); },
 
         dataType: "json",
@@ -223,10 +222,7 @@ function showComments() {  //// retreaving comments but not visible on the page,
 
             })
 
-            //console.log(displyComments);
-
-         //   $("#displayComments").html(displyComments);
-
+           
 
         }, error: function () {
             alert("error");
@@ -239,7 +235,7 @@ function showComments() {  //// retreaving comments but not visible on the page,
 
 }
 
-
+// Displaying a single picture
 
 function showOnePicture() {
 
@@ -257,7 +253,7 @@ function showOnePicture() {
         $.ajax({
             url: `/pictures/${pictureId}`,
             type: "GET",
-            headers: {"Authorization": Cookies.get('token')},
+            headers: { "Authorization": Cookies.get('token') },
             beforeSend: function (request) { request.setRequestHeader("Content-Type", "application/json"); },
             dataType: "json",
             success: function (data) {
@@ -293,19 +289,24 @@ function showOnePicture() {
 
 }
 
-function logout(){
+
+// Application logout
+
+function logout() {
     $('.logoutBtn').on('click', event => {
         event.preventDefault();
         console.log("Logout btn clicked");
         Cookies.remove('token');
         self.location = "../index.html";
-})
+    })
 }
 
-function homebutton(){
+// Home button function 
+
+function homebutton() {
     $('.homeBtn').on('click', event => {
         event.preventDefault();
         self.location = "../view.html";
-})
+    })
 }
 

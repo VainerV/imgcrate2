@@ -9,13 +9,12 @@ const User = require('../models/user');
 
 router.post('/', checkAuth, function (req, res) {
     const imageData = req.body.imageData;
-    
-// Image extansion check
+
+    // Image extansion check
 
 
-//
+    //
 
-   // console.log("Picture router,  line 10", req.files);
     let busboy = new Busboy({ headers: req.headers });
     let urlData = {};
     // The file upload has completed
@@ -23,13 +22,11 @@ router.post('/', checkAuth, function (req, res) {
         console.log('Upload finished');
 
         // Grabs your file object from the request.
-        //console.log(req.files, "VAdim");
         const file = req.files.image.data;
 
         s3.upload({
             Bucket: 'imgcrate',
             Key: Date.now() + (req.files.image.name),  /// <=== must find real file name.
-            // Key: 'form_submit_image.png',
             Body: file,
             ACL: 'public-read'
         }, function (err, data) {
@@ -37,12 +34,8 @@ router.post('/', checkAuth, function (req, res) {
                 console.log(err, "Upload failed");
             }
             urlData = data;
-           console.log('Successfully uploaded package.', data.Location);
-          //  console.log('Successfully uploaded package.', req.body);
-// find user by id and pass it to Picture
-       //    console.log(req.body);
-           
-           
+            console.log('Successfully uploaded package.', data.Location);
+
             Picture
                 .create({
                     url: data.Location,
@@ -56,7 +49,7 @@ router.post('/', checkAuth, function (req, res) {
                 });
         });
 
-      //  console.log(file);
+
     });
 
 
@@ -72,10 +65,10 @@ router.post('/', checkAuth, function (req, res) {
 
 
 
-});
+});  // Router post
 
 
-router.delete('/:id',checkAuth, (req, res) => {
+router.delete('/:id', checkAuth, (req, res) => {
 
 
     Picture
@@ -104,28 +97,24 @@ router.get('/', checkAuth, (req, res) => {
         });
 
     res.status(200);
-    
-    console.log(res.body);
-    // Need to retreve urls of th pics 
-    // and add them to HTML
 
 }); // Router Get
 
 
 router.get('/:id', checkAuth, (req, res) => {
-        
-        Picture
-            .findById(req.params.id)
-            .then((picture) => {
-                res.status(200).json(picture.serialize());
-                //console.log(picture);
-            })
-            .catch(err => {
-                console.error(err);
-                res.status(500).json({ error: 'something went terribly wrong' });
-            });
-    
-   
+
+    Picture
+        .findById(req.params.id)
+        .then((picture) => {
+            res.status(200).json(picture.serialize());
+            //console.log(picture);
+        })
+        .catch(err => {
+            console.error(err);
+            res.status(500).json({ error: 'something went terribly wrong' });
+        });
+
+
 
 }); // Router Get by ID
 
