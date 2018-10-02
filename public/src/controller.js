@@ -8,6 +8,7 @@ $(document).ready(function () {
 function enableListeners() {
     signUp();
     logIn();
+    logout();
     uploadImage();
     addComment();
     showAllPictures();
@@ -73,9 +74,10 @@ function logIn() {
             success: function (data) {
                 Cookies.set('email', data.userEmail);
                 Cookies.set('token', data.token);
-                //Window.location = "../view.html";
-                //console.log(Cookies.get());
+                //console.log(data.userEmail);
+                
                 self.location = "../view.html";
+                $('.user').html(data.userEmail); //????
                 //alert("You are now loged in") 
 
             },
@@ -174,7 +176,8 @@ function showAllPictures() {
                 return {
                     url: picture.url,
                     id: picture.id,
-                    comments: picture.comments
+                    comments: picture.comments,
+                   
                 }
             })
 
@@ -185,7 +188,7 @@ function showAllPictures() {
                 })}</p>`;
             })
 
-
+           
             $("#dispyPictures").html(displyPictures);
           //  showComments();
             showOnePicture();
@@ -289,5 +292,14 @@ function showOnePicture() {
 
     });
 
+}
+
+function logout(){
+    $('.logoutBtn').on('click', event => {
+        event.preventDefault();
+        console.log("Logout btn clicked");
+        Cookies.remove('token');
+        self.location = "../index.html";
+})
 }
 
