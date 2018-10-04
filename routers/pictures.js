@@ -51,19 +51,10 @@ router.post('/', checkAuth, function (req, res) {
 
 
     });
-
-
-
     req.pipe(busboy);
-
-
-
     res.json("Function is done, file uploaded");
 
     //res.json.send(urlData);
-
-
-
 
 });  // Router post
 
@@ -107,6 +98,25 @@ router.get('/:id', checkAuth, (req, res) => {
         .findById(req.params.id)
         .then((picture) => {
             res.status(200).json(picture.serialize());
+            //console.log(picture);
+        })
+        .catch(err => {
+            console.error(err);
+            res.status(500).json({ error: 'something went terribly wrong' });
+        });
+
+
+
+}); // Router Get by ID
+
+
+router.get('/:id/comments', checkAuth, (req, res) => {
+
+    Picture
+        .findById(req.params.id)
+        .then((picture) => {
+
+            res.status(200).json(picture.serialize().comments);
             //console.log(picture);
         })
         .catch(err => {

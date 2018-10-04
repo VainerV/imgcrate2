@@ -10,7 +10,7 @@ const { TEST_DATABASE_URL } = require('../config'); // importing DB
 const User = require('../models/user')
 const expect = chai.expect;
 chai.use(chaiHttp);
-
+let token ="";
 
 describe('Users test API', function () {
     // sead db with the uses info 
@@ -44,9 +44,22 @@ describe('Users test API', function () {
 
     }
 
+    const userCredentials = {
+        email: 'alex@yahoo.com',
+        password: 'password'
+    }
 
     before(function () {
-        return runServer(TEST_DATABASE_URL);
+        runServer(TEST_DATABASE_URL);
+        return chai
+        .request(app)
+            .post('/login')
+            .send(userCredentials)
+            .end(function (err, response) {
+                expect(response.statusCode).to.equal(200);
+                token = response.token;
+                done();
+            });
     });
 
 
@@ -77,6 +90,12 @@ describe('Users test API', function () {
 
     describe('Get test', function () {
         it('Return status code 200 and and array of users', function () {
+            return chai
+                .request(app)
+                .post("/login")
+                .then(function (res) {
+
+                })
             return chai
                 .request(app)
                 .get("/users")

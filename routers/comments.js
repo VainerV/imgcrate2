@@ -37,6 +37,7 @@ router.post('/', checkAuth, (req, res) => {
         .create({
             comment: req.body.comment,
             picureId: req.body.pictureId,
+            user: req.currentUser.id,
         })
 
         .then(comment => {

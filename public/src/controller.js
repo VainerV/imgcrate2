@@ -6,89 +6,20 @@ $(document).ready(function () {
 
 // Listeners
 function enableListeners() {
-    signUp();
-    logIn();
-    logout();
+   // signUp();
+  //  logIn();
+
+    // logout();
     uploadImage();
     addComment();
     showAllPictures();
     showOnePicture();
-    homebutton();
-}
-
-
-// Aplication sign up call
-function signUp() {
-
-    // submit new user Sign up information
-    $(".signupbtn").on("click", event => {
-        event.preventDefault();
-
-
-        let name = {
-            userName: $("#firstName").val(),
-            lastName: $("#lastName").val(),
-        }
-
-        let newUser = {
-            user: name,
-            userName: $('#userName').val(),
-            password: $('#password').val(),
-            email: $('#email').val(),
-
-        }
-
-
-        $.ajax({
-            type: 'POST',
-            url: "/users/signup",
-            data: JSON.stringify(newUser),
-            beforeSend: function (request) { request.setRequestHeader("Content-Type", "application/json"); },
-            // dataType: "json",
-            success: function (data) { alert("Save Complete"), console.log(data) },
-            error: function (error) {
-                console.log("New user wasnt created");
-            }
-        });
-
-    });
-
+    // homebutton();
 
 }
 
 
-// Login
 
-function logIn() {
-    $(".loginbtn").on('click', event => {
-        event.preventDefault();
-        let login = {
-            email: $('#loginEmail').val(),
-            password: $('#loginPassword').val(),
-        }
-
-        $.ajax({
-            type: 'POST',
-            url: "/users/login",
-            data: JSON.stringify(login),
-            beforeSend: function (request) { request.setRequestHeader("Content-Type", "application/json"); },
-            success: function (data) {
-                Cookies.set('email', data.userEmail);
-                Cookies.set('token', data.token);
-                self.location = "../view.html";
-
-                //alert("You are now loged in") 
-
-            },
-            error: function (error) {
-                console.log("Login fail.");
-            }
-
-        });
-
-    })
-
-}
 
 
 // New Image upload
@@ -96,12 +27,12 @@ function logIn() {
 function uploadImage() {
     $('.submitbtn').on('click', event => {
         event.preventDefault();
-      
+
         let form = $('#fileUploadForm')[0];
-       
+
         // Create an FormData object 
         let formdata = new FormData(form);
-       
+
 
         $.ajax({
             url: "/pictures",
@@ -114,6 +45,8 @@ function uploadImage() {
             processData: false,
             success: function () {
                 alert("file successfully submitted");
+                $('#fileUploadForm').val("");
+                location.reload();
             }, error: function () {
                 alert("error");
             }
@@ -128,12 +61,13 @@ function uploadImage() {
 function addComment(pictureid) {
     $('.combtn').on('click', event => {
         event.preventDefault();
-
+        console.log("current user is:");
         let comment = {
             comment: $('#respondcomment').val(),
             pictureId: pictureid,
         }
-       
+        $('#respondcomment').val('');
+
         $.ajax({
             url: "/comments",
             type: "POST",
@@ -144,7 +78,7 @@ function addComment(pictureid) {
             dataType: "json",
             success: function () {
                 JSON.stringify(comment)
-
+                commentsForOnePicture(pictureid)
             }, error: function () {
                 alert("error");
             }
@@ -178,14 +112,20 @@ function showAllPictures() {
                 }
             })
 
+
+
             let displyPictures = pictureData.map(data => {
                 return `<div class="singlePicture" id="${data.id}" data-picture-id="${data.id}" > 
-                <a href="pictures/${data.id}"><img src="${data.url}" target="new"> </a></div><p>Comments:${data.comments.map(comment => {
-                        return `<p>${comment.comment}</p>`;
-                    })}</p>`;
+                <a href="pictures/${data.id}"><img src="${data.url}" target="new"> </a>
+                </div><p>Comments:${data.comments.length}</p>`;
             })
 
-            console.log(userName);
+
+
+
+
+
+            // console.log(userName);
             $("#dispyPictures").html(displyPictures);
             $('.user').html(`User: ${userName} &nbsp&nbsp`);
             showOnePicture();
@@ -199,7 +139,7 @@ function showAllPictures() {
 
 // Showing individual comments
 
-function showComments() { 
+function showComments() {
     $.ajax({
         url: "/comments",
         type: "GET",
@@ -218,11 +158,11 @@ function showComments() {
 
             let displyComments = commentData.map(data => {
 
-                return `${data.comment}`
+                return `${data.comment} &nbsp`
 
             })
 
-           
+
 
         }, error: function () {
             alert("error");
@@ -258,24 +198,13 @@ function showOnePicture() {
             dataType: "json",
             success: function (data) {
 
-                let selectedImageDisplay = `<div class="singlePicture" id="${data.id}" >
-                                    <img src="${data.url}" target="new"> </a></div> 
-                   <div>
-                    <div id="singlePictureComment"></div>
-                       Add comment:
-                   <div>
-                      <input type="text" name="comment" id="respondcomment">   
-                      <button type="submit" class="combtn" id="commentbtn">Submit</button>
-                    </div>
-                         
-         
-                     </div>`;
+                let selectedImageDisplay = renderOnePictureHTML(data);
 
 
                 $('.singlePicture').hide();
                 $('.picture').html(selectedImageDisplay);
                 addComment(pictureId);
-
+                commentsForOnePicture(pictureId);
 
 
 
@@ -289,24 +218,45 @@ function showOnePicture() {
 
 }
 
+function renderOnePictureHTML(props){
+    return `<div class="singlePicture" id="${props.id}" >
+    <img src="${props.url}" target="new"> </a></div> 
+<div>
+<div id="singlePictureComment"></div>
+Add comment:
+<div>
+<input type="text" name="comment" id="respondcomment">   
+<button type="submit" class="combtn" id="commentbtn">Submit</button>
+</div>
+<div id="commentsSinglePic">  &nbsp</div>
 
-// Application logout
-
-function logout() {
-    $('.logoutBtn').on('click', event => {
-        event.preventDefault();
-        console.log("Logout btn clicked");
-        Cookies.remove('token');
-        self.location = "../index.html";
-    })
+</div>`;
 }
 
-// Home button function 
+function commentsForOnePicture(pictureID) {
+    $.ajax({
+        url: `/pictures/${pictureID}/comments`,
+        type: "GET",
+        headers: { "Authorization": Cookies.get('token') },
+        beforeSend: function (request) { request.setRequestHeader("Content-Type", "application/json"); },
+        dataType: "json",
+        success: function (data) {
+            let comments = renderOneCommentHTML(data);
 
-function homebutton() {
-    $('.homeBtn').on('click', event => {
-        event.preventDefault();
-        self.location = "../view.html";
+            $('#commentsSinglePic').html(comments);
+        }
+
     })
+
+
 }
+
+function renderOneCommentHTML(props){
+   return `<div> ${props.map((comment) => {
+        return "<br>" + comment.user.email + ": " + comment.comment
+    })}</div>`
+
+}
+
+
 

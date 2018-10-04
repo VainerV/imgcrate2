@@ -1,3 +1,5 @@
+
+
 $(".login-form").hide();
 $(".login").css("background", "none");
 
@@ -19,4 +21,5 @@ $(".signup").click(function(){
 //   $(".input").val("");
 // });
 
+// image display 
 

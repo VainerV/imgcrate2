@@ -9,9 +9,17 @@ const commentSchema = mongoose.Schema(
     { 
         comment: String,
         pictureId: String,
-        // user ID   //{ type: mongoose.Schema.Types.ObjectId, ref: 'Picture' },
+        user: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
 });
 
+
+commentSchema.pre('find', function(){
+    this.populate('user');
+})
+
+commentSchema.pre('findOne', function(){
+    this.populate('user');
+})
 
 
 commentSchema.methods.serialize = function() {
@@ -19,6 +27,7 @@ commentSchema.methods.serialize = function() {
         id: this._id,
         comment: this.comment,
         pictureId: this.pictureId,
+        user: this.user
     };
   };
 

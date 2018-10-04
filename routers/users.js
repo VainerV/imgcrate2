@@ -147,7 +147,7 @@ router.post('/login', (req, res) => {
         .then(user => {
             if (user.length < 1) {
                 return res.status(401).json({ // 401- not authorized
-                    message: "Auth failed"
+                    message: "Auth failed email not exist"
                 })
             }
 
@@ -164,7 +164,7 @@ router.post('/login', (req, res) => {
                     },
                         JWT_SECRET,
                         {
-                            expiresIn: "1h"
+                            expiresIn: "3h"
                         });
 
                     return res.status(200).json({
@@ -176,7 +176,7 @@ router.post('/login', (req, res) => {
 
                 }
                 res.status(401).json({
-                    message: 'Auth failed'
+                    message: 'Auth failed Bcrypt failed'
                 })
             })
 
