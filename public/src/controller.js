@@ -6,8 +6,8 @@ $(document).ready(function () {
 
 // Listeners
 function enableListeners() {
-   // signUp();
-  //  logIn();
+    // signUp();
+    //  logIn();
 
     // logout();
     uploadImage();
@@ -25,34 +25,44 @@ function enableListeners() {
 // New Image upload
 
 function uploadImage() {
+    // extesion check
+    $('input[type="file"]').change(function(e){
+        fileName = e.target.files[0].name;
+       // alert('The file "' + fileName +  '" has been selected.');
+    
     $('.submitbtn').on('click', event => {
         event.preventDefault();
-
         let form = $('#fileUploadForm')[0];
-
         // Create an FormData object 
         let formdata = new FormData(form);
+       
 
+        if (!fileName.match(/.(jpg|jpeg|png|gif)$/i)) {
+            alert('not an image');
+        }
+        else {
 
-        $.ajax({
-            url: "/pictures",
-            type: "POST",
-            headers: { "Authorization": Cookies.get('token') },
-            data: formdata,
-            mimeTypes: "multipart/form-data",
-            contentType: false,
-            cache: false,
-            processData: false,
-            success: function () {
-                alert("file successfully submitted");
-                $('#fileUploadForm').val("");
-                location.reload();
-            }, error: function () {
-                alert("error");
-            }
-        });
+            $.ajax({
+                url: "/pictures",
+                type: "POST",
+                headers: { "Authorization": Cookies.get('token') },
+                data: formdata,
+                mimeTypes: "multipart/form-data",
+                contentType: false,
+                cache: false,
+                processData: false,
+                success: function () {
+                    alert("file successfully submitted");
+                   
+                     $('#fileUploadForm').val("");
+                     location.reload();
+                }, error: function () {
+                    alert("error");
+                }
+            });
+        }
     });
-
+});
 
 }
 
@@ -111,24 +121,26 @@ function showAllPictures() {
 
                 }
             })
-
-
-
             let displyPictures = pictureData.map(data => {
-                return `<div class="singlePicture" id="${data.id}" data-picture-id="${data.id}" > 
+                return `<div class="singlePicture" id="${data.id}" data-picture-id="${data.id}"> 
                 <a href="pictures/${data.id}"><img src="${data.url}" target="new"> </a>
-                </div><p>Comments:${data.comments.length}</p>`;
+                </div><p>Comments:${data.comments.length} &nbsp&nbsp
+                </p><br>`;
             })
 
+            // let displyPictures = pictureData.map(data => {
+            //     return `<div class="singlePicture photo" 
+            //     id="${data.id}" data-picture-id="${data.id}"> 
+            //     <a href="pictures/${data.id}" style=“background-image:url(${data.url})"  >   </a>
+            //     </div><p>Comments:${data.comments.length} &nbsp&nbsp
+            //     </p><br>`;
+            // })
 
-
-
-
-
-            // console.log(userName);
             $("#dispyPictures").html(displyPictures);
+
             $('.user').html(`User: ${userName} &nbsp&nbsp`);
             showOnePicture();
+
 
         }, error: function () {
             alert("error");
@@ -136,6 +148,8 @@ function showAllPictures() {
     });
 
 }
+
+
 
 // Showing individual comments
 
@@ -181,15 +195,9 @@ function showOnePicture() {
 
     $('.singlePicture').on('click', event => {
         event.preventDefault();
-
-
         let pictureId = event.currentTarget.id;
-
         let jqueryImageUrl = { id: pictureId };
         let singleImageUrl = "?" + jQuery.param(jqueryImageUrl);
-
-
-
         $.ajax({
             url: `/pictures/${pictureId}`,
             type: "GET",
@@ -197,19 +205,15 @@ function showOnePicture() {
             beforeSend: function (request) { request.setRequestHeader("Content-Type", "application/json"); },
             dataType: "json",
             success: function (data) {
-
                 let selectedImageDisplay = renderOnePictureHTML(data);
-
-
                 $('.singlePicture').hide();
                 $('.picture').html(selectedImageDisplay);
                 addComment(pictureId);
                 commentsForOnePicture(pictureId);
-
-
+                deletePicture(pictureId);
 
             }, error: function () {
-                alert("error");
+                alert("error Vadim");
             }
 
         });
@@ -218,7 +222,30 @@ function showOnePicture() {
 
 }
 
-function renderOnePictureHTML(props){
+function deletePicture(pictureId) {
+    $(`.${pictureId}`).on('click', event => {
+        event.preventDefault();
+        // console.log("delete button", pictureId);
+
+        $.ajax({
+            url: `/pictures/${pictureId}`,
+            type: "DELETE",
+            headers: { "Authorization": Cookies.get('token') },
+            beforeSend: function (request) { request.setRequestHeader("Content-Type", "application/json"); },
+            dataType: "json",
+            success: function (data) {
+
+                alert("Picture deleted");
+                window.location.reload();
+            }
+        })
+
+
+    })
+}
+
+function renderOnePictureHTML(props) {
+    //console.log(props);
     return `<div class="singlePicture" id="${props.id}" >
     <img src="${props.url}" target="new"> </a></div> 
 <div>
@@ -226,12 +253,14 @@ function renderOnePictureHTML(props){
 Add comment:
 <div>
 <input type="text" name="comment" id="respondcomment">   
-<button type="submit" class="combtn" id="commentbtn">Submit</button>
+<button type="submit" class="combtn " id="commentbtn">Submit</button>
 </div>
-<div id="commentsSinglePic">  &nbsp</div>
-
+<div id="commentsSinglePic">  &nbsp</div><br>
+<button class="${props.id} submitbtn" "type="button">Delete</button>
 </div>`;
 }
+
+
 
 function commentsForOnePicture(pictureID) {
     $.ajax({
@@ -251,8 +280,8 @@ function commentsForOnePicture(pictureID) {
 
 }
 
-function renderOneCommentHTML(props){
-   return `<div> ${props.map((comment) => {
+function renderOneCommentHTML(props) {
+    return `<div> ${props.map((comment) => {
         return "<br>" + comment.user.email + ": " + comment.comment
     })}</div>`
 

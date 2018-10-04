@@ -11,51 +11,54 @@ router.post('/', checkAuth, function (req, res) {
     const imageData = req.body.imageData;
 
     // Image extansion check
-
+   // console.log(imageData)
 
     //
 
     let busboy = new Busboy({ headers: req.headers });
     let urlData = {};
-    // The file upload has completed
-    busboy.on('finish', function () {
-        console.log('Upload finished');
+    
+        // The file upload has completed
+        busboy.on('finish', function () {
+            console.log('Upload finished');
 
-        // Grabs your file object from the request.
-        const file = req.files.image.data;
+            // Grabs your file object from the request.
+            const file = req.files.image.data;
+            //console.log(req.files.image.data);
 
-        s3.upload({
-            Bucket: 'imgcrate',
-            Key: Date.now() + (req.files.image.name),  /// <=== must find real file name.
-            Body: file,
-            ACL: 'public-read'
-        }, function (err, data) {
-            if (err) {
-                console.log(err, "Upload failed");
-            }
-            urlData = data;
-            console.log('Successfully uploaded package.', data.Location);
 
-            Picture
-                .create({
-                    url: data.Location,
-                    description: req.body.comment,
-                    user: req.userData.id,
-                })
-                .then(picture => res.status(201).json(picture.serialize()))
-                .catch(err => {
-                    console.error(err);
-                    res.status(500).json({ error: 'Something went wrong' });
-                });
+            s3.upload({
+                Bucket: 'imgcrate',
+                Key: Date.now() + (req.files.image.name),  /// <=== must find real file name.
+                Body: file,
+                ACL: 'public-read'
+            }, function (err, data) {
+                if (err) {
+                    console.log(err, "Upload failed");
+                }
+                urlData = data;
+                console.log('Successfully uploaded package.', data.Location);
+
+                Picture
+                    .create({
+                        url: data.Location,
+                        description: req.body.comment,
+                        user: req.userData.id,
+                    })
+                    .then(picture => res.status(201).json(picture.serialize()))
+                    .catch(err => {
+                        console.error(err);
+                        res.status(500).json({ error: 'Something went wrong' });
+                    });
+            });
+
+
         });
+        req.pipe(busboy);
+        res.json("Function is done, file uploaded");
 
-
-    });
-    req.pipe(busboy);
-    res.json("Function is done, file uploaded");
-
-    //res.json.send(urlData);
-
+        //res.json.send(urlData);
+    
 });  // Router post
 
 

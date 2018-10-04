@@ -87,7 +87,7 @@ function logIn() {
 function logout() {
     $('.logoutBtn').on('click', event => {
         event.preventDefault();
-        console.log("Logout btn clicked");
+      //  console.log("Logout btn clicked");
         self.location = "../index.html";
         Cookies.remove('token');
     })

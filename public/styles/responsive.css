@@ -23,12 +23,16 @@
   }
   
   .logo {
-    background-color: #5995DA;
+    background-color: white;
     height: 80px;
+    color: #34b3a0;
+    font-style: italic;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: x-large;
   }
   
   .header {
-    background-color: #B2D6FF;
+    background-color: darkgray;
     height: 45px;
   
   }
@@ -41,20 +45,20 @@
   }
   
   .uploadpicture {
-    background-color: #D6E9FE;
-    height: 45px;
+    background-color: gray;
+    height: 65px;
   
   }
   
   
   
   .footer {
-    background-color: #F09A9D;
+    background-color: lightgray;
   }
   
   .sociallinks {
-    background-color: #C8C6FA;
-    height: 45px;
+    background-color: darkgray;
+    height: 65px;
   }
 
   
@@ -64,15 +68,22 @@
   align-items: center;
 }
 
+.photo{
+  background-size: cover;
+  background-position: center center;
+  background-repeat: no-repeat;
+  /*background-color: red;*/
+}
+
 .displayPictures{
-  max-width: 100%;
+ max-width: 100%;
   max-height: 100%;
   overflow: hidden;
   
 }
 .singlePicture{
-  height: auto;
-  width: 400px;
+  height: 200px;
+  width: 100%;
   margin: 10 px;
  
 }
@@ -84,6 +95,18 @@ input[type=text] {
 
 .submitbtn{
   border-radius: 3px;
+    width: 100px;
+    background: #34b3a0;
+    height: 25px;
+    text-align: center;
+    line-height: 20px;
+    text-transform: uppercase;
+    color: #fff;
+    font-weight: bold;
+    letter-spacing: 1px;
+    cursor: pointer;
+    margin-bottom: 0px;
+ 
 }
  
 
@@ -96,19 +119,19 @@ input[type=text] {
   /* Mobile Styles */
   @media only screen and (max-width: 400px) {
     .uploadpicture {
-      background-color: #D6E9FE;
-      height: 45px;
+      background-color: darkgray;
+      height: 65px;
       width: 50%;
     }
     .footer {
-      background-color: rgb(71, 12, 14);
+      background-color:lightgray;
       height: 65px;
       width: 100%;
       color: white;
     }
     
     .sociallinks {
-      background-color: #F09A9D;
+      background-color: darkgray;
       width: 50%;
     }
 
@@ -119,19 +142,19 @@ input[type=text] {
   /* Tablet Styles */
   @media only screen and (min-width: 401px) and (max-width: 960px) {
     .uploadpicture {
-      background-color: #D6E9FE;
-      height: 45px;
+      background-color: darkgray;
+      height: 65px;
       width: 50%;
     }
     .footer {
-      background-color: rgb(71, 12, 14);
+      background-color: lightgray;
       height: 65px;
       width: 100%;
       color: white;
     }
     
     .sociallinks {
-      background-color: #F09A9D;
+      background-color: darkgray;
       width: 50%;
       height: 45px;
     }
@@ -145,22 +168,22 @@ input[type=text] {
       margin: 0 auto;
     }
     .footer {
-      background-color: rgb(71, 12, 14);
+      background-color: lightgray;
       height: 65px;
       width: 100%;
       color: white;
     }
    
     .uploadpicture{
-      background-color: #D6E9FE;
-      height: 45px;
+      background-color: darkgray;
+      height: 65px;
       width: 50%;
     }
     
     .sociallinks{
-      background-color: #F09A9D;
+      background-color:darkgray;
       width: 50%;
-      height: 45px;
+      height: 65px;
     }
 
   }
