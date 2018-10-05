@@ -2,6 +2,7 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+    font-family: sans-serif;
   }
   
   .page {
@@ -68,33 +69,60 @@
   background-size: cover;
   background-position: center center;
   background-repeat: no-repeat;
-  /*background-color: red;*/
-}
-
-
-#displayPictures{
-
-
-}
-.singlePicture{
+  background-color: red;
   height: 200px;
   width: 100%;
   margin: 10 px;
- 
-}
-.photo{
-  background-size: cover;
-  background-position: center center;
-  background-repeat: no-repeat;
-  
 }
 
-input[type=text] {
+
+div#displayPictures {
+  width: 100%;
+  display: flex;
+  padding: 20px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+#displayPictures > div{
+  flex-basis: 20%;
+  margin: 20px 2.5%;
+}
+
+#displayPictures > div.singlePicturePhoto {
+  flex-basis: 100%;
+  text-align: center;
+}
+
+.user{
+  flex-basis: 50%;
+  text-align: center;
+  color: green;
+}
+.logoutBtn{
+ 
+  text-align: center;
+}
+
+#displayPictures > div.singlePictureCommentArea {
+  flex-basis: 50%;
+}
+
+.singlePicturePhoto img {
+  max-width: 100%;
+  height: 300px;
+}
+
+
+.singlePictureCommentArea input[type=text] {
   border: 2px solid red;
   border-radius: 4px;
+  padding: 10px;
+    width: 100%;
+    margin: 10px 0px;
 }
 
-.submitbtn{
+.submitbtn, .combtn{
   border-radius: 3px;
     width: 100px;
     background: #34b3a0;
@@ -109,16 +137,39 @@ input[type=text] {
     margin-bottom: 0px;
  
 }
+
+.singleComment {
+  margin: 20px 0;
+  border-bottom: 1px solid #aaa;
+  padding-bottom: 10px;
+}
+
+span.commentEmail {
+  color: #34b3a0;
+  margin-right: 20px;
+  font-size: 14px;
+}
  
 
-
+.fileUploadForm{
+  margin-left: 10px;
+}
 .uploadform{
   display: inline;
 }
+.uploadpicture{
+  font-size: 14px;
+}
+
+.sociallinks{  
+  font-size: 14px;
+}
+
+
 
 
   /* Mobile Styles */
-  @media only screen and (max-width: 400px) {
+  @media only screen and (max-width: 600px) {
     .uploadpicture {
       background-color: darkgray;
       height: 65px;
@@ -135,14 +186,16 @@ input[type=text] {
       background-color: darkgray;
       width: 50%;
     }
+    div#displayPictures {
+      flex-direction: column;
+    }
     
-
-  
    
   }
+
   
   /* Tablet Styles */
-  @media only screen and (min-width: 401px) and (max-width: 960px) {
+  @media only screen and (min-width: 601px) and (max-width: 960px) {
     .uploadpicture {
       background-color: darkgray;
       height: 65px;

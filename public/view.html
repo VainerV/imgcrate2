@@ -31,49 +31,39 @@
 
 
     <div class='page container'>
-        <div class='section logo'>
+        <div class='section logo'aria-label="Img Crate">
             IMG CRATE
 
         </div>
 
-        <div class='section uploadpicture'>
-            <form action="/uploads" method="POST" id="fileUploadForm">
-                <div class="file-field input-field">
-                    <div >
-
-                        <input name="image" type="file" id="image">
-
-                    </div>
-
+        <div class='section uploadpicture'aria-label="Add picture" >
+            <form action="/uploads" method="POST" id="fileUploadForm" role="form">
+                <div >
+                    <input name="image" type="file"  id="image" role="button"> 
+                    <button type="submit" class="submitbtn" role="button">Add Pictue</button>
                 </div>
-                <div>
-                    <input type="text" name="comment" id="initialcomment">
-                    <button type="submit" class="submitbtn">Add Post</button>
-                </div>
-
             </form>
         </div>
 
-
+<!--<input type="text" name="comment" id="initialcomment">-->
 
 
         <div class='section sociallinks smimagesize'>
-            <div class="user">User: </div><br>
-            <button type="submit" class="logoutBtn submitbtn">Log out</button>
+            <span class="user" aria-label="User Name">User:</span>
+            <button type="submit" class="logoutBtn submitbtn"aria-label="Logout Button" role="button">Log out</button>
         </div>
 
-
-        <div class='section content'>
+        <div class='section content'aria-label="Disply pictures">
 
             <div class="picture" id="displayPictures">
 
             </div>
-            <div class="comments" id="displayComments"></div>
+            <div class="comments" id="displayComments" aria-label="comments"></div>
 
         </div>
 
-        <div class='section footer'>
-            <button type="submit" class="homeBtn submitbtn">Home</button>
+        <div class='section footer'aria-label="footer">
+            <button type="submit" class="homeBtn submitbtn" role="button">Home</button>
         </div>
     </div>
 

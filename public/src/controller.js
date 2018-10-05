@@ -117,7 +117,7 @@ function showAllPictures() {
                 return {
                     url: picture.url,
                     id: picture.id,
-                    comments: picture.comments,
+                    comments: picture.comments
 
                 }
             })
@@ -129,12 +129,13 @@ function showAllPictures() {
             // })
 
             let displayPictures = pictureData.map(data => {
-                return `<div 
-                <a href="pictures/${data.id}" 
-                id="${data.id}" data-picture-id="${data.id}"> 
-                <div class="singlePicture photo"  style=“background-image:url(${data.url})" ></div>   </a>
-                </div><p>Comments:${data.comments.length} &nbsp&nbsp
-                </p><br>`;
+                return `
+                <div> 
+                    <a class="singlePicture" href="pictures/${data.id}" id="${data.id}" data-picture-id="${data.id}"> 
+                        <div class="photo" style="background-image:url('${data.url}')"></div>
+                    </a>
+                    <p>Comments:${data.comments.length}</p>
+                </div>`;
             })
 
             $("#displayPictures").html(displayPictures);
@@ -167,13 +168,13 @@ function showComments() {
             let commentData = data.map(comment => {
 
                 return {
-                    comment: comment.comment,
+                    comment: comment.comment
                 }
             })
 
             let displyComments = commentData.map(data => {
 
-                return `${data.comment} &nbsp`
+                return `${data.comment}`
 
             })
 
@@ -247,18 +248,19 @@ function deletePicture(pictureId) {
 
 function renderOnePictureHTML(props) {
     //console.log(props);
-    return `<div class="singlePicture" id="${props.id}" >
-    <img src="${props.url}" target="new"> </a></div> 
-<div>
-<div id="singlePictureComment"></div>
-Add comment:
-<div>
-<input type="text" name="comment" id="respondcomment">   
-<button type="submit" class="combtn " id="commentbtn">Submit</button>
-</div>
-<div id="commentsSinglePic">  &nbsp</div><br>
-<button class="${props.id} submitbtn" "type="button">Delete</button>
-</div>`;
+    return `
+    <div class="singlePicturePhoto" id="${props.id}" >
+        <img src="${props.url}" target="new">
+    </div> 
+    <div class="singlePictureCommentArea">
+        <div id="singlePictureComment"></div>
+        <input placeholder="Add Comment" aria-label="Add Comment" type="text" name="comment" id="respondcomment">   
+        <button type="submit" class="combtn " id="commentbtn">Submit</button>
+        <div id="commentsSinglePic"></div>
+        
+    </div>`;
+
+    //<button class="${props.id} submitbtn" "type="button">Delete</button>
 }
 
 
@@ -282,9 +284,9 @@ function commentsForOnePicture(pictureID) {
 }
 
 function renderOneCommentHTML(props) {
-    return `<div> ${props.map((comment) => {
-        return "<br>" + comment.user.email + ": " + comment.comment
-    })}</div>`
+    return props.map((comment) => {
+        return "<div class='singleComment'><span class='commentEmail'>" + comment.user.email + "</span><span class='comment'>" + comment.comment + "</span></div>"
+    });
 
 }
 
