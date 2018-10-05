@@ -121,22 +121,22 @@ function showAllPictures() {
 
                 }
             })
-            let displyPictures = pictureData.map(data => {
-                return `<div class="singlePicture" id="${data.id}" data-picture-id="${data.id}"> 
-                <a href="pictures/${data.id}"><img src="${data.url}" target="new"> </a>
-                </div><p>Comments:${data.comments.length} &nbsp&nbsp
-                </p><br>`;
-            })
-
-            // let displyPictures = pictureData.map(data => {
-            //     return `<div class="singlePicture photo" 
-            //     id="${data.id}" data-picture-id="${data.id}"> 
-            //     <a href="pictures/${data.id}" style=“background-image:url(${data.url})"  >   </a>
+            // let displayPictures = pictureData.map(data => {
+            //     return `<div class="singlePicture" id="${data.id}" data-picture-id="${data.id}"> 
+            //     <a href="pictures/${data.id}"><img src="${data.url}" target="new"> </a>
             //     </div><p>Comments:${data.comments.length} &nbsp&nbsp
             //     </p><br>`;
             // })
 
-            $("#dispyPictures").html(displyPictures);
+            let displayPictures = pictureData.map(data => {
+                return `<div 
+                id="${data.id}" data-picture-id="${data.id}"> 
+                <a href="pictures/${data.id}" class="singlePicture photo"  style=“background-image:url(${data.url})">   </a>
+                </div><p>Comments:${data.comments.length} &nbsp&nbsp
+                </p><br>`;
+            })
+
+            $("#displayPictures").html(displayPictures);
 
             $('.user').html(`User: ${userName} &nbsp&nbsp`);
             showOnePicture();
