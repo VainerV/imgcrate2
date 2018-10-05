@@ -130,8 +130,9 @@ function showAllPictures() {
 
             let displayPictures = pictureData.map(data => {
                 return `<div 
+                <a href="pictures/${data.id}" 
                 id="${data.id}" data-picture-id="${data.id}"> 
-                <a href="pictures/${data.id}" class="singlePicture photo"  style=“background-image:url(${data.url})">   </a>
+                <div class="singlePicture photo"  style=“background-image:url(${data.url})" ></div>   </a>
                 </div><p>Comments:${data.comments.length} &nbsp&nbsp
                 </p><br>`;
             })
