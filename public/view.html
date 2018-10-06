@@ -19,8 +19,8 @@
 
 
 <body>
-    <main role="main" aria-live="assertive">
-        <header class="row" id="">
+    <main  aria-live="assertive">
+        <header >
 
 
 
@@ -31,16 +31,16 @@
 
 
     <div class='page container'>
-        <div class='section logo'aria-label="Img Crate">
-            IMG CRATE
+        <div class='section logo' aria-label="Img Crate">
+           <h1> IMG CRATE</h1>
 
         </div>
 
-        <div class='section uploadpicture'aria-label="Add picture" >
-            <form action="/uploads" method="POST" id="fileUploadForm" role="form">
+        <div class='section uploadpicture' aria-label="Add picture" role="button">
+            <form action="/uploads" method="POST" id="fileUploadForm" >
                 <div >
-                    <input name="image" type="file"  id="image" role="button"> 
-                    <button type="submit" class="submitbtn" role="button">Add Pictue</button>
+                    <input name="image" type="file" class="upload" id="image" aria-label="image"> 
+                    <button type="submit" class="submitbtn" >Add Pictue</button>
                 </div>
             </form>
         </div>
@@ -48,9 +48,9 @@
 <!--<input type="text" name="comment" id="initialcomment">-->
 
 
-        <div class='section sociallinks smimagesize'>
+        <div class='section sociallinks smimagesize' >
             <span class="user" aria-label="User Name">User:</span>
-            <button type="submit" class="logoutBtn submitbtn"aria-label="Logout Button" role="button">Log out</button>
+            
         </div>
 
         <div class='section content'aria-label="Disply pictures">
@@ -62,8 +62,9 @@
 
         </div>
 
-        <div class='section footer'aria-label="footer">
-            <button type="submit" class="homeBtn submitbtn" role="button">Home</button>
+        <div class='section footer'aria-label="footer" role="button">
+            <button type="submit" class="homeBtn submitbtn" >Home</button>
+            <button type="submit" class="logoutBtn submitbtn"aria-label="Logout Button" >Log out</button>
         </div>
     </div>
 

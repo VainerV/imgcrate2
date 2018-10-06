@@ -10,10 +10,7 @@
     flex-wrap: wrap;
   }
   
-  .smimagesize{
-    height: 40px;
-    width: auto;
-  }
+ 
   
   .section {
     width: 100%;
@@ -97,7 +94,7 @@ div#displayPictures {
 .user{
   flex-basis: 50%;
   text-align: center;
-  color: green;
+  color:white;
 }
 .logoutBtn{
  
@@ -154,11 +151,15 @@ span.commentEmail {
 .fileUploadForm{
   margin-left: 10px;
 }
-.uploadform{
-  display: inline;
+
+.upload{
+  color: white;
+  margin-left: 20px;
+  font-size: 14px;
 }
 .uploadpicture{
   font-size: 14px;
+  
 }
 
 .sociallinks{  
@@ -213,6 +214,7 @@ span.commentEmail {
       width: 50%;
       height: 65px;
     }
+    
 
   }
   
