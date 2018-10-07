@@ -121,7 +121,7 @@ div#displayPictures {
 
 .submitbtn, .combtn{
   border-radius: 3px;
-    width: 100px;
+    width: 120px;
     background: #34b3a0;
     height: 25px;
     text-align: center;
@@ -191,6 +191,13 @@ span.commentEmail {
       flex-direction: column;
     }
     
+    .submitbtn{
+      width: 100%;
+    }
+    .upload{
+      width: 100%;
+      margin-left: 0px;
+    }
    
   }
 

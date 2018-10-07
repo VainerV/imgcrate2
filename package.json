@@ -1,6 +1,9 @@
 {
   "name": "imgcrate2",
   "version": "1.0.0",
+  "engines": {
+    "node": "10.8.0"
+  },
   "description": "Imgcrate ver 2",
   "main": "server.js",
   "scripts": {
