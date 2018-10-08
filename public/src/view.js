@@ -4,6 +4,8 @@ $(".login-form").hide();
 $(".login").css("background", "none");
 
 $(".login").click(function(){
+  // Signup/login form manipulations
+  
   $(".signup-form").hide();
   $(".login-form").show();
   $(".signup").css("background", "none");
@@ -17,9 +19,4 @@ $(".signup").click(function(){
   $(".signup").css("background", "#fff");
 });
 
-// $(".btn").click(function(){
-//   $(".input").val("");
-// });
-
-// image display 
 

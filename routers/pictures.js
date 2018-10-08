@@ -1,3 +1,5 @@
+// routers for pictures
+
 const express = require('express');
 const router = express.Router();
 const Busboy = require('busboy');
@@ -6,14 +8,9 @@ const s3 = require('../public/src/file-uploader');
 const checkAuth = require('../middleware/check-auth');
 const User = require('../models/user');
 
-
+// post request with uploading picture to Amazon S3 server
 router.post('/', checkAuth, function (req, res) {
     const imageData = req.body.imageData;
-
-    // Image extansion check
-   // console.log(imageData)
-
-    //
 
     let busboy = new Busboy({ headers: req.headers });
     let urlData = {};
@@ -29,7 +26,7 @@ router.post('/', checkAuth, function (req, res) {
 
             s3.upload({
                 Bucket: 'imgcrate',
-                Key: Date.now() + (req.files.image.name),  /// <=== must find real file name.
+                Key: Date.now() + (req.files.image.name), 
                 Body: file,
                 ACL: 'public-read'
             }, function (err, data) {
@@ -57,7 +54,7 @@ router.post('/', checkAuth, function (req, res) {
         req.pipe(busboy);
         res.json("Function is done, file uploaded");
 
-        //res.json.send(urlData);
+        
     
 });  // Router post
 

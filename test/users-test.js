@@ -1,3 +1,5 @@
+//Tests fro users
+
 const chai = require("chai");
 const chaiHttp = require("chai-http");
 const mongoose = require('mongoose');
@@ -10,7 +12,7 @@ const { TEST_DATABASE_URL } = require('../config'); // importing DB
 const User = require('../models/user')
 const expect = chai.expect;
 chai.use(chaiHttp);
-let token ="";
+let token = "";
 
 describe('Users test API', function () {
     // sead db with the uses info 
@@ -52,7 +54,7 @@ describe('Users test API', function () {
     before(function () {
         runServer(TEST_DATABASE_URL);
         return chai
-        .request(app)
+            .request(app)
             .post('/login')
             .send(userCredentials)
             .end(function (err, response) {
@@ -152,11 +154,11 @@ describe('Users test API', function () {
 
                 resUser = res.body[0];
                 console.log("ID OF RETERNED OBJECT", resUser.id);
-                //  console.log(resUser)   /// name: undefined undefined... not geting assigned
+                //  console.log(resUser)  
                 return User.findById(resUser.id);
 
             })
-            .then(user => {  /// user is null/ empty object 
+            .then(user => {  
                 //console.log(user);
                 resUser.name.should.equal(user.name);
                 resUser.userName.should.equal(user.userName);
@@ -228,13 +230,11 @@ describe('Users test API', function () {
                 });
 
         });
-    });
+    }); // delete 
 
 
     describe('PUT user end point', function () {
         it('Updating user info by ID', function () {
-
-
 
             const updateUserData = {
 
@@ -270,7 +270,7 @@ describe('Users test API', function () {
         });
 
 
-    });
+    });  // put
 
 
 
@@ -317,7 +317,7 @@ describe('Users test API', function () {
     }); // End post user sign up test
 
 
-    // // NOT WORKING SOMETHING WITH AUTHONTICATION
+  /// future addition
     // describe('POST login endpoint', function () {
 
     //     it('Should login user', function () {

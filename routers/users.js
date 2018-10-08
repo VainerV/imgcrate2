@@ -1,3 +1,5 @@
+// Users routers
+
 const express = require('express');
 const router = express.Router();
 const bcrypt = require('bcrypt');
@@ -79,8 +81,6 @@ router.put('/:id', checkAuth, (req, res) => {
 
 }); // router put
 
-
-////////////////////////////////////
 
 
 router.post('/signup', (req, res) => {

@@ -30,25 +30,25 @@
         <div class="wrapper">
             <div class="container">
 
-                <div class="signup">Sign Up</div>
-                <div class="login">Log In</div>
+                <div class="signup" aria-label="Sign Up">Sign Up</div>
+                <div class="login" aria-label="log in">Log In</div>
 
 
 
-                <div class="signup-form">
-                    <input type="text" placeholder="First Name" class="input" id="firstName"><br />
-                    <input type="text" placeholder="Last Name" class="input" id="lastName"><br />
-                    <input type="text" placeholder="Your Email Address" class="input" id="email"><br />
-                    <input type="text" placeholder="Choose a Username" class="input" id="userName"><br />
-                    <input type="password" placeholder="Choose a Password" class="input" id="password"><br />
-                    <button class="btn signupbtn">Create account</button>
+                <div class="signup-form" role="form">
+                    <input type="text" placeholder="First Name" class="input" id="firstName" aria-label="First name" role="textbox"><br />
+                    <input type="text" placeholder="Last Name" class="input" id="lastName" aria-label="Last name" role="textbox"><br />
+                    <input type="text" placeholder="Your Email Address" class="input" id="email" aria-label="email" role="textbox"><br />
+                    <input type="text" placeholder="Choose a Username" class="input" id="userName" aria-label="User name" role="textbox"><br />
+                    <input type="password" placeholder="Choose a Password" class="input" id="password" aria-label="password" role="textbox"><br />
+                    <button class="btn signupbtn" role="button">Create account</button>
                 </div>
 
-                <div class="login-form">
-                    <input type="text" placeholder="Email" class="input" id="loginEmail"><br />
-                    <input type="password" placeholder="Password" class="input" id="loginPassword"><br />
+                <div class="login-form" role="form">
+                    <input type="text" placeholder="Email" class="input" id="loginEmail" aria-label="email" role="textbox"><br />
+                    <input type="password" placeholder="Password" class="input" id="loginPassword" aria-label="password" role="textbox"><br />
                     <div class="btn loginbtn">log in</div>
-                    <span><a href="#">I forgot my username or password.</a></span>
+                   
                 </div>
 
             </div>

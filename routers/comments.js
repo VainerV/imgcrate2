@@ -1,6 +1,7 @@
+// Routers for comments
+
 const express = require('express');
 const router = express.Router();
-
 const Pictures = require('../models/picture');
 const Comments = require('../models/comment');
 const checkAuth = require('../middleware/check-auth')
@@ -49,7 +50,7 @@ router.post('/', checkAuth, (req, res) => {
             });
         })
         .then(comment => {
-            //  User.findOne(_id: req.body.)   /// ??????
+           
         })
         .catch(err => {
             console.error(err);
@@ -91,7 +92,7 @@ router.put('/:id', checkAuth, (req, res) => {
         .then(user => res.status(204).end())
         .catch(err => res.status(500).json({ message: 'Something went wrong' }));
 
-}); // router put
+}); // router put by ID
 
 
 module.exports = router;

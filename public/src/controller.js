@@ -18,51 +18,44 @@ function enableListeners() {
 
 }
 
-
-
-
-
 // New Image upload
-
 function uploadImage() {
     // extesion check
-    $('input[type="file"]').change(function(e){
+    $('input[type="file"]').change(function (e) {
         fileName = e.target.files[0].name;
-       // alert('The file "' + fileName +  '" has been selected.');
-    
-    $('.submitbtn').on('click', event => {
-        event.preventDefault();
-        let form = $('#fileUploadForm')[0];
-        // Create an FormData object 
-        let formdata = new FormData(form);
-       
 
-        if (!fileName.match(/.(jpg|jpeg|png|gif)$/i)) {
-            alert('not an image');
-        }
-        else {
+        $('.submitbtn').on('click', event => {
+            event.preventDefault();
+            let form = $('#fileUploadForm')[0];
+            // Create an FormData object 
+            let formdata = new FormData(form);
 
-            $.ajax({
-                url: "/pictures",
-                type: "POST",
-                headers: { "Authorization": Cookies.get('token') },
-                data: formdata,
-                mimeTypes: "multipart/form-data",
-                contentType: false,
-                cache: false,
-                processData: false,
-                success: function () {
-                    alert("file successfully submitted");
-                   
-                     $('#fileUploadForm').val("");
-                     location.reload();
-                }, error: function () {
-                    alert("error");
-                }
-            });
-        }
+            if (!fileName.match(/.(jpg|jpeg|png|gif)$/i)) {
+                alert('not an image');
+            }
+            else {
+
+                $.ajax({
+                    url: "/pictures",
+                    type: "POST",
+                    headers: { "Authorization": Cookies.get('token') },
+                    data: formdata,
+                    mimeTypes: "multipart/form-data",
+                    contentType: false,
+                    cache: false,
+                    processData: false,
+                    success: function () {
+                        alert("file successfully submitted");
+
+                        $('#fileUploadForm').val("");
+                        location.reload();
+                    }, error: function () {
+                        alert("error");
+                    }
+                });
+            }
+        });
     });
-});
 
 }
 
@@ -121,12 +114,7 @@ function showAllPictures() {
 
                 }
             })
-            // let displayPictures = pictureData.map(data => {
-            //     return `<div class="singlePicture" id="${data.id}" data-picture-id="${data.id}"> 
-            //     <a href="pictures/${data.id}"><img src="${data.url}" target="new"> </a>
-            //     </div><p>Comments:${data.comments.length} &nbsp&nbsp
-            //     </p><br>`;
-            // })
+
 
             let displayPictures = pictureData.map(data => {
                 return `
@@ -161,7 +149,6 @@ function showComments() {
         type: "GET",
         headers: { "Authorization": Cookies.get('token') },
         beforeSend: function (request) { request.setRequestHeader("Content-Type", "application/json"); },
-
         dataType: "json",
         success: function (data) {
 
@@ -227,7 +214,6 @@ function showOnePicture() {
 function deletePicture(pictureId) {
     $(`.${pictureId}`).on('click', event => {
         event.preventDefault();
-        // console.log("delete button", pictureId);
 
         $.ajax({
             url: `/pictures/${pictureId}`,
@@ -247,7 +233,7 @@ function deletePicture(pictureId) {
 }
 
 function renderOnePictureHTML(props) {
-    //console.log(props);
+
     return `
     <div class="singlePicturePhoto" id="${props.id}" >
         <img src="${props.url}" target="new">
@@ -264,7 +250,7 @@ function renderOnePictureHTML(props) {
 }
 
 
-
+// Show comments for selected picture 
 function commentsForOnePicture(pictureID) {
     $.ajax({
         url: `/pictures/${pictureID}/comments`,

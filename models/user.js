@@ -4,8 +4,6 @@
 const mongoose = require('mongoose');
 mongoose.Promise = global.Promise;
 
-
-
 // User schema
 const userSchema = mongoose.Schema({
     
@@ -33,7 +31,7 @@ const userSchema = mongoose.Schema({
   
   userSchema.virtual('name').get(function() {
     if(this.user) {
-      //console.log(this)
+      
       return `${this.user.firstName} ${this.user.lastName}`.trim();
    } 
     

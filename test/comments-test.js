@@ -10,7 +10,7 @@ const User = require('../models/user')
 const expect = chai.expect;
 chai.use(chaiHttp);
 const bcrypt = require('bcrypt');
-let token ="";
+let token = "";
 
 describe('Comments test API', function () {
 
@@ -22,30 +22,30 @@ describe('Comments test API', function () {
                 user: {
                     firstName: faker.name.firstName(),
                     lastName: faker.name.lastName(),
-    
+
                 },
                 userName: faker.internet.userName(),
                 email: "alex@yahoo.com",
                 password: hash,
             }
             User.create(authUser)
-            .then(user => console.log(user))
+                .then(user => console.log(user))
 
-            .catch(err => {
-                console.error(err);
-               
-            });
+                .catch(err => {
+                    console.error(err);
+
+                });
         })
-        
 
-      
+
+
         const seedData = [];
 
 
         for (let i = 1; i <= 10; i++) {
             seedData.push({
                 comment: faker.lorem.paragraph(),
-                
+
             });
         }
         // console.log(seedData);
@@ -60,22 +60,22 @@ describe('Comments test API', function () {
             password: 'password'
         }
         runServer(TEST_DATABASE_URL);
-         chai
-        .request(app)
+        chai
+            .request(app)
             .post('/users/login')
             .send(userCredentials)
             .then(function (response) {
                 console.log(response)
                 //expect(response.statusCode).to.equal(200);
                 token = response.token;
-               
+
             });
-            return  seedUsersData();
+        return seedUsersData();
     });
 
 
     beforeEach(function () {
-        
+
     })
 
     afterEach(function () {
@@ -103,7 +103,7 @@ describe('Comments test API', function () {
             return chai
                 .request(app)
                 .get("/comments")
-                .set("Authorization", token )
+                .set("Authorization", token)
                 .then(function (res) {
                     expect(res).to.have.status(200);
                     expect(res.body).to.not.be.empty;
@@ -122,7 +122,7 @@ describe('Comments test API', function () {
         return chai
             .request(app)
             .get("/comments")
-            .set("Authorization", token )
+            .set("Authorization", token)
             .then(_res => {
                 res = _res;
                 //console.log("Vdim checking status", res.satus);
@@ -146,14 +146,14 @@ describe('Comments test API', function () {
         let resComment;
         return chai.request(app)
             .get("/comments")
-            .set("Authorization", token )
+            .set("Authorization", token)
             .then(res => {
                 console.log(token);
                 res.status.should.equal(200)
                 res.should.be.json;
                 res.body.should.be.a('array');
                 res.body.should.have.lengthOf.at.least(1);
-               // console.log("Vadim checking status", res.body); 
+                // console.log("Vadim checking status", res.body); 
                 res.body.forEach(function (comment) {
                     comment.should.be.a('object');
                     comment.should.include.keys("id", 'comment');
@@ -182,12 +182,12 @@ describe('Comments test API', function () {
 
             const newComment = {
                 comment: faker.lorem.paragraph(),
-                
+
             };
             // console.log(newUser);
             return chai.request(app)
                 .post('/comments')
-                .set("Authorization", token )
+                .set("Authorization", token)
                 .send(newComment)
                 .then(function (res) {
                     res.should.have.status(201);
@@ -195,12 +195,12 @@ describe('Comments test API', function () {
                     res.body.should.be.a('object');
                     res.body.should.include.keys('id', 'comment');
                     res.body.comment.should.equal(newComment.comment);
-                   
+
                     return Comment.findById(res.body.id);
                 })
                 .then(function (comment) {
-                   // console.log(user)
-                   
+                    // console.log(user)
+
                     newComment.comment.should.equal(comment.comment);
                 });
         });
@@ -241,7 +241,7 @@ describe('Comments test API', function () {
                 .findOne()
                 .then(comment => {
                     updateCommentData.id = comment.id;
- ;
+                    ;
                     return chai.request(app)
                         .put(`/comments/${comment.id}`)
                         .send(updateCommentData);
@@ -251,7 +251,7 @@ describe('Comments test API', function () {
                     return Comment.findById(updateCommentData.id);
                 })
                 .then(comment => {
-                  
+
                     updateCommentData.comment.should.equal(comment.comment);
                 });
 
