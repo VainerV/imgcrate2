@@ -1,3 +1,5 @@
+
+
 $(document).ready(function () {
     enableListeners();
 
@@ -21,14 +23,14 @@ function enableListeners() {
 
 
 // empty file submition check
-function fileUploadCheck(){
+function fileUploadCheck() {
     $('#addPictureBtn').on('click', event => {
         event.preventDefault();
         file = $('input[type="file"]').val();
-        if(!file){
+        if (!file) {
             alert("Please select the file first")
         }
-       
+
     })
 }
 
@@ -39,36 +41,36 @@ function uploadImage() {
         fileName = e.target.files[0].name;
         $('.submitbtn').on('click', event => {
             event.preventDefault();
-            
-                let form = $('#fileUploadForm')[0];
-                // Create an FormData object 
-                let formdata = new FormData(form);
 
-                if (!fileName.match(/.(jpg|jpeg|png|gif)$/i)) {
-                    alert('File is not an image');
-                }
-                else {
+            let form = $('#fileUploadForm')[0];
+            // Create an FormData object 
+            let formdata = new FormData(form);
 
-                    $.ajax({
-                        url: "/pictures",
-                        type: "POST",
-                        headers: { "Authorization": Cookies.get('token') },
-                        data: formdata,
-                        mimeTypes: "multipart/form-data",
-                        contentType: false,
-                        cache: false,
-                        processData: false,
-                        success: function () {
-                            alert("file successfully submitted");
+            if (!fileName.match(/.(jpg|jpeg|png|gif)$/i)) {
+                alert('File is not an image');
+            }
+            else {
 
-                            $('#fileUploadForm').val("");
-                            location.reload();
-                        }, error: function () {
-                            alert("error");
-                        }
-                    });
-                }
-            
+                $.ajax({
+                    url: "/pictures",
+                    type: "POST",
+                    headers: { "Authorization": Cookies.get('token') },
+                    data: formdata,
+                    mimeTypes: "multipart/form-data",
+                    contentType: false,
+                    cache: false,
+                    processData: false,
+                    success: function () {
+                        alert("file successfully submitted");
+
+                        $('#fileUploadForm').val("");
+                        location.reload();
+                    }, error: function () {
+                        alert("error");
+                    }
+                });
+            }
+
         });
 
     });
@@ -203,6 +205,7 @@ function showOnePicture() {
         let pictureId = event.currentTarget.id;
         let jqueryImageUrl = { id: pictureId };
         let singleImageUrl = "?" + jQuery.param(jqueryImageUrl);
+        
         $.ajax({
             url: `/pictures/${pictureId}`,
             type: "GET",
@@ -215,8 +218,8 @@ function showOnePicture() {
                 $('.picture').html(selectedImageDisplay);
                 addComment(pictureId);
                 commentsForOnePicture(pictureId);
-                deletePicture(pictureId);
-
+                //deletePicture(pictureId,findUserByPictureId(pictureId));
+                findUserByPictureId(pictureId);
             }, error: function () {
                 alert("error Vadim");
             }
@@ -227,10 +230,35 @@ function showOnePicture() {
 
 }
 
-function deletePicture(pictureId) {
+// find userId by picture ID
+function findUserByPictureId(pictureId) {
+    $.ajax({
+        url: `/pictures/${pictureId}`,
+        type: "GET",
+        headers: { "Authorization": Cookies.get('token') },
+        beforeSend: function (request) { request.setRequestHeader("Content-Type", "application/json"); },
+        dataType: "json",
+        success: function (data) {
+            //console.log(data.user.email);
+           // deletePicture(pictureId, data.user.email);
+           deletePicture(pictureId, data.user.email);
+          
+            
+        }
+    })
+
+}
+
+
+
+
+function deletePicture(pictureId, email) {
+    
     $(`.${pictureId}`).on('click', event => {
         event.preventDefault();
-
+       // let userCheck = findUserByPictureId(pictureId);
+       // console.log("User:", userCheck);
+        if(email == Cookies.get('email')){
         $.ajax({
             url: `/pictures/${pictureId}`,
             type: "DELETE",
@@ -243,7 +271,10 @@ function deletePicture(pictureId) {
                 window.location.reload();
             }
         })
-
+    }
+    else{
+        alert("Picture can not be deleted! You are mot the owner");
+    }
 
     })
 }
