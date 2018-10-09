@@ -22,7 +22,7 @@ function enableListeners() {
 
 // empty file submition check
 function fileUploadCheck(){
-    $('.submitbtn').on('click', event => {
+    $('#addPictureBtn').on('click', event => {
         event.preventDefault();
         file = $('input[type="file"]').val();
         if(!file){

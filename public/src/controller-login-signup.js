@@ -7,13 +7,19 @@ $(document).ready(function () {
 })
 
 
+
+
 // Aplication sign up call
 function signUp() {
 
     // submit new user Sign up information
     $(".signupbtn").on("click", event => {
         event.preventDefault();
-
+        if($("#firstName").val() && 
+            $("#lastName").val() &&
+            $('#userName').val() && 
+            $('#password').val() &&
+            $('#email').val()){
 
         let name = {
             userName: $("#firstName").val(),
@@ -36,13 +42,17 @@ function signUp() {
             beforeSend: function (request) { request.setRequestHeader("Content-Type", "application/json"); },
             // dataType: "json",
             success: function (data) {
-                alert("Save Complete")
+                alert("Congratulatins! You account was created!")
+                self.location = "../view.html";
             },
             error: function (error) {
                 console.log("New user wasnt created");
             }
         });
-
+    }
+    else{
+        alert("All fields must be filled!");
+    }
     });
 
 
