@@ -7,8 +7,6 @@ const morgan = require('morgan');
 const app = express();
 const dotenv = require('dotenv');
 dotenv.config();
-//const ejs = require('ejs');
-//const path = require('path');
 const bodyParser = require('body-parser');
 const { DATABASE_URL, PORT, JWT_SECRET } = require('./config');
 const userRouter = require("./routers/users");
@@ -18,8 +16,6 @@ const busboy = require('connect-busboy');
 const busboyBodyParser = require('busboy-body-parser');
 const picturesRouter = require('./routers/pictures')
 
-
-//app.set('view engine', 'ejs');
 app.use(busboy());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -33,16 +29,12 @@ app.use('/uploads', fileRouter); // call for the router users
 app.use('/pictures', picturesRouter) //call for picture router
 app.use(express.static('./public'));
 
-
-//app.get('/' , (req, res)  =>  res.render('index'));
 app.get('/' , (req, res)  => {} );
 
 let server;
 
 
 function runServer(databaseUrl, port = PORT) {
-    //const port = process.env.PORT || 8080;
-    //console.log(databaseUrl, "URL AND AUTH TO MONGODB");
     return new Promise((resolve, reject) => {
     
         mongoose.connect(databaseUrl, { useNewUrlParser: true }, err => {
