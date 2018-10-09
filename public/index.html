@@ -10,61 +10,34 @@
     <title>Image Crate</title>
     <script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
         crossorigin="anonymous"></script>
-    <link href="styles/style.css" rel="stylesheet" type="text/css" />
-    <link href="styles/style.css" rel="stylesheet" type="text/css" media="screen and (max-widgh: 900px)" />
+        <link href="styles/landing.css" rel="stylesheet" type="text/css">
+    <link href="styles/landing.css" rel="stylesheet" type="text/css" media="screen and (max-widgh: 961px)" />
 
 </head>
 
 
 <body>
     <main role="main" aria-live="assertive">
-        <header class="row" id="">
+           <header class="logo">
+                 IMG CRATE
+           </header>
 
-            <div class="">
-                <h1 id="logo">Image Crate</h1>
-            </div>
-
-        </header>
-
-
-        <div class="wrapper">
-            <div class="container">
-
-                <div class="signup" aria-label="Sign Up">Sign Up</div>
-                <div class="login" aria-label="log in">Log In</div>
-
-
-
-                <div class="signup-form" role="form">
-                    <input type="text" placeholder="First Name" class="input" id="firstName" aria-label="First name" role="textbox"><br />
-                    <input type="text" placeholder="Last Name" class="input" id="lastName" aria-label="Last name" role="textbox"><br />
-                    <input type="text" placeholder="Your Email Address" class="input" id="email" aria-label="email" role="textbox"><br />
-                    <input type="text" placeholder="Choose a Username" class="input" id="userName" aria-label="User name" role="textbox"><br />
-                    <input type="password" placeholder="Choose a Password" class="input" id="password" aria-label="password" role="textbox"><br />
-                    <button class="btn signupbtn" role="button">Create account</button>
-                </div>
-
-                <div class="login-form" role="form">
-                    <input type="text" placeholder="Email" class="input" id="loginEmail" aria-label="email" role="textbox"><br />
-                    <input type="password" placeholder="Password" class="input" id="loginPassword" aria-label="password" role="textbox"><br />
-                    <div class="btn loginbtn">log in</div>
-                   
-                </div>
-
+        <div class='page container background' style="background-image: url(https://imgcrate.s3.us-west-2.amazonaws.com/1538970047706VVB_3522.jpg)">
+            
+            <div >The app is a traveling journal and will allow users to share the images of the places they visited that they like to share,
+            add pictures and comments, description of the place, and seggestions how to get there.
+            Places can vary from the iconic sites like Mount Rushmoore to the camping site in the rural areas. It will give people more ideas for travel.
+            Lets explore the world by interacting with eachother!.
             </div>
         </div>
-
-
-
-
-
+        <div class="footer">
+                <a href="login.html">LOGIN</a>
+        </div>
 
     </main>
-
-
     <script src="https://cdn.jsdelivr.net/npm/js-cookie@2/src/js.cookie.min.js"></script>
     <script src="src/view.js"></script>
-    <script src="src/controller-login-signup.js"></script>
+   
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
         crossorigin="anonymous"></script>

@@ -18,6 +18,8 @@ it will also allow the user to add comments like description of the place, locat
 Places can vary from the iconic sites like Mount Rushmoore to the camping site in the rural areas. It will give people more ideas for travel.
 Explore the world.
 
+Tha app useing three (Uses, Pictures and Comments) mongo DB collections all interconnected. 
+
 Demo:
 Username jackblack@yahoo.com
 password: password

@@ -11,6 +11,7 @@ function enableListeners() {
 
     // logout();
     uploadImage();
+    fileUploadCheck();
     addComment();
     showAllPictures();
     showOnePicture();
@@ -18,43 +19,58 @@ function enableListeners() {
 
 }
 
+
+// empty file submition check
+function fileUploadCheck(){
+    $('.submitbtn').on('click', event => {
+        event.preventDefault();
+        file = $('input[type="file"]').val();
+        if(!file){
+            alert("Please select the file first")
+        }
+       
+    })
+}
+
 // New Image upload
 function uploadImage() {
     // extesion check
     $('input[type="file"]').change(function (e) {
         fileName = e.target.files[0].name;
-
         $('.submitbtn').on('click', event => {
             event.preventDefault();
-            let form = $('#fileUploadForm')[0];
-            // Create an FormData object 
-            let formdata = new FormData(form);
+            
+                let form = $('#fileUploadForm')[0];
+                // Create an FormData object 
+                let formdata = new FormData(form);
 
-            if (!fileName.match(/.(jpg|jpeg|png|gif)$/i)) {
-                alert('not an image');
-            }
-            else {
+                if (!fileName.match(/.(jpg|jpeg|png|gif)$/i)) {
+                    alert('File is not an image');
+                }
+                else {
 
-                $.ajax({
-                    url: "/pictures",
-                    type: "POST",
-                    headers: { "Authorization": Cookies.get('token') },
-                    data: formdata,
-                    mimeTypes: "multipart/form-data",
-                    contentType: false,
-                    cache: false,
-                    processData: false,
-                    success: function () {
-                        alert("file successfully submitted");
+                    $.ajax({
+                        url: "/pictures",
+                        type: "POST",
+                        headers: { "Authorization": Cookies.get('token') },
+                        data: formdata,
+                        mimeTypes: "multipart/form-data",
+                        contentType: false,
+                        cache: false,
+                        processData: false,
+                        success: function () {
+                            alert("file successfully submitted");
 
-                        $('#fileUploadForm').val("");
-                        location.reload();
-                    }, error: function () {
-                        alert("error");
-                    }
-                });
-            }
+                            $('#fileUploadForm').val("");
+                            location.reload();
+                        }, error: function () {
+                            alert("error");
+                        }
+                    });
+                }
+            
         });
+
     });
 
 }
@@ -240,13 +256,14 @@ function renderOnePictureHTML(props) {
     </div> 
     <div class="singlePictureCommentArea">
         <div id="singlePictureComment"></div>
+        <button class="${props.id} submitbtn" "type="button">Delete</button>
         <input placeholder="Add Comment" aria-label="Add Comment" type="text" name="comment" id="respondcomment">   
         <button type="submit" class="combtn " id="commentbtn">Submit</button>
         <div id="commentsSinglePic"></div>
         
     </div>`;
 
-    //<button class="${props.id} submitbtn" "type="button">Delete</button>
+
 }
 
 
