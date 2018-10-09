@@ -48,7 +48,9 @@
   
   }
   
-  
+   .editComment{
+     display: none;
+   }
   
   .footer {
     background-color: lightgray;
