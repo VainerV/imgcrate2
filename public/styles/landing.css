@@ -8,8 +8,7 @@
   body{
     text-align: center;
         margin: auto;
-        width: 961px;
-    
+        background-color: gray;
   }
 
   .background{
@@ -17,21 +16,30 @@
     background-position: center center;
     background-repeat: no-repeat;
     background-color: red;
-    height: 200px;
+    
     width: 100%;
     margin: 10 px;
     
   }
   
   .page {
-    display: flex;
-    flex-wrap: wrap;
+
     
   }
 
+  .page div {
+      width: 50%;
+      margin: 0 auto;
+  }
+  @media screen and (max-width: 1000px){
+      .page div {
+          width: 90%;
+      }
+  }
+
   .container{
-      width: 961px;
-      height: 500px;
+  
+      
       background-color: rgb(229, 226, 226);
       padding: 40px;
       text-align: left;
@@ -43,7 +51,7 @@
   
 
   .logo{
-      width: 961px;
+      /*width: 961px;*/
       height: 100px;
       background-color: gray;
       font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
@@ -58,7 +66,7 @@
 }
 
   .footer{
-      width:961px;
+
       height: 75px;
       align-items: center;
       background-color: gray;
@@ -67,18 +75,3 @@
       color: white;
       font-size: 30px;
   }
-  
-
-  /*Mobile Styles*/
-  @media only screen and (max-width: 600px) {
-    
-}
-/* Tablet Styles */
-@media only screen and (min-width: 601px) and (max-width: 960px){
-  
-}
-
-/* Desktop Styles */
-@media only screen and (min-width: 961px) {
-    
-}

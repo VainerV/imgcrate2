@@ -17,7 +17,7 @@ function enableListeners() {
     addComment();
     showAllPictures();
     showOnePicture();
-    // homebutton();
+    editCommentField();
 
 }
 
@@ -183,13 +183,9 @@ function showComments() {
 
             })
 
-
-
         }, error: function () {
             alert("error");
         }
-
-
 
     });
 
@@ -205,7 +201,7 @@ function showOnePicture() {
         let pictureId = event.currentTarget.id;
         let jqueryImageUrl = { id: pictureId };
         let singleImageUrl = "?" + jQuery.param(jqueryImageUrl);
-        
+
         $.ajax({
             url: `/pictures/${pictureId}`,
             type: "GET",
@@ -240,10 +236,10 @@ function findUserByPictureId(pictureId) {
         dataType: "json",
         success: function (data) {
             //console.log(data.user.email);
-           // deletePicture(pictureId, data.user.email);
-           deletePicture(pictureId, data.user.email);
-          
-            
+            // deletePicture(pictureId, data.user.email);
+            deletePicture(pictureId, data.user.email);
+
+
         }
     })
 
@@ -253,28 +249,28 @@ function findUserByPictureId(pictureId) {
 
 
 function deletePicture(pictureId, email) {
-    
+
     $(`.${pictureId}`).on('click', event => {
         event.preventDefault();
-       // let userCheck = findUserByPictureId(pictureId);
-       // console.log("User:", userCheck);
-        if(email == Cookies.get('email')){
-        $.ajax({
-            url: `/pictures/${pictureId}`,
-            type: "DELETE",
-            headers: { "Authorization": Cookies.get('token') },
-            beforeSend: function (request) { request.setRequestHeader("Content-Type", "application/json"); },
-            dataType: "json",
-            success: function (data) {
+        // let userCheck = findUserByPictureId(pictureId);
+        // console.log("User:", userCheck);
+        if (email == Cookies.get('email')) {
+            $.ajax({
+                url: `/pictures/${pictureId}`,
+                type: "DELETE",
+                headers: { "Authorization": Cookies.get('token') },
+                beforeSend: function (request) { request.setRequestHeader("Content-Type", "application/json"); },
+                dataType: "json",
+                success: function (data) {
 
-                alert("Picture deleted");
-                window.location.reload();
-            }
-        })
-    }
-    else{
-        alert("Picture can not be deleted! You are mot the owner");
-    }
+                    alert("Picture deleted");
+                    window.location.reload();
+                }
+            })
+        }
+        else {
+            alert("Picture can not be deleted! You are mot the owner");
+        }
 
     })
 }
@@ -307,21 +303,93 @@ function commentsForOnePicture(pictureID) {
         beforeSend: function (request) { request.setRequestHeader("Content-Type", "application/json"); },
         dataType: "json",
         success: function (data) {
+           
             let comments = renderOneCommentHTML(data);
 
             $('#commentsSinglePic').html(comments);
         }
-
     })
-
-
 }
 
 function renderOneCommentHTML(props) {
+    let editDeleteButtons = "";
     return props.map((comment) => {
-        return "<div class='singleComment'><span class='commentEmail'>" + comment.user.email + "</span><span class='comment'>" + comment.comment + "</span></div>"
+        if (comment.user.email == Cookies.get('email')) {
+            editDeleteButtons = "<button type='button' class='editCommentBtn'>Edit</button> <button type='button' class='deleteCommentBtn'>Delete</button>";
+           // console.log(comment._id);
+            deleteComment(comment._id);
+            editComment(comment._id);
+        }
+        else {
+            editDeleteButtons = "";
+        }
+        return "<div class='singleComment'><span class='commentEmail'>" + comment.user.email
+            + "</span><span class='comment'>" + comment.comment 
+            + "</span><div>"
+            + editDeleteButtons + "</div></div>"
+
+            // <span class='editComment' <input type='text' name='editCom'>"
+            // + comment.comment + "<button type='button' class='saveEditCommentBtn'>Save</button> </span>
     });
 
+}
+
+//Hide editable comment input
+function editCommentField()
+{
+ 
+
+}
+
+function deleteComment(commentId) {
+   // console.log("Comment ID", commentId);
+    $(`body`).on('click', '.deleteCommentBtn', event => {
+       console.log("Comment ID", commentId);
+        event.preventDefault();
+        $.ajax({
+            url: `/comments/${commentId}`,
+            type: "DELETE",
+            headers: { "Authorization": Cookies.get('token') },
+            beforeSend: function (request) { request.setRequestHeader("Content-Type", "application/json"); },
+            dataType: "json",
+            success: function (commentId) {
+                alert("Your Comment was deleted!")
+                window.location.reload();
+
+            }, error: function () {
+                alert("error");
+            }
+
+        });
+
+    })
+}
+
+
+function editComment(commentId) {
+    $(`body`).on('click', '.editCommentBtn', event => {
+        console.log("Comment ID", commentId);
+         event.preventDefault();
+         $.ajax({
+             url: `/comments/${commentId}`,
+             type: "PUT",
+             headers: { "Authorization": Cookies.get('token') },
+             beforeSend: function (request) { request.setRequestHeader("Content-Type", "application/json"); },
+             dataType: "json",
+             data: {
+                 // what are you changing the comment to
+             },
+             success: function (commentId) {
+                 alert("Your Comment was deleted!")
+                 window.location.reload();
+ 
+             }, error: function () {
+                 alert("error");
+             }
+ 
+         });
+ 
+     })
 }
 
 
