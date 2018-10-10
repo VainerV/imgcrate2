@@ -256,7 +256,6 @@ function deletePicture(pictureId, email) {
                 dataType: "json",
                 success: function (data) {
 
-                    alert("Picture deleted");
                     window.location.reload();
                 }
             })
