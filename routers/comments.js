@@ -80,7 +80,7 @@ router.delete('/:id', checkAuth, (req, res) => {
 router.put('/:id', checkAuth, (req, res) => {
 
     const updated = {};
-    const updateableFields = ['id', 'comment'];
+    const updateableFields = ['comment'];
     updateableFields.forEach(field => {
         if (field in req.body) {
             updated[field] = req.body[field];
@@ -88,8 +88,8 @@ router.put('/:id', checkAuth, (req, res) => {
     });
 
     Comments
-        .findByIdAndUpdate(req.params.id, { $set: updated }, { new: true })
-        .then(user => res.status(204).end())
+        .findByIdAndUpdate(req.params.id, updated, { new: true })
+        .then(comment => res.status(204).end())
         .catch(err => res.status(500).json({ message: 'Something went wrong' }));
 
 }); // router put by ID

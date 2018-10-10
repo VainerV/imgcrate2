@@ -8,10 +8,7 @@ $(document).ready(function () {
 
 // Listeners
 function enableListeners() {
-    // signUp();
-    //  logIn();
-
-    // logout();
+   
     uploadImage();
     fileUploadCheck();
     addComment();
@@ -215,9 +212,7 @@ function showOnePicture() {
                 $('.picture').html(selectedImageDisplay);
                 addComment(pictureId);
                 commentsForOnePicture(pictureId);
-                //deletePicture(pictureId,findUserByPictureId(pictureId));
                 findUserByPictureId(pictureId);
-                // editCommentField();
             }, error: function () {
                 alert("error Vadim");
             }
@@ -237,8 +232,6 @@ function findUserByPictureId(pictureId) {
         beforeSend: function (request) { request.setRequestHeader("Content-Type", "application/json"); },
         dataType: "json",
         success: function (data) {
-            //console.log(data.user.email);
-            // deletePicture(pictureId, data.user.email);
             deletePicture(pictureId, data.user.email);
 
 
@@ -254,8 +247,6 @@ function deletePicture(pictureId, email) {
 
     $(`.${pictureId}`).on('click', event => {
         event.preventDefault();
-        // let userCheck = findUserByPictureId(pictureId);
-        // console.log("User:", userCheck);
         if (email == Cookies.get('email')) {
             $.ajax({
                 url: `/pictures/${pictureId}`,
@@ -322,23 +313,16 @@ function renderOneCommentHTML(props) {
             deleteComment(comment._id);
             editComment(comment._id);
             editCommentField();
-           
-
-
         }
         else {
             editDeleteButtons = "";
         }
 
-        // return "<div class='singleComment'><span class='commentEmail'>" + comment.user.email
-        // + "</span><span class='comment'>" + comment.comment + "<div>"
-        // + editDeleteButtons + "</div></div>"
-
 
         return "<div class='singleComment'><span class='commentEmail'>" + comment.user.email
             + "</span><span class='comment'>" + comment.comment
-            + "</span> <span class='editComment'>" + "<input type='text' value=" + comment.comment + ">" +
-            "<button type='button' class='saveEditCommentBtn'>Save</button></span> <div>"
+            + "</span> <span class='editComment'>" + "<input class='inputEdit' type='text' value='" + comment.comment + "'>"
+            + "<button type='button' class='saveEditCommentBtn'>Save</button></span> <div>"
             + editDeleteButtons + "</div></div>"
 
     });
@@ -348,31 +332,32 @@ function renderOneCommentHTML(props) {
 
 //Hide editable comment input
 function editCommentField() {
-    $('.editCommentBtn').on('click', event => {
+    $(`body`).on('click', '.editCommentBtn', event => {
         event.preventDefault();
-        $('.comment').hide();
-        $('.editComment').show();
-        
+        $(event.target).parent().parent().find('.comment').hide();
+        $(event.target).parent().parent().find('.editComment').show();
+       
+    
     })
 }
 
+// Edit existin comment
 function editComment(commentId) {
-    $(`body`).on('click', '.editCommentBtn', event => {
-        event.preventDefault();
-        editCommentField();
-        $('.saveEditCommentBtn').on('click', event => {
+    $(`body`).on('click', '.saveEditCommentBtn', event => {
+
             $.ajax({
                 url: `/comments/${commentId}`,
                 type: "PUT",
                 headers: { "Authorization": Cookies.get('token') },
                 beforeSend: function (request) { request.setRequestHeader("Content-Type", "application/json"); },
                 dataType: "json",
-                data: {
-                    // what are you changing the comment to
-                    comment: $('#editedText').val(),
-                },
-                success: function (commentId) {
-                    alert("Your Comment now Edited!")
+                data: JSON.stringify({
+                    "comment": $(event.target).parent().parent().find('.inputEdit').val()
+                }),
+                success: function (comment) {
+                    
+                    $(event.target).parent().parent().find('.editComment').hide();
+                    $(event.target).parent().parent().find('.comment').show();
                     window.location.reload();
 
                 }, error: function () {
@@ -381,10 +366,10 @@ function editComment(commentId) {
 
             })
         })
-    })
+   
 }
 
-
+// delete existing comment
 function deleteComment(commentId) {
     // console.log("Comment ID", commentId);
     $(`body`).on('click', '.deleteCommentBtn', event => {
@@ -397,7 +382,6 @@ function deleteComment(commentId) {
             beforeSend: function (request) { request.setRequestHeader("Content-Type", "application/json"); },
             dataType: "json",
             success: function (commentId) {
-                alert("Your Comment was deleted!")
                 window.location.reload();
 
             }, error: function () {
